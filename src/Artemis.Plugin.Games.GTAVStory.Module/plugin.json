@@ -1,0 +1,7 @@
+{
+  "Guid": "97e39a06-2efe-4271-889f-fc41a8ab2d03",
+  "Name": "GTA V Story",
+  "Description": "A game module for GTA V Story mode",
+  "Version": "1.0.0.0",
+  "Main": "Artemis.Plugins.Games.GTAVStory.Module.dll"
+}

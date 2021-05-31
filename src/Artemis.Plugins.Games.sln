@@ -3,9 +3,57 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.TrackMania", "Artemis.Plugins.Games.TrackMania\Artemis.Plugins.Games.TrackMania.csproj", "{463E1D7B-EDC7-4549-A3C7-EC6C6A09097C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artemis.Plugin.Games.GTAVStory", "Artemis.Plugin.Games.GTAVStory", "{5EF4659F-8EEF-4E4F-8B67-EEA844F66B2B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.GTAVStory.Module", "Artemis.Plugin.Games.GTAVStory.Module\Artemis.Plugins.Games.GTAVStory.Module.csproj", "{8A63A306-6A11-45AF-A144-46678C5370C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.GTAVStory.GSI", "Artemis.Plugin.Games.GTAVStory.GSI\Artemis.Plugins.Games.GTAVStory.GSI.csproj", "{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.GTAVStory.Model", "Artemis.Plugins.Games.GTAVStory.Model\Artemis.Plugins.Games.GTAVStory.Model.csproj", "{C3567E74-1E16-47AD-9E15-CC25391DD3D1}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{463E1D7B-EDC7-4549-A3C7-EC6C6A09097C}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{463E1D7B-EDC7-4549-A3C7-EC6C6A09097C}.Debug|x64.ActiveCfg = Debug|x64
+		{463E1D7B-EDC7-4549-A3C7-EC6C6A09097C}.Debug|x64.Build.0 = Debug|x64
+		{463E1D7B-EDC7-4549-A3C7-EC6C6A09097C}.Release|Any CPU.ActiveCfg = Release|x64
+		{463E1D7B-EDC7-4549-A3C7-EC6C6A09097C}.Release|x64.ActiveCfg = Release|x64
+		{463E1D7B-EDC7-4549-A3C7-EC6C6A09097C}.Release|x64.Build.0 = Release|x64
+		{8A63A306-6A11-45AF-A144-46678C5370C0}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{8A63A306-6A11-45AF-A144-46678C5370C0}.Debug|x64.ActiveCfg = Debug|x64
+		{8A63A306-6A11-45AF-A144-46678C5370C0}.Debug|x64.Build.0 = Debug|x64
+		{8A63A306-6A11-45AF-A144-46678C5370C0}.Release|Any CPU.ActiveCfg = Release|x64
+		{8A63A306-6A11-45AF-A144-46678C5370C0}.Release|x64.ActiveCfg = Release|x64
+		{8A63A306-6A11-45AF-A144-46678C5370C0}.Release|x64.Build.0 = Release|x64
+		{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7}.Debug|x64.ActiveCfg = Debug|x64
+		{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7}.Debug|x64.Build.0 = Debug|x64
+		{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7}.Release|Any CPU.ActiveCfg = Release|x64
+		{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7}.Release|x64.ActiveCfg = Release|x64
+		{C3567E74-1E16-47AD-9E15-CC25391DD3D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3567E74-1E16-47AD-9E15-CC25391DD3D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3567E74-1E16-47AD-9E15-CC25391DD3D1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C3567E74-1E16-47AD-9E15-CC25391DD3D1}.Debug|x64.Build.0 = Debug|Any CPU
+		{C3567E74-1E16-47AD-9E15-CC25391DD3D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3567E74-1E16-47AD-9E15-CC25391DD3D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3567E74-1E16-47AD-9E15-CC25391DD3D1}.Release|x64.ActiveCfg = Release|Any CPU
+		{C3567E74-1E16-47AD-9E15-CC25391DD3D1}.Release|x64.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8A63A306-6A11-45AF-A144-46678C5370C0} = {5EF4659F-8EEF-4E4F-8B67-EEA844F66B2B}
+		{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7} = {5EF4659F-8EEF-4E4F-8B67-EEA844F66B2B}
+		{C3567E74-1E16-47AD-9E15-CC25391DD3D1} = {5EF4659F-8EEF-4E4F-8B67-EEA844F66B2B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7098FD1-41F0-40AE-BDBC-B028EE85ADCC}
