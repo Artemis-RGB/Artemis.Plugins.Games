@@ -1,9 +1,9 @@
 ﻿using Artemis.Core.DataModelExpansions;
-using Artemis.Plugins.Games.GTAVStory.Model;
+using Artemis.Plugins.Games.GTAV.Model;
 using GTA;
 using SkiaSharp;
 
-namespace Artemis.Plugins.Games.GTAVStory.Module.DataModels
+namespace Artemis.Plugins.Games.GTAV.Module.DataModels
 {
     public class GTAVDataModel : DataModel
     {
@@ -30,17 +30,10 @@ namespace Artemis.Plugins.Games.GTAVStory.Module.DataModels
 
     public class GTAVehicleModsDataModel : GTAVehicleMods
     {
-        public VehicleColor PrimaryColor { get; set; }
-        public VehicleColor SecondaryColor { get; set; }
-        public VehicleColor DashboardColor { get; set; }
-        public bool HasNeonLights { get; set; }
-        public bool IsPrimaryColorCustom { get; set; }
-        public bool IsSecondaryColorCustom { get; set; }
-
-        public SKColor CustomPrimaryColor { get; set; }
-        public SKColor CustomSecondaryColor { get; set; }
-        public SKColor NeonLightsColor { get; set; }
-        public SKColor TireSmokeColor { get; set; }
+        public new SKColor CustomPrimaryColor { get; set; }
+        public new SKColor CustomSecondaryColor { get; set; }
+        public new SKColor NeonLightsColor { get; set; }
+        public new SKColor TireSmokeColor { get; set; }
 
         public void ApplyGSI(GTAVehicleMods modifications)
         {

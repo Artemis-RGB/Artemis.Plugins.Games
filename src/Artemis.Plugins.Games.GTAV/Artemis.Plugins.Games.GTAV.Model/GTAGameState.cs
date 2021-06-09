@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using GTA;
 
-namespace Artemis.Plugins.Games.GTAVStory.Model
+namespace Artemis.Plugins.Games.GTAV.Model
 {
     public class GTAGameState
     {

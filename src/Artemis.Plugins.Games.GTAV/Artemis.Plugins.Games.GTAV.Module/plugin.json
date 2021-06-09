@@ -3,5 +3,5 @@
   "Name": "GTA V Story",
   "Description": "A game module for GTA V Story mode",
   "Version": "1.0.0.0",
-  "Main": "Artemis.Plugins.Games.GTAVStory.Module.dll"
+  "Main": "Artemis.Plugins.Games.GTAV.Module.dll"
 }

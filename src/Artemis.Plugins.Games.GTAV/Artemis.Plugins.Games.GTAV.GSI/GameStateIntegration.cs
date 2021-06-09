@@ -2,11 +2,11 @@
 using System.IO;
 using System.Net.Http;
 using System.Text;
-using Artemis.Plugins.Games.GTAVStory.Model;
+using Artemis.Plugins.Games.GTAV.Model;
 using GTA;
 using Newtonsoft.Json;
 
-namespace Artemis.Plugins.Games.GTAVStory.GSI
+namespace Artemis.Plugins.Games.GTAV.GSI
 {
     public class GameStateIntegration : Script, IDisposable
     {

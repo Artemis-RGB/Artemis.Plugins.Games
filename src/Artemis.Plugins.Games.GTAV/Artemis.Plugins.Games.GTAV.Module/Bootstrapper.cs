@@ -1,6 +1,6 @@
 ﻿using Artemis.Core;
 
-namespace Artemis.Plugins.Games.GTAVStory.Module
+namespace Artemis.Plugins.Games.GTAV.Module
 {
     public class Bootstrapper : PluginBootstrapper
     {

@@ -1,26 +1,25 @@
-﻿using Artemis.Core.Modules;
+﻿using System.Collections.Generic;
+using Artemis.Core;
+using Artemis.Core.Modules;
 using Artemis.Plugins.Games.TrackMania.DataModels;
 using Artemis.Plugins.Games.TrackMania.Telemetry;
 
 namespace Artemis.Plugins.Games.TrackMania
 {
-    // The core of your module. Hover over the method names to see a description.
-    public class PluginModule : Module<PluginDataModel>
+    [PluginFeature(Name = "TrackMania", Icon = "logo.svg")]
+    public class TrackManiaModule : Module<PluginDataModel>
     {
         private SharedProcessMemory<STelemetry> _sharedProcessMemory;
 
-        public PluginModule()
+        public override List<IModuleActivationRequirement> ActivationRequirements { get; } = new()
         {
-            DisplayName = "TrackMania";
-            DisplayIcon = "CarSports";
+            new ProcessActivationRequirement("ManiaPlanet"),
+            new ProcessActivationRequirement("ManiaPlanet32"),
+        };
 
-            ActivationRequirements.Add(new ProcessActivationRequirement("ManiaPlanet"));
-            ActivationRequirements.Add(new ProcessActivationRequirement("ManiaPlanet32"));
-            ActivationRequirementMode = ActivationRequirementType.Any;
-        }
-        
         public override void Enable()
         {
+            ActivationRequirementMode = ActivationRequirementType.Any;
         }
 
         public override void Disable()

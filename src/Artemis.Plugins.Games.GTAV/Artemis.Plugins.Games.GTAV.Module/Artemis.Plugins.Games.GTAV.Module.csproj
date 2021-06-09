@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
     <ShouldIncludeNativeSkiaSharp>false</ShouldIncludeNativeSkiaSharp>
-    <AssemblyName>Artemis.Plugins.Games.GTAVStory.Module</AssemblyName>
-    <RootNamespace>Artemis.Plugins.Games.GTAVStory.Module</RootNamespace>
+    <AssemblyName>Artemis.Plugins.Games.GTAV.Module</AssemblyName>
+    <RootNamespace>Artemis.Plugins.Games.GTAV.Module</RootNamespace>
     <UseWPF>true</UseWPF>
     <Platforms>x64</Platforms>
     <GenerateDependencyFile>False</GenerateDependencyFile>
@@ -33,16 +33,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Artemis.Plugins.Games.GTAVStory.Model\Artemis.Plugins.Games.GTAVStory.Model.csproj" />
+    <ProjectReference Include="..\Artemis.Plugins.Games.GTAV.Model\Artemis.Plugins.Games.GTAV.Model.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Artemis.Core">
-      <HintPath>..\..\..\Artemis\src\Artemis.UI\bin\net5.0-windows\Artemis.Core.dll</HintPath>
+      <HintPath>..\..\..\..\Artemis\src\Artemis.UI\bin\net5.0-windows\Artemis.Core.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Artemis.UI.Shared">
-      <HintPath>..\..\..\Artemis\src\Artemis.UI\bin\net5.0-windows\Artemis.UI.Shared.dll</HintPath>
+      <HintPath>..\..\..\..\Artemis\src\Artemis.UI\bin\net5.0-windows\Artemis.UI.Shared.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

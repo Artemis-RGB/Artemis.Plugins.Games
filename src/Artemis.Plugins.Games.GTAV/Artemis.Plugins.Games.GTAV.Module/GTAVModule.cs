@@ -1,23 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using Artemis.Core;
 using Artemis.Core.Modules;
 using Artemis.Core.Services;
-using Artemis.Plugins.Games.GTAVStory.Model;
-using Artemis.Plugins.Games.GTAVStory.Module.DataModels;
+using Artemis.Plugins.Games.GTAV.Model;
+using Artemis.Plugins.Games.GTAV.Module.DataModels;
 
-namespace Artemis.Plugins.Games.GTAVStory.Module
+namespace Artemis.Plugins.Games.GTAV.Module
 {
-    // The core of your module. Hover over the method names to see a description.
-    public class PluginModule : Module<GTAVDataModel>
+    [PluginFeature(Name = "Grand Theft Auto V")]
+    public class GTAVModule : Module<GTAVDataModel>
     {
         private readonly IWebServerService _webServerService;
 
-        public PluginModule(IWebServerService webServerService)
+        public override List<IModuleActivationRequirement> ActivationRequirements => new() {new ProcessActivationRequirement("GTA5")};
+
+        public GTAVModule(IWebServerService webServerService)
         {
             _webServerService = webServerService;
-
-            DisplayName = "GTA V Story";
-            DisplayIcon = "GoogleController";
-            ActivationRequirements.Add(new ProcessActivationRequirement("GTA5"));
         }
 
         // This is the beginning of your plugin feature's life cycle. Use this instead of a constructor.
@@ -25,10 +25,7 @@ namespace Artemis.Plugins.Games.GTAVStory.Module
         {
             var jsonPluginEndPoint = _webServerService.AddJsonEndPoint<GTAGameState>(this, "Update", UpdateHandler);
             jsonPluginEndPoint.ThrowOnFail = true;
-            jsonPluginEndPoint.RequestException += delegate(object? sender, EndpointExceptionEventArgs args)
-            {
-                Console.WriteLine(args);
-            };
+            jsonPluginEndPoint.RequestException += delegate(object sender, EndpointExceptionEventArgs args) { Console.WriteLine(args); };
         }
 
         // This is the end of your plugin feature's life cycle.
