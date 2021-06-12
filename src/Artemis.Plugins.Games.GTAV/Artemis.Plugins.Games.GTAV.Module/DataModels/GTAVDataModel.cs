@@ -1,4 +1,4 @@
-﻿using Artemis.Core.DataModelExpansions;
+﻿using Artemis.Core.Modules;
 using Artemis.Plugins.Games.GTAV.Model;
 using GTA;
 using SkiaSharp;
