@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+// ReSharper disable InconsistentNaming
+#pragma warning disable 169
 
 namespace Artemis.Plugins.Games.TrackMania.Telemetry
 {
