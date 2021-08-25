@@ -1,0 +1,10 @@
+{
+  "Guid": "80dea147-5fb3-46c9-a5c2-30a181f39612",
+  "Name": "Elite: Dangerous",
+  "Description": "This is my awesome plugin",
+  "Author": "Wibble (Wibble#5423)",
+  "Website": null,
+  "Repository": null,
+  "Version": "1.0.0.0",
+  "Main": "Artemis.Plugins.Games.EliteDangerous.dll"
+}

@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.GTAV.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.TruckSimulator", "Artemis.Plugins.Games.TruckSimulator\Artemis.Plugins.Games.TruckSimulator.csproj", "{9B45E482-25C7-481F-96CC-ADAC1EA6B897}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.EliteDangerous", "Artemis.Plugins.Games.EliteDangerous\Artemis.Plugins.Games.EliteDangerous.csproj", "{424694FB-DE0B-463D-B59B-A997F16939AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,12 @@ Global
 		{9B45E482-25C7-481F-96CC-ADAC1EA6B897}.Release|Any CPU.ActiveCfg = Release|x64
 		{9B45E482-25C7-481F-96CC-ADAC1EA6B897}.Release|x64.ActiveCfg = Release|x64
 		{9B45E482-25C7-481F-96CC-ADAC1EA6B897}.Release|x64.Build.0 = Release|x64
+		{424694FB-DE0B-463D-B59B-A997F16939AA}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{424694FB-DE0B-463D-B59B-A997F16939AA}.Debug|x64.ActiveCfg = Debug|x64
+		{424694FB-DE0B-463D-B59B-A997F16939AA}.Debug|x64.Build.0 = Debug|x64
+		{424694FB-DE0B-463D-B59B-A997F16939AA}.Release|Any CPU.ActiveCfg = Release|x64
+		{424694FB-DE0B-463D-B59B-A997F16939AA}.Release|x64.ActiveCfg = Release|x64
+		{424694FB-DE0B-463D-B59B-A997F16939AA}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
