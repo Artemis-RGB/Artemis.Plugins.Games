@@ -17,6 +17,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.Truck
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.EliteDangerous", "Artemis.Plugins.Games.EliteDangerous\Artemis.Plugins.Games.EliteDangerous.csproj", "{424694FB-DE0B-463D-B59B-A997F16939AA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.Valheim.GSI", "Artemis.Plugins.Games.Valheim\Artemis.Plugins.Games.Valheim.GSI\Artemis.Plugins.Games.Valheim.GSI.csproj", "{F60ED9AC-7EE7-4074-BAC6-6D1ABE3EDA4B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.Valheim.Module", "Artemis.Plugins.Games.Valheim\Artemis.Plugins.Games.Valheim.Module\Artemis.Plugins.Games.Valheim.Module.csproj", "{1F65207D-0861-4BC1-BE29-16893BD2610F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artemis.Plugins.Games.Valheim", "Artemis.Plugins.Games.Valheim", "{5EB44938-DE19-4F1C-AF63-A236815EB7E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +68,18 @@ Global
 		{424694FB-DE0B-463D-B59B-A997F16939AA}.Release|Any CPU.ActiveCfg = Release|x64
 		{424694FB-DE0B-463D-B59B-A997F16939AA}.Release|x64.ActiveCfg = Release|x64
 		{424694FB-DE0B-463D-B59B-A997F16939AA}.Release|x64.Build.0 = Release|x64
+		{F60ED9AC-7EE7-4074-BAC6-6D1ABE3EDA4B}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{F60ED9AC-7EE7-4074-BAC6-6D1ABE3EDA4B}.Debug|x64.ActiveCfg = Debug|x64
+		{F60ED9AC-7EE7-4074-BAC6-6D1ABE3EDA4B}.Debug|x64.Build.0 = Debug|x64
+		{F60ED9AC-7EE7-4074-BAC6-6D1ABE3EDA4B}.Release|Any CPU.ActiveCfg = Release|x64
+		{F60ED9AC-7EE7-4074-BAC6-6D1ABE3EDA4B}.Release|x64.ActiveCfg = Release|x64
+		{F60ED9AC-7EE7-4074-BAC6-6D1ABE3EDA4B}.Release|x64.Build.0 = Release|x64
+		{1F65207D-0861-4BC1-BE29-16893BD2610F}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{1F65207D-0861-4BC1-BE29-16893BD2610F}.Debug|x64.ActiveCfg = Debug|x64
+		{1F65207D-0861-4BC1-BE29-16893BD2610F}.Debug|x64.Build.0 = Debug|x64
+		{1F65207D-0861-4BC1-BE29-16893BD2610F}.Release|Any CPU.ActiveCfg = Release|x64
+		{1F65207D-0861-4BC1-BE29-16893BD2610F}.Release|x64.ActiveCfg = Release|x64
+		{1F65207D-0861-4BC1-BE29-16893BD2610F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +88,8 @@ Global
 		{8A63A306-6A11-45AF-A144-46678C5370C0} = {5EF4659F-8EEF-4E4F-8B67-EEA844F66B2B}
 		{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7} = {5EF4659F-8EEF-4E4F-8B67-EEA844F66B2B}
 		{C3567E74-1E16-47AD-9E15-CC25391DD3D1} = {5EF4659F-8EEF-4E4F-8B67-EEA844F66B2B}
+		{F60ED9AC-7EE7-4074-BAC6-6D1ABE3EDA4B} = {5EB44938-DE19-4F1C-AF63-A236815EB7E2}
+		{1F65207D-0861-4BC1-BE29-16893BD2610F} = {5EB44938-DE19-4F1C-AF63-A236815EB7E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7098FD1-41F0-40AE-BDBC-B028EE85ADCC}

@@ -1,0 +1,8 @@
+{
+  "Guid": "f2c7c7cc-0ef8-4836-aa81-1fedb6836892",
+  "Name": "Valheim",
+  "Icon": "Valheim.svg",
+  "Description": "Valheim game state integration",
+  "Version": "1.0.0.0",
+  "Main": "Artemis.Plugins.Games.Valheim.Module.dll"
+}
