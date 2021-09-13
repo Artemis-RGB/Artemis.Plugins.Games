@@ -1,0 +1,10 @@
+{
+  "Guid": "e09cd4dc-b7f3-4b2a-9bf1-f434c4e27742",
+  "Name": "League Of Legends",
+  "Description": "League Of Legends game integration",
+  "Author": "diogotr7",
+  "Website": null,
+  "Repository": null,
+  "Version": "1.0.0.0",
+  "Main": "Artemis.Plugins.Games.LeagueOfLegends.dll"
+}

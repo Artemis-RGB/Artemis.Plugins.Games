@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.Valhe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artemis.Plugins.Games.Valheim", "Artemis.Plugins.Games.Valheim", "{5EB44938-DE19-4F1C-AF63-A236815EB7E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.LeagueOfLegends", "Artemis.Plugins.Games.LeagueOfLegends\Artemis.Plugins.Games.LeagueOfLegends.csproj", "{A2038F27-F3F4-49CC-9041-3D48731B2B47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,6 +82,12 @@ Global
 		{1F65207D-0861-4BC1-BE29-16893BD2610F}.Release|Any CPU.ActiveCfg = Release|x64
 		{1F65207D-0861-4BC1-BE29-16893BD2610F}.Release|x64.ActiveCfg = Release|x64
 		{1F65207D-0861-4BC1-BE29-16893BD2610F}.Release|x64.Build.0 = Release|x64
+		{A2038F27-F3F4-49CC-9041-3D48731B2B47}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{A2038F27-F3F4-49CC-9041-3D48731B2B47}.Debug|x64.ActiveCfg = Debug|x64
+		{A2038F27-F3F4-49CC-9041-3D48731B2B47}.Debug|x64.Build.0 = Debug|x64
+		{A2038F27-F3F4-49CC-9041-3D48731B2B47}.Release|Any CPU.ActiveCfg = Release|x64
+		{A2038F27-F3F4-49CC-9041-3D48731B2B47}.Release|x64.ActiveCfg = Release|x64
+		{A2038F27-F3F4-49CC-9041-3D48731B2B47}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
