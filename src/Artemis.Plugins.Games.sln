@@ -23,7 +23,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.Valhe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artemis.Plugins.Games.Valheim", "Artemis.Plugins.Games.Valheim", "{5EB44938-DE19-4F1C-AF63-A236815EB7E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.LeagueOfLegends", "Artemis.Plugins.Games.LeagueOfLegends\Artemis.Plugins.Games.LeagueOfLegends.csproj", "{A2038F27-F3F4-49CC-9041-3D48731B2B47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.LeagueOfLegends", "Artemis.Plugins.Games.LeagueOfLegends\Artemis.Plugins.Games.LeagueOfLegends.csproj", "{A2038F27-F3F4-49CC-9041-3D48731B2B47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artemis.Plugins.Games.RocketLeague", "Artemis.Plugins.Games.RocketLeague", "{4DD0A4D7-7977-419D-AD11-A852D037D764}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.RocketLeague.Module", "Artemis.Plugins.Games.RocketLeague\Artemis.Plugins.Games.RocketLeague.Module\Artemis.Plugins.Games.RocketLeague.Module.csproj", "{62D0A8F5-795B-4EFC-B186-DFFE5DCA770C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Artemis.Plugins.Games.RocketLeague.GSI", "Artemis.Plugins.Games.RocketLeague\Artemis.Plugins.Games.RocketLeague.GSI\ArtemisGSI.vcxproj", "{1A01DE00-ECA4-4476-B380-E2DEEFBD6ACA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,6 +94,19 @@ Global
 		{A2038F27-F3F4-49CC-9041-3D48731B2B47}.Release|Any CPU.ActiveCfg = Release|x64
 		{A2038F27-F3F4-49CC-9041-3D48731B2B47}.Release|x64.ActiveCfg = Release|x64
 		{A2038F27-F3F4-49CC-9041-3D48731B2B47}.Release|x64.Build.0 = Release|x64
+		{62D0A8F5-795B-4EFC-B186-DFFE5DCA770C}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{62D0A8F5-795B-4EFC-B186-DFFE5DCA770C}.Debug|x64.ActiveCfg = Debug|x64
+		{62D0A8F5-795B-4EFC-B186-DFFE5DCA770C}.Debug|x64.Build.0 = Debug|x64
+		{62D0A8F5-795B-4EFC-B186-DFFE5DCA770C}.Release|Any CPU.ActiveCfg = Release|x64
+		{62D0A8F5-795B-4EFC-B186-DFFE5DCA770C}.Release|x64.ActiveCfg = Release|x64
+		{62D0A8F5-795B-4EFC-B186-DFFE5DCA770C}.Release|x64.Build.0 = Release|x64
+		{1A01DE00-ECA4-4476-B380-E2DEEFBD6ACA}.Debug|Any CPU.ActiveCfg = Release|x64
+		{1A01DE00-ECA4-4476-B380-E2DEEFBD6ACA}.Debug|Any CPU.Build.0 = Release|x64
+		{1A01DE00-ECA4-4476-B380-E2DEEFBD6ACA}.Debug|x64.ActiveCfg = Release|x64
+		{1A01DE00-ECA4-4476-B380-E2DEEFBD6ACA}.Debug|x64.Build.0 = Release|x64
+		{1A01DE00-ECA4-4476-B380-E2DEEFBD6ACA}.Release|Any CPU.ActiveCfg = Release|x64
+		{1A01DE00-ECA4-4476-B380-E2DEEFBD6ACA}.Release|x64.ActiveCfg = Release|x64
+		{1A01DE00-ECA4-4476-B380-E2DEEFBD6ACA}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +117,8 @@ Global
 		{C3567E74-1E16-47AD-9E15-CC25391DD3D1} = {5EF4659F-8EEF-4E4F-8B67-EEA844F66B2B}
 		{F60ED9AC-7EE7-4074-BAC6-6D1ABE3EDA4B} = {5EB44938-DE19-4F1C-AF63-A236815EB7E2}
 		{1F65207D-0861-4BC1-BE29-16893BD2610F} = {5EB44938-DE19-4F1C-AF63-A236815EB7E2}
+		{62D0A8F5-795B-4EFC-B186-DFFE5DCA770C} = {4DD0A4D7-7977-419D-AD11-A852D037D764}
+		{1A01DE00-ECA4-4476-B380-E2DEEFBD6ACA} = {4DD0A4D7-7977-419D-AD11-A852D037D764}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7098FD1-41F0-40AE-BDBC-B028EE85ADCC}
