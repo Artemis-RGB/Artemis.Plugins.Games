@@ -47,7 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="logo.svg">
+    <None Update="icon.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="plugin.json">
