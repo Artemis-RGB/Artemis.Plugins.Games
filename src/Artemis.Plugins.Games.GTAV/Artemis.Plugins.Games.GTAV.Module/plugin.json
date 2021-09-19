@@ -4,5 +4,7 @@
   "Icon": "logo.svg",
   "Description": "A game module for GTA V (story mode only)",
   "Version": "1.0.0.0",
-  "Main": "Artemis.Plugins.Games.GTAV.Module.dll"
+  "Main": "Artemis.Plugins.Games.GTAV.Module.dll",
+  "Website": "https://artemis-rgb.com/",
+  "Repository": "https://github.com/Artemis-RGB/Artemis.Plugins.Games"
 }

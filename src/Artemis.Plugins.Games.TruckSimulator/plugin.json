@@ -3,7 +3,8 @@
   "Name": "Truck Simulator (ETS2 & ATS)",
   "Description": "Plugin that provides data models for Euro Truck Simulator 2 and American Truck Simulator.",
   "Author": "Wibble (Wibble#5423)",
-  "Repository": "https://github.com/Artemis-RGB/Artemis.Plugins.Games",
   "Version": "1.3.0.0",
-  "Main": "Artemis.Plugins.Games.TruckSimulator.dll"
+  "Main": "Artemis.Plugins.Games.TruckSimulator.dll",
+  "Website": "https://artemis-rgb.com/",
+  "Repository": "https://github.com/Artemis-RGB/Artemis.Plugins.Games"
 }

@@ -1,8 +1,10 @@
 {
   "Guid": "67f63765-cb39-44f4-abc9-dd4298f8e415",
   "Name": "TrackMania",
-  "Icon": "logo.svg" ,
+  "Icon": "logo.svg",
   "Description": "Provides TrackMania support via it's official telemetry",
   "Version": "1.0.0.0",
-  "Main": "Artemis.Plugins.Games.TrackMania.dll"
+  "Main": "Artemis.Plugins.Games.TrackMania.dll",
+  "Website": "https://artemis-rgb.com/",
+  "Repository": "https://github.com/Artemis-RGB/Artemis.Plugins.Games"
 }
