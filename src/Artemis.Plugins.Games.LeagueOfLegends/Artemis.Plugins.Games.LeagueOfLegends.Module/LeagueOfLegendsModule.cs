@@ -26,7 +26,6 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
         private readonly ILogger _logger;
 
         private LolClient lolClient;
-        private HttpClient httpClient;
         private RootGameData gameData;
         private float lastEventTime;
 
@@ -40,14 +39,12 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
         public override void Enable()
         {
             lolClient = new LolClient();
-            httpClient = new HttpClient();
             AddTimedUpdate(TimeSpan.FromMilliseconds(100), UpdateData);
         }
 
         public override void Disable()
         {
             lolClient?.Dispose();
-            httpClient?.Dispose();
         }
 
         public override void ModuleActivated(bool isOverride)
@@ -58,8 +55,6 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
         {
             //reset data.
             DataModel.Apply(new RootGameData());
-            if (!isOverride)
-                httpClient?.CancelPendingRequests();
         }
 
         public override void Update(double deltaTime) { }

@@ -5,6 +5,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums
     public enum Turret
     {
         Unknown = -1,
+        None = 0,
         [Name("Turret_T2_L_03_A")]
         BlueTopOuterTurret,
         [Name("Turret_T2_C_05_A")]

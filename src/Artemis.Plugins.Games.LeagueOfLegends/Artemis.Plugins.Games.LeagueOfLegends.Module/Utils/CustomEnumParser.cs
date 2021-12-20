@@ -21,27 +21,19 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Utils
             Names = names.Distinct().ToArray();
         }
     }
+
     internal static class ParseEnum<TEnum> where TEnum : struct, Enum
     {
-        private static readonly Dictionary<string, TEnum> Values = new Dictionary<string, TEnum>();
+        private static readonly Dictionary<string, TEnum> Values =
+            Enum.GetValues<TEnum>()
+                .Select(e => (Enum.GetName(e), e))//select the regular enum names
+                .Concat(typeof(TEnum).GetFields(BindingFlags.Public | BindingFlags.Static)//and concat with the custom ones
+                    .Select(fieldInfo => (Att: fieldInfo.GetCustomAttribute<NameAttribute>(), EnumValue: (TEnum)fieldInfo.GetValue(null)))
+                    .Where(x => x.Att != null)
+                    .SelectMany(tp => tp.Att.Names, (tp, name) => (name, tp.EnumValue)))
+                .ToDictionary(a => a.Item1, a => a.Item2);//create a dictionary from all of them
 
-        static ParseEnum()
-        {
-            //add custom values first.
-            //defined with NameAttribute on each enum value
-            Values = typeof(TEnum)
-                .GetFields(BindingFlags.Public | BindingFlags.Static)
-                .Select(a => new { NameAtt = a.GetCustomAttribute<NameAttribute>(), EnumValue = (TEnum)a.GetValue(null) })
-                .Where(a => a.NameAtt != null)
-                .SelectMany(field => field.NameAtt.Names, (field, name) => new { Key = name, Value = field.EnumValue })
-                .ToDictionary(a => a.Key, a => a.Value);
-
-            //then we cache every possible enum value so we don't have to call TryParse
-            foreach (TEnum e in Enum.GetValues(typeof(TEnum)))
-                Values.Add(Enum.GetName(typeof(TEnum), e), e);
-        }
-
-        internal static TEnum TryParseOr(string value, TEnum defaultValue)
+        internal static TEnum TryParseOr(string value, TEnum defaultValue, bool ignoreCase = false)
         {
             //this should be None for all enums in this plugin
             if (string.IsNullOrWhiteSpace(value))
@@ -49,6 +41,9 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Utils
 
             if (Values.TryGetValue(value, out TEnum result))
                 return result;
+
+            if (Enum.TryParse<TEnum>(value, ignoreCase, out var parseResult))
+                return parseResult;
 
             return defaultValue;
         }

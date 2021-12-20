@@ -5,6 +5,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums
     public enum Inhibitor
     {
         Unknown = -1,
+        None = 0,
         [Name("Barracks_T2_L1")]
         BlueTopInhibitor,
         [Name("Barracks_T2_C1")]

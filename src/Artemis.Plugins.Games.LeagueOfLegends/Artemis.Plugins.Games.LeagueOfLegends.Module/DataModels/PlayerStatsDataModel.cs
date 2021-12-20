@@ -1,4 +1,5 @@
-﻿using Artemis.Core.Modules;
+﻿using System;
+using Artemis.Core.Modules;
 using Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums;
 using Artemis.Plugins.Games.LeagueOfLegends.GameDataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Utils;
@@ -64,7 +65,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels
             ResourceMax = championStats.ResourceMax;
             ResourceRegenRate = championStats.ResourceRegenRate;
             ResourceType = ParseEnum<ResourceType>.TryParseOr(championStats.ResourceType, ResourceType.Unknown);
-            SpellVamp = championStats.SpellVamp * 100f;
+            Enum.TryParse<ResourceType>(championStats.ResourceType, true, out var result);
             Tenacity = championStats.Tenacity * 100f;
         }
     }
