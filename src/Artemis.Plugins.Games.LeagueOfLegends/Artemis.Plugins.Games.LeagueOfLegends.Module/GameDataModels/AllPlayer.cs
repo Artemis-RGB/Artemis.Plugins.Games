@@ -1,4 +1,6 @@
-﻿namespace Artemis.Plugins.Games.LeagueOfLegends.GameDataModels
+﻿using Newtonsoft.Json;
+
+namespace Artemis.Plugins.Games.LeagueOfLegends.GameDataModels
 {
     public class AllPlayer
     {
@@ -16,5 +18,9 @@
         public string SummonerName { get; set; }
         public SummonerSpells SummonerSpells { get; set; } = new();
         public string Team { get; set; }
+        [JsonProperty(Required = Required.Default)]
+        public string SkinName { get; set; }
+        [JsonProperty(Required = Required.Default)]
+        public string RawSkinName { get; set; }
     }
 }

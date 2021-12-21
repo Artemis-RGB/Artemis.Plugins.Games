@@ -4,37 +4,37 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums
 {
     public enum ResourceType
     {
-        [Name("UNKNOWN")] 
+        [Name("UNKNOWN")]
         Unknown = -1,
-        [Name("NONE")] 
+        [Name("NONE")]
         None = 0,
-        [Name("MANA")] 
+        [Name("MANA")]
         Mana,
-        [Name("ENERGY")] 
+        [Name("ENERGY")]
         Energy,
-        [Name("SHIELD")] 
+        [Name("SHIELD")]
         Shield,
-        [Name("BATTLEFURY")] 
+        [Name("BATTLEFURY")]
         Battlefury,
-        [Name("DRAGONFURY")] 
+        [Name("DRAGONFURY")]
         Dragonfury,
-        [Name("RAGE")] 
+        [Name("RAGE")]
         Rage,
-        [Name("HEAT")] 
+        [Name("HEAT")]
         Heat,
-        [Name("GNARFURY")] 
+        [Name("GNARFURY")]
         Gnarfury,
-        [Name("FEROCITY")] 
+        [Name("FEROCITY")]
         Ferocity,
-        [Name("BLOODWELL")] 
+        [Name("BLOODWELL")]
         Bloodwell,
-        [Name("WIND")] 
+        [Name("WIND")]
         Wind,
-        [Name("AMMO")] 
+        [Name("AMMO")]
         Ammo,
-        [Name("OTHER")] 
+        [Name("OTHER")]
         Other,
-        [Name("MAX")] 
+        [Name("MAX")]
         Max
     }
 }

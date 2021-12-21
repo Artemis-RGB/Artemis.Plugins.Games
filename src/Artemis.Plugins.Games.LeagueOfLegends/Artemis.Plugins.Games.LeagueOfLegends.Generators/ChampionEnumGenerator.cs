@@ -3,8 +3,6 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Generators
 {

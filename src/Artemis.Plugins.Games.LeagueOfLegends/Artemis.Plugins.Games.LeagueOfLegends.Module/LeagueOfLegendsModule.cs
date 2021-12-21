@@ -1,18 +1,13 @@
 using Artemis.Core;
 using Artemis.Core.Modules;
-using Artemis.Core.Services;
 using Artemis.Plugins.Games.LeagueOfLegends.DataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums;
 using Artemis.Plugins.Games.LeagueOfLegends.DataModels.EventArgs;
 using Artemis.Plugins.Games.LeagueOfLegends.GameDataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Utils;
 using Serilog;
-using SkiaSharp;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends
@@ -63,10 +58,10 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
         {
             try
             {
-                gameData =  await lolClient.GetAllDataAsync();
+                gameData = await lolClient.GetAllDataAsync();
                 DataModel.Apply(gameData);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.Error("Error updating LoL game data", e);
                 return;

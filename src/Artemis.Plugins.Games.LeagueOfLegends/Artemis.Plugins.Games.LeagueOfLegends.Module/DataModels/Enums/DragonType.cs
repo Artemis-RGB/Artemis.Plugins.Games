@@ -13,6 +13,8 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums
         Ocean,
         [Name("Earth")]
         Mountain,
+        Chemtech,
+        Hextech,
         Elder
     }
 }

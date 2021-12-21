@@ -1,9 +1,7 @@
 ﻿using Artemis.Core.Modules;
-using Artemis.Core.Services;
 using Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums;
 using Artemis.Plugins.Games.LeagueOfLegends.GameDataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Utils;
-using SkiaSharp;
 using System;
 using SummonerSpell = Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums.SummonerSpell;
 

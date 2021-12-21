@@ -1,16 +1,15 @@
 ﻿using Artemis.Core.Modules;
 using Artemis.Plugins.Games.LeagueOfLegends.GameDataModels;
-using System;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels
 {
     public class InventoryDataModel : DataModel
     {
         public ItemSlotDataModel Slot1 { get; } = new();
-        public ItemSlotDataModel Slot2 { get; }= new();
-        public ItemSlotDataModel Slot3 { get; }= new();
-        public ItemSlotDataModel Slot4 { get; }= new();
-        public ItemSlotDataModel Slot5 { get; }= new();
+        public ItemSlotDataModel Slot2 { get; } = new();
+        public ItemSlotDataModel Slot3 { get; } = new();
+        public ItemSlotDataModel Slot4 { get; } = new();
+        public ItemSlotDataModel Slot5 { get; } = new();
         public ItemSlotDataModel Slot6 { get; } = new();
         public ItemSlotDataModel Trinket { get; } = new();
 
