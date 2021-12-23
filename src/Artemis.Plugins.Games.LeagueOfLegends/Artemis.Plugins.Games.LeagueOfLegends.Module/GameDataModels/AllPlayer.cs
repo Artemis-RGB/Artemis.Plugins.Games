@@ -18,9 +18,13 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.GameDataModels
         public string SummonerName { get; set; }
         public SummonerSpells SummonerSpells { get; set; } = new();
         public string Team { get; set; }
+
+        #region Optional
         [JsonProperty(Required = Required.Default)]
         public string SkinName { get; set; }
+
         [JsonProperty(Required = Required.Default)]
         public string RawSkinName { get; set; }
+        #endregion
     }
 }

@@ -9,6 +9,10 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Linq;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends
 {
@@ -50,6 +54,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
         {
             //reset data.
             DataModel.Apply(new RootGameData());
+            lastEventTime = 0f;
         }
 
         public override void Update(double deltaTime) { }
@@ -58,30 +63,33 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
         {
             try
             {
-                gameData = await lolClient.GetAllDataAsync();
-                DataModel.Apply(gameData);
+                gameData = await lolClient.GetAllGameDataAsync();
+            }
+            catch (TaskCanceledException)
+            {
+                //ignore
+                return;
+            }
+            catch (HttpRequestException)
+            {
+                //ignore
+                return;
             }
             catch (Exception e)
             {
-                _logger.Error("Error updating LoL game data", e);
+                _logger.Error(e, "Error updating LoL game data");
                 return;
             }
 
+            DataModel.Apply(gameData);
             FireOffEvents();
         }
 
         private void FireOffEvents()
         {
-            if (gameData.Events.Events.Length == 0)
+            foreach (LolEvent e in gameData.Events.Events.Where(ev => ev.EventTime > lastEventTime))
             {
-                lastEventTime = 0f;
-                return;
-            }
-
-            foreach (LolEvent e in gameData.Events.Events)
-            {
-                if (e.EventTime <= lastEventTime)
-                    continue;
+                lastEventTime = e.EventTime;
 
                 switch (e)
                 {
@@ -124,7 +132,10 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
                         });
                         break;
                     case FirstBrickEvent firstBrickEvent:
-                        DataModel.Match.FirstBrick.Trigger();
+                        DataModel.Match.FirstBrick.Trigger(new FirstBrickEventArgs
+                        {
+                            KillerName = firstBrickEvent.KillerName
+                        });
                         break;
                     case GameEndEvent gameEndEvent:
                         DataModel.Match.GameEnd.Trigger(new GameEndEventArgs
@@ -182,8 +193,6 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
                         });
                         break;
                 }
-
-                lastEventTime = e.EventTime;
             }
         }
     }

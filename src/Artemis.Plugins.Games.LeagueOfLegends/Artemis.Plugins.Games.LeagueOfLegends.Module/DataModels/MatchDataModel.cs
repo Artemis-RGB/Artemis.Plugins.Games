@@ -17,7 +17,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels
         public DataModelEvent<ChampionKillEventArgs> ChampionKill { get; } = new();
         public DataModelEvent<DragonKillEventArgs> DragonKill { get; } = new();
         public DataModelEvent<FirstBloodEventArgs> FirstBlood { get; } = new();
-        public DataModelEvent FirstBrick { get; } = new();
+        public DataModelEvent<FirstBrickEventArgs> FirstBrick { get; } = new();
         public DataModelEvent<GameEndEventArgs> GameEnd { get; } = new();
         public DataModelEvent GameStart { get; } = new();
         public DataModelEvent<EpicCreatureKillEventArgs> HeraldKill { get; } = new();
