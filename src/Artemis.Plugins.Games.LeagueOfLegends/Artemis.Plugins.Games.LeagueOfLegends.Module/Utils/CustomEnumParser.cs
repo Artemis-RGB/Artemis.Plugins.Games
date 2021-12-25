@@ -24,7 +24,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Utils
 
     internal static class ParseEnum<TEnum> where TEnum : struct, Enum
     {
-        private static readonly Dictionary<string, TEnum> Values =
+        private static readonly Dictionary<string, TEnum> _cache =
             Enum.GetValues<TEnum>()
                 .Select(e => (Enum.GetName(e), e))//select the regular enum names
                 .Concat(typeof(TEnum).GetFields(BindingFlags.Public | BindingFlags.Static)//and concat with the custom ones
@@ -39,7 +39,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Utils
             if (string.IsNullOrWhiteSpace(value))
                 return default;
 
-            if (Values.TryGetValue(value, out TEnum result))
+            if (_cache.TryGetValue(value, out TEnum result))
                 return result;
 
             if (Enum.TryParse<TEnum>(value, ignoreCase, out var parseResult))
