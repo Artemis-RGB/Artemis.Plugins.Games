@@ -1,9 +1,7 @@
 ﻿using Artemis.Core.Modules;
-using Artemis.Core.Services;
 using Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums;
 using Artemis.Plugins.Games.LeagueOfLegends.GameDataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Utils;
-using SkiaSharp;
 using System;
 using SummonerSpell = Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums.SummonerSpell;
 
@@ -26,8 +24,6 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels
         public bool IsDead { get; set; }
         public Team Team { get; set; }
         public Champion Champion { get; set; }
-        public string ChampionName { get; set; }
-        public string InternalChampionName { get; set; }
         public int SkinID { get; set; }
         public Position Position { get; set; }
         public SummonerSpell SpellD { get; set; }
@@ -55,9 +51,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels
             RespawnTimer = allPlayer.RespawnTimer;
             IsDead = allPlayer.IsDead;
             Team = ParseEnum<Team>.TryParseOr(allPlayer.Team, Team.Unknown);
-            Champion = ParseEnum<Champion>.TryParseOr(allPlayer.ChampionName, Champion.Unknown);
-            ChampionName = allPlayer.ChampionName;
-            InternalChampionName = allPlayer.RawChampionName.Replace("game_character_displayname_", "");
+            Champion = ParseEnum<Champion>.TryParseOr(allPlayer.RawChampionName, Champion.Unknown);
             SkinID = allPlayer.SkinID;
             Position = ParseEnum<Position>.TryParseOr(allPlayer.Position, Position.Unknown);
             //TODO: change these to use the ID instead

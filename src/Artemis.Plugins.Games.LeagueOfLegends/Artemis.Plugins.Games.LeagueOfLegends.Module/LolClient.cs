@@ -1,5 +1,6 @@
-﻿using Artemis.Plugins.Games.LeagueOfLegends.GameDataModels;
+using Artemis.Plugins.Games.LeagueOfLegends.GameDataModels;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -12,6 +13,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
         private const string BASE_URI = "https://127.0.0.1:2999/liveclientdata";
         private readonly HttpClient _httpClient;
         private readonly HttpClientHandler _httpClientHandler;
+        private readonly JsonSerializerSettings _debugSerializerSettings;
 
         public LolClient()
         {
@@ -24,21 +26,35 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
             {
                 Timeout = TimeSpan.FromMilliseconds(75)
             };
+            _debugSerializerSettings = new JsonSerializerSettings()
+            {
+                MissingMemberHandling = MissingMemberHandling.Error,
+                ContractResolver = new RequireObjectPropertiesContractResolver()
+            };
         }
 
         private async Task<T> GetAndDeserialize<T>(string endpoint)
         {
             string response = await _httpClient.GetStringAsync(endpoint);
-
-            if (string.IsNullOrWhiteSpace(response) || response.Contains("error"))
-                throw new Exception("League of Legends returned unexpected response.");
-
+#if DEBUG
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(response, _debugSerializerSettings);
+            }
+            //helpful to debug out of date data structures
+            catch (JsonException jsonException)
+            {
+                System.Diagnostics.Debugger.Break();
+                throw;
+            }
+#else
             return JsonConvert.DeserializeObject<T>(response);
+#endif
         }
 
         public Task<string> GetActivePlayerNameAsync() => _httpClient.GetStringAsync($"{BASE_URI}/activeplayername");
 
-        public Task<RootGameData> GetAllDataAsync() => GetAndDeserialize<RootGameData>($"{BASE_URI}/allgamedata");
+        public Task<RootGameData> GetAllGameDataAsync() => GetAndDeserialize<RootGameData>($"{BASE_URI}/allgamedata");
 
         public Task<ActivePlayer> GetActivePlayerAsync() => GetAndDeserialize<ActivePlayer>($"{BASE_URI}/activeplayer");
 
@@ -85,5 +101,15 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
             GC.SuppressFinalize(this);
         }
         #endregion
+    }
+
+    public class RequireObjectPropertiesContractResolver : DefaultContractResolver
+    {
+        protected override JsonObjectContract CreateObjectContract(Type objectType)
+        {
+            var contract = base.CreateObjectContract(objectType);
+            contract.ItemRequired = Required.Always;
+            return contract;
+        }
     }
 }

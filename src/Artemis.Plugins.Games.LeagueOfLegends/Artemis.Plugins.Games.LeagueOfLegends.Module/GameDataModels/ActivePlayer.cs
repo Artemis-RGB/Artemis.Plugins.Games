@@ -8,5 +8,6 @@
         public FullRunes FullRunes { get; set; } = new();
         public int Level { get; set; }
         public string SummonerName { get; set; }
+        public bool TeamRelativeColors { get; set; }
     }
 }

@@ -2,11 +2,13 @@
 using Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums;
 using Artemis.Plugins.Games.LeagueOfLegends.GameDataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Utils;
+using System;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels
 {
     public class PlayerStatsDataModel : DataModel
     {
+        public float AbilityHaste { get; set; }
         public float AbilityPower { get; set; }
         public float Armor { get; set; }
         public float ArmorPenetrationFlat { get; set; }
@@ -16,19 +18,22 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels
         public float AttackSpeed { get; set; }
         public float BonusArmorPenetrationPercent { get; set; }
         public float BonusMagicPenetrationPercent { get; set; }
-        public float CooldownReduction { get; set; }
+        public float CooldownReduction => AbilityHaste / (AbilityHaste + 100) * 100;
         public float CritChance { get; set; }
         public float CritDamagePercent { get; set; }
         public float HealthCurrent { get; set; }
         public float HealthMax { get; set; }
         public float HealthRegenRate { get; set; }
+        public float HealShieldPower { get; set; }
         public float LifeSteal { get; set; }
         public float MagicLethality { get; set; }
         public float MagicPenetrationFlat { get; set; }
         public float MagicPenetrationPercent { get; set; }
         public float MagicResist { get; set; }
         public float MoveSpeed { get; set; }
+        public float Omnivamp { get; set; }
         public float PhysicalLethality { get; set; }
+        public float PhysicalVamp { get; set; }
         public float ResourceCurrent { get; set; }
         public float ResourceMax { get; set; }
         public float ResourceRegenRate { get; set; }
@@ -38,6 +43,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels
 
         public void Apply(ChampionStats championStats)
         {
+            AbilityHaste = championStats.AbilityHaste;
             AbilityPower = championStats.AbilityPower;
             Armor = championStats.Armor;
             ArmorPenetrationFlat = championStats.ArmorPenetrationFlat;
@@ -47,24 +53,26 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.DataModels
             AttackSpeed = championStats.AttackSpeed;
             BonusArmorPenetrationPercent = championStats.BonusArmorPenetrationPercent * 100f;
             BonusMagicPenetrationPercent = championStats.BonusMagicPenetrationPercent * 100f;
-            CooldownReduction = championStats.CooldownReduction * -100f;//40% cdr comes from the game as -0.4
             CritChance = championStats.CritChance * 100f;
             CritDamagePercent = championStats.CritDamage;
             HealthCurrent = championStats.CurrentHealth;
             HealthMax = championStats.MaxHealth;
             HealthRegenRate = championStats.HealthRegenRate;
+            HealShieldPower = championStats.HealShieldPower;
             LifeSteal = championStats.LifeSteal * 100f;
             MagicLethality = championStats.MagicLethality;
             MagicPenetrationFlat = championStats.MagicPenetrationFlat;
             MagicPenetrationPercent = championStats.MagicPenetrationPercent * 100f;
             MagicResist = championStats.MagicResist;
             MoveSpeed = championStats.MoveSpeed;
+            Omnivamp = championStats.Omnivamp;
             PhysicalLethality = championStats.PhysicalLethality;
+            PhysicalVamp = championStats.PhysicalVamp;
             ResourceCurrent = championStats.ResourceValue;
             ResourceMax = championStats.ResourceMax;
             ResourceRegenRate = championStats.ResourceRegenRate;
             ResourceType = ParseEnum<ResourceType>.TryParseOr(championStats.ResourceType, ResourceType.Unknown);
-            SpellVamp = championStats.SpellVamp * 100f;
+            SpellVamp = championStats.SpellVamp;
             Tenacity = championStats.Tenacity * 100f;
         }
     }

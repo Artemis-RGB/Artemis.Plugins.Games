@@ -8,6 +8,8 @@
         Infernal,
         Cloud,
         Mountain,
-        Ocean
+        Ocean,
+        Chemtech,
+        Hextech
     }
 }

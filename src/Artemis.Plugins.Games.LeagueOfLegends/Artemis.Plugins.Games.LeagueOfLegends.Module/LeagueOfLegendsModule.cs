@@ -1,19 +1,18 @@
 using Artemis.Core;
 using Artemis.Core.Modules;
-using Artemis.Core.Services;
 using Artemis.Plugins.Games.LeagueOfLegends.DataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums;
 using Artemis.Plugins.Games.LeagueOfLegends.DataModels.EventArgs;
 using Artemis.Plugins.Games.LeagueOfLegends.GameDataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Utils;
 using Serilog;
-using SkiaSharp;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Linq;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends
 {
@@ -26,7 +25,6 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
         private readonly ILogger _logger;
 
         private LolClient lolClient;
-        private HttpClient httpClient;
         private RootGameData gameData;
         private float lastEventTime;
 
@@ -40,14 +38,12 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
         public override void Enable()
         {
             lolClient = new LolClient();
-            httpClient = new HttpClient();
             AddTimedUpdate(TimeSpan.FromMilliseconds(100), UpdateData);
         }
 
         public override void Disable()
         {
             lolClient?.Dispose();
-            httpClient?.Dispose();
         }
 
         public override void ModuleActivated(bool isOverride)
@@ -58,8 +54,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
         {
             //reset data.
             DataModel.Apply(new RootGameData());
-            if (!isOverride)
-                httpClient?.CancelPendingRequests();
+            lastEventTime = 0f;
         }
 
         public override void Update(double deltaTime) { }
@@ -68,30 +63,33 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
         {
             try
             {
-                gameData =  await lolClient.GetAllDataAsync();
-                DataModel.Apply(gameData);
+                gameData = await lolClient.GetAllGameDataAsync();
             }
-            catch(Exception e)
+            catch (TaskCanceledException)
             {
-                _logger.Error("Error updating LoL game data", e);
+                //ignore
+                return;
+            }
+            catch (HttpRequestException)
+            {
+                //ignore
+                return;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Error updating LoL game data");
                 return;
             }
 
+            DataModel.Apply(gameData);
             FireOffEvents();
         }
 
         private void FireOffEvents()
         {
-            if (gameData.Events.Events.Length == 0)
+            foreach (LolEvent e in gameData.Events.Events.Where(ev => ev.EventTime > lastEventTime))
             {
-                lastEventTime = 0f;
-                return;
-            }
-
-            foreach (LolEvent e in gameData.Events.Events)
-            {
-                if (e.EventTime <= lastEventTime)
-                    continue;
+                lastEventTime = e.EventTime;
 
                 switch (e)
                 {
@@ -134,7 +132,10 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
                         });
                         break;
                     case FirstBrickEvent firstBrickEvent:
-                        DataModel.Match.FirstBrick.Trigger();
+                        DataModel.Match.FirstBrick.Trigger(new FirstBrickEventArgs
+                        {
+                            KillerName = firstBrickEvent.KillerName
+                        });
                         break;
                     case GameEndEvent gameEndEvent:
                         DataModel.Match.GameEnd.Trigger(new GameEndEventArgs
@@ -192,8 +193,6 @@ namespace Artemis.Plugins.Games.LeagueOfLegends
                         });
                         break;
                 }
-
-                lastEventTime = e.EventTime;
             }
         }
     }
