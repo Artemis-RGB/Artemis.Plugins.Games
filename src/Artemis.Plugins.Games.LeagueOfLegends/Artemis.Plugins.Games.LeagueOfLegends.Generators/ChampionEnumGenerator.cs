@@ -59,7 +59,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Generators
                 Id = int.Parse(ci.Value.key)
             });
 
-            context.AddSource("Champion.gen.cs", EnumGenerator.GetEnum("Artemis.Plugins.Games.LeagueOfLegends.DataModels.Enums", "Champion", defaultDefs.Concat(defs)));
+            context.AddSource("Champion.gen.cs", EnumGenerator.GetEnum("Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums", "Champion", defaultDefs.Concat(defs)));
         }
     }
 }

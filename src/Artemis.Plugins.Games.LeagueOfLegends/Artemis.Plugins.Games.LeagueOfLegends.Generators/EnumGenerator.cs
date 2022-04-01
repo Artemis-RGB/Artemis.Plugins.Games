@@ -19,7 +19,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Generators
             var builder = new StringBuilder();
             builder.AppendLine("using System;");
             builder.AppendLine("using System.ComponentModel.DataAnnotations;");
-            builder.AppendLine("using Artemis.Plugins.Games.LeagueOfLegends.Utils;");
+            builder.AppendLine("using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;");
             builder.AppendLine("");
             builder.AppendLine($"namespace {namespaceName} {{");
             builder.AppendLine($"    public enum {enumName} {{");

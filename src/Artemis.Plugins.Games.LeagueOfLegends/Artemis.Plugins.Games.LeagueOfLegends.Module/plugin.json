@@ -5,7 +5,7 @@
   "Description": "League Of Legends game integration",
   "Author": "diogotr7",
   "Version": "1.0.0.0",
-  "Main": "Artemis.Plugins.Games.LeagueOfLegends.dll",
+  "Main": "Artemis.Plugins.Games.LeagueOfLegends.Module.dll",
   "Website": "https://artemis-rgb.com/",
   "Repository": "https://github.com/Artemis-RGB/Artemis.Plugins.Games"
 }
