@@ -1,6 +1,8 @@
 ﻿using Artemis.Core;
 using Artemis.Core.Modules;
+using Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.EventData;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
+using Newtonsoft.Json;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -43,7 +45,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
             int tries = 0;
             while (tries < MAX_TRIES)
             {
-                if (TrySetupLcuClient())
+                if (TrySetupLcuClient().Result)
                     return;
 
                 tries++;
@@ -53,7 +55,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
             throw new ArtemisPluginException(Plugin, "Couldn't setup LCU client.");
         }
 
-        private bool TrySetupLcuClient()
+        private async Task<bool> TrySetupLcuClient()
         {
             try
             {
@@ -62,12 +64,12 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
 
                 lcuClient = new(lockFile);
                 lcuClient.EventReceived += LcuClientOnEventReceived;
-                lcuClient.Connect().Wait();
+                await lcuClient.Connect();
                 //list of events to subscribe to:
                 //https://www.mingweisamuel.com/lcu-schema/lcu/help.json
-                lcuClient.Subscribe("OnJsonApiEvent_lol-champ-select_v1_session").Wait();
-                lcuClient.Subscribe("OnJsonApiEvent_lol-lobby_v2_lobby").Wait();
-                lcuClient.Subscribe("OnJsonApiEvent_lol-gameflow_v1_session").Wait();
+                await lcuClient.Subscribe("OnJsonApiEvent_lol-gameflow_v1_session");
+                await lcuClient.Subscribe("OnJsonApiEvent_lol-champ-select_v1_session");
+                //await lcuClient.Subscribe("OnJsonApiEvent_lol-lobby_v2_lobby");
                 return true;
             }
             catch
@@ -76,9 +78,20 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
             }
         }
 
-        private void LcuClientOnEventReceived(object sender, LcuEvent e)
+        private void LcuClientOnEventReceived(object sender, ILcuEvent e)
         {
-            _logger.Information("{uri} | {data}", e.Uri, e.Data.ToString());
+            switch (e)
+            {
+                case LcuEvent<GameFlowData> gameFlow:
+                    _logger.Information("GameFlow event: {uri} | {eventType} | {data}", gameFlow.Uri, gameFlow.EventType, JsonConvert.SerializeObject(gameFlow.Data));
+                    break;
+                case LcuEvent<ChampSelectData> champSelect:
+                    _logger.Information("ChampSelect event: {uri} | {eventType} | {data}", champSelect.Uri, champSelect.EventType,JsonConvert.SerializeObject(champSelect.Data));
+                    break;
+                default:
+                    _logger.Information("Unknown event: {uri} | {eventType}", e.Uri, e.EventType);
+                    break;
+            }
         }
 
         public override void ModuleDeactivated(bool isOverride)

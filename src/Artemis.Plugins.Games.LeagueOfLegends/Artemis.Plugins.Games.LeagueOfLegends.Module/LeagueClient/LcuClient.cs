@@ -20,7 +20,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
         private readonly CancellationTokenSource _cts;
         private Task _readLoopTask;
 
-        public event EventHandler<LcuEvent> EventReceived;
+        public event EventHandler<ILcuEvent> EventReceived;
 
         public LcuClient(LockfileData data)
         {
@@ -36,6 +36,9 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
         public async Task Connect()
         {
             await _ws.ConnectAsync(_uri, _cts.Token);
+            if (_ws.State != WebSocketState.Open)
+                throw new Exception("Could not connect to LCU");
+            
             _readLoopTask = Task.Run(ReadLoop);
         }
 
@@ -70,15 +73,15 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
 
                 if (result.Count == 0)
                     continue;
-
+                string data = null;
                 try
                 {
-                    var data = Encoding.UTF8.GetString(_buffer, 0, result.Count);
+                    data = Encoding.UTF8.GetString(_buffer, 0, result.Count);
                     var jArray = JArray.Parse(data);
 
                     var opCode = (LcuOpcode)(int)jArray[0];
                     var eventName = jArray[1].ToString();
-                    var lcuEvent = jArray[2].ToObject<LcuEvent>();
+                    var lcuEvent = jArray[2].ToObject<ILcuEvent>();
 
                     switch (opCode)
                     {
@@ -114,22 +117,12 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
                     _ws.Dispose();
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
                 disposedValue = true;
             }
         }
 
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
-        // ~LcuClient()
-        // {
-        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-        //     Dispose(disposing: false);
-        // }
-
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
