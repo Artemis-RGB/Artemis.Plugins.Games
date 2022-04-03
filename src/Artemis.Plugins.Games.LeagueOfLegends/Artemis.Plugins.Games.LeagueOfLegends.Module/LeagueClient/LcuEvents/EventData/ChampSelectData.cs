@@ -7,7 +7,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.Ev
     public class ChampSelectData
     {
         [JsonProperty("actions")]
-        public List<List<Action>> Actions { get; set; }
+        public Action[][] Actions { get; set; }
 
         [JsonProperty("allowBattleBoost")]
         public bool AllowBattleBoost { get; set; }
@@ -17,7 +17,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.Ev
 
         [JsonProperty("allowLockedEvents")]
         public bool AllowLockedEvents { get; set; }
-        
+
         [JsonProperty("allowRerolling")]
         public bool AllowRerolling { get; set; }
 
@@ -28,7 +28,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.Ev
         public Bans Bans { get; set; }
 
         [JsonProperty("benchChampionIds")]
-        public List<int> BenchChampionIds { get; set; }
+        public int[] BenchChampionIds { get; set; }
 
         [JsonProperty("benchEnabled")]
         public bool BenchEnabled { get; set; }
@@ -67,7 +67,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.Ev
         public int LockedEventIndex { get; set; }
 
         [JsonProperty("myTeam")]
-        public List<Player> MyTeam { get; set; }
+        public Player[] MyTeam { get; set; }
 
         [JsonProperty("recoveryCounter")]
         public int RecoveryCounter { get; set; }
@@ -79,25 +79,25 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.Ev
         public bool SkipChampionSelect { get; set; }
 
         [JsonProperty("theirTeam")]
-        public List<Player> TheirTeam { get; set; }
+        public Player[] TheirTeam { get; set; }
 
         [JsonProperty("timer")]
         public Timer Timer { get; set; }
 
         [JsonProperty("trades")]
-        public List<Trade> Trades { get; set; }
+        public Trade[] Trades { get; set; }
     }
 
     public class Bans
     {
         [JsonProperty("myTeamBans")]
-        public List<int> MyTeamBans { get; set; }
+        public int[] MyTeamBans { get; set; }
 
         [JsonProperty("numBans")]
         public int NumBans { get; set; }
 
         [JsonProperty("theirTeamBans")]
-        public List<int> TheirTeamBans { get; set; }
+        public int[] TheirTeamBans { get; set; }
     }
 
     public class ChatDetails
@@ -115,7 +115,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.Ev
         public int AdditionalRerolls { get; set; }
 
         [JsonProperty("unlockedSkinIds")]
-        public List<int> UnlockedSkinIds { get; set; }
+        public int[] UnlockedSkinIds { get; set; }
     }
 
     public class Player
@@ -183,7 +183,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.Ev
         [JsonProperty("state")]
         public string State { get; set; }
     }
-    
+
     public class Action
     {
         [JsonProperty("actorCellId")]

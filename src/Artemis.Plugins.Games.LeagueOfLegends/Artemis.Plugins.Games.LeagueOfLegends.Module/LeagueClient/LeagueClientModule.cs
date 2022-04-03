@@ -1,21 +1,28 @@
 ﻿using Artemis.Core;
 using Artemis.Core.Modules;
+using Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.DataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.EventData;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
 using Newtonsoft.Json;
 using Serilog;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
 {
+    [PluginFeature(Name = "League Client", Icon = "icon.svg")]
     public class LeagueClientModule : Module<LeagueClientDataModel>
     {
         private const string PROCESS_NAME = "LeagueClientUx";
+        //list of events to subscribe to:
+        private static readonly string[] LCU_EVENTS = new string[]
+        {
+            "OnJsonApiEvent_lol-gameflow_v1_session",
+            "OnJsonApiEvent_lol-champ-select_v1_session"
+            //"OnJsonApiEvent_lol-lobby_v2_lobby"
+        };
+
         public override List<IModuleActivationRequirement> ActivationRequirements { get; }
             = new() { new ProcessActivationRequirement(PROCESS_NAME) };
 
@@ -65,11 +72,10 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
                 lcuClient = new(lockFile);
                 lcuClient.EventReceived += LcuClientOnEventReceived;
                 await lcuClient.Connect();
-                //list of events to subscribe to:
-                //https://www.mingweisamuel.com/lcu-schema/lcu/help.json
-                await lcuClient.Subscribe("OnJsonApiEvent_lol-gameflow_v1_session");
-                await lcuClient.Subscribe("OnJsonApiEvent_lol-champ-select_v1_session");
-                //await lcuClient.Subscribe("OnJsonApiEvent_lol-lobby_v2_lobby");
+                foreach (var lcuEvent in LCU_EVENTS)
+                {
+                    await lcuClient.Subscribe(lcuEvent);
+                }
                 return true;
             }
             catch
@@ -83,10 +89,12 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
             switch (e)
             {
                 case LcuEvent<GameFlowData> gameFlow:
+                    DataModel.GameFlow = gameFlow.Data;
                     _logger.Information("GameFlow event: {uri} | {eventType} | {data}", gameFlow.Uri, gameFlow.EventType, JsonConvert.SerializeObject(gameFlow.Data));
                     break;
                 case LcuEvent<ChampSelectData> champSelect:
-                    _logger.Information("ChampSelect event: {uri} | {eventType} | {data}", champSelect.Uri, champSelect.EventType,JsonConvert.SerializeObject(champSelect.Data));
+                    DataModel.ChampSelect = champSelect.Data;
+                    _logger.Information("ChampSelect event: {uri} | {eventType} | {data}", champSelect.Uri, champSelect.EventType, JsonConvert.SerializeObject(champSelect.Data));
                     break;
                 default:
                     _logger.Information("Unknown event: {uri} | {eventType}", e.Uri, e.EventType);
@@ -97,6 +105,10 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
         public override void ModuleDeactivated(bool isOverride)
         {
             lcuClient.EventReceived -= LcuClientOnEventReceived;
+            foreach (var lcuEvent in LCU_EVENTS)
+            {
+                lcuClient.Unsubscribe(lcuEvent).Wait();
+            }
             lcuClient.Dispose();
         }
     }

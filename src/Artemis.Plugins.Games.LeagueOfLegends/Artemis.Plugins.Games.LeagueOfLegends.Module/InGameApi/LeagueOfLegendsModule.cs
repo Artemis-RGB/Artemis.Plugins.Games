@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
 {
-    [PluginFeature(AlwaysEnabled = true, Icon = "icon.svg", Name = "League Of Legends")]
+    [PluginFeature(Name = "League Of Legends Game", Icon = "icon.svg")]
     public class LeagueOfLegendsModule : Module<LeagueOfLegendsDataModel>
     {
         public override List<IModuleActivationRequirement> ActivationRequirements { get; }

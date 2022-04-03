@@ -9,14 +9,15 @@ using System.Threading.Tasks;
 using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Buffers;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
 {
     internal sealed class LcuClient : IDisposable
     {
+        private const string RIOT_USERNAME = "riot";
         private readonly Uri _uri;
         private readonly ClientWebSocket _ws;
-        private readonly byte[] _buffer;
         private readonly CancellationTokenSource _cts;
         private Task _readLoopTask;
 
@@ -24,11 +25,10 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
 
         public LcuClient(LockfileData data)
         {
-            _buffer = new byte[32 * 1024];
             _cts = new CancellationTokenSource();
             _uri = new Uri($"wss://localhost:{data.Port}");
             _ws = new ClientWebSocket();
-            _ws.Options.Credentials = new NetworkCredential("riot", data.Password);
+            _ws.Options.Credentials = new NetworkCredential(RIOT_USERNAME, data.Password);
             _ws.Options.RemoteCertificateValidationCallback = (req, cert, chain, polErrs)
                 => RiotCertificateUtils.CertificateValidationCallback(req, cert, chain, polErrs);
         }
@@ -38,7 +38,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
             await _ws.ConnectAsync(_uri, _cts.Token);
             if (_ws.State != WebSocketState.Open)
                 throw new Exception("Could not connect to LCU");
-            
+
             _readLoopTask = Task.Run(ReadLoop);
         }
 
@@ -61,23 +61,21 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
 
         private async Task ReadLoop()
         {
-            while (_ws.State == WebSocketState.Open && !_cts.IsCancellationRequested)
+            while (!_cts.IsCancellationRequested && _ws.State == WebSocketState.Open)
             {
-                Array.Fill<byte>(_buffer, 0);
-                var result = await _ws.ReceiveAsync(_buffer, _cts.Token);
-                if (result.MessageType == WebSocketMessageType.Close)
-                {
-                    await _ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "", _cts.Token);
-                    return;
-                }
+                var buffer = ArrayPool<byte>.Shared.Rent(32 * 1024);
 
-                if (result.Count == 0)
-                    continue;
-                string data = null;
                 try
                 {
-                    data = Encoding.UTF8.GetString(_buffer, 0, result.Count);
+                    var result = await _ws.ReceiveAsync(buffer, _cts.Token);
+                    if (result.Count == 0)
+                        continue;
+
+                    string data = Encoding.UTF8.GetString(buffer.AsSpan(0, result.Count));
                     var jArray = JArray.Parse(data);
+
+                    //0 - opcode
+                    //1 - which subscription
 
                     var opCode = (LcuOpcode)(int)jArray[0];
                     var eventName = jArray[1].ToString();
@@ -85,8 +83,6 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
 
                     switch (opCode)
                     {
-                        case LcuOpcode.Welcome:
-                            break;
                         case LcuOpcode.Event:
                             EventReceived?.Invoke(this, lcuEvent);
                             break;
@@ -97,6 +93,10 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
                 catch (Exception e)
                 {
 
+                }
+                finally
+                {
+                    ArrayPool<byte>.Shared.Return(buffer);
                 }
             }
         }
@@ -113,7 +113,14 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
                     _readLoopTask.Wait();
                     _readLoopTask.Dispose();
                     _cts.Dispose();
-                    _ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None).Wait();
+                    try
+                    {
+                        _ws.CloseAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None).Wait();
+                    }
+                    catch
+                    {
+                        //oops
+                    }
                     _ws.Dispose();
                 }
 
