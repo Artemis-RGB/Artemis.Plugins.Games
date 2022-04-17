@@ -5,6 +5,7 @@ using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.LolEventArgs;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels.Events;
+using Artemis.Plugins.Games.LeagueOfLegends.Module.Services;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
 using Serilog;
 using System;
@@ -22,14 +23,16 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
             = new() { new ProcessActivationRequirement("League Of Legends") };
 
         private readonly ILogger _logger;
+        private readonly ChampionColorService _championColorService;
 
         private LolInGameApiClient inGameApi;
         private RootGameData gameData;
         private float lastEventTime;
 
-        public LeagueOfLegendsModule(ILogger logger)
+        public LeagueOfLegendsModule(ILogger logger, ChampionColorService championColorService)
         {
             _logger = logger;
+            _championColorService = championColorService;
 
             UpdateDuringActivationOverride = false;
         }
@@ -81,7 +84,13 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
             }
 
             DataModel.Apply(gameData);
+            await SetChampionColors();
             FireOffEvents();
+        }
+
+        private async Task SetChampionColors()
+        {
+            DataModel.Player.ChampionColors = await _championColorService.GetSwatch(DataModel.Player.ShortChampionName);
         }
 
         private void FireOffEvents()

@@ -1,8 +1,10 @@
 ﻿using Artemis.Core.Modules;
+using Artemis.Core.Services;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
 using System;
+using System.Linq;
 using SummonerSpell = Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums.SummonerSpell;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
@@ -28,6 +30,9 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
         public Position Position { get; set; }
         public SummonerSpell SpellD { get; set; }
         public SummonerSpell SpellF { get; set; }
+        public ColorSwatch ChampionColors { get; set; }
+        [DataModelIgnore]
+        public string ShortChampionName { get; set; }
 
         public void Apply(RootGameData rootGameData)
         {
@@ -57,6 +62,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
             //TODO: change these to use the ID instead
             SpellD = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellOne.DisplayName, SummonerSpell.Unknown);
             SpellF = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellTwo.DisplayName, SummonerSpell.Unknown);
+            ShortChampionName = allPlayer.RawChampionName.Split('_').Last();
         }
     }
 }
