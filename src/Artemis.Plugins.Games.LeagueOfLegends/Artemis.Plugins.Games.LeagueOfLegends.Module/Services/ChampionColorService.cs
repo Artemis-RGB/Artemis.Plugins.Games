@@ -47,6 +47,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services
             {
                 swatch = _colorQuantizerService.FindAllColorVariations(skClrs);
                 _colorCache.Value[key] = swatch;
+                _colorCache.Save();
             }
 
             return swatch;
