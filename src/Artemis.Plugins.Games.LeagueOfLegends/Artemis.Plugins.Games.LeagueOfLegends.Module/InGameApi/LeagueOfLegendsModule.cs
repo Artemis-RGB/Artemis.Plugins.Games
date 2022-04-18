@@ -90,7 +90,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
 
         private async Task SetChampionColors()
         {
-            DataModel.Player.ChampionColors = await _championColorService.GetSwatch(DataModel.Player.ShortChampionName);
+            DataModel.Player.ChampionColors = await _championColorService.GetSwatch(DataModel.Player.ShortChampionName, DataModel.Player.SkinID);
         }
 
         private void FireOffEvents()

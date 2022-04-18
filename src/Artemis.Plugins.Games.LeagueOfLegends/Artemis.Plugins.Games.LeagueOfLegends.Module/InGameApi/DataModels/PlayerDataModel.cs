@@ -26,13 +26,15 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
         public bool IsDead { get; set; }
         public Team Team { get; set; }
         public Champion Champion { get; set; }
-        public int SkinID { get; set; }
         public Position Position { get; set; }
         public SummonerSpell SpellD { get; set; }
         public SummonerSpell SpellF { get; set; }
         public ColorSwatch ChampionColors { get; set; }
+        
         [DataModelIgnore]
         public string ShortChampionName { get; set; }
+        [DataModelIgnore]
+        public int SkinID { get; set; }
 
         public void Apply(RootGameData rootGameData)
         {

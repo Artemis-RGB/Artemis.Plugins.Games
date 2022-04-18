@@ -1,13 +1,11 @@
 ﻿using Artemis.Core;
 using Artemis.Core.Services;
+using Newtonsoft.Json.Linq;
+using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums;
 using System.Net.Http;
-using SkiaSharp;
+using System.Threading.Tasks;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services
 {
@@ -15,12 +13,14 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services
     {
         private readonly IColorQuantizerService _colorQuantizerService;
         private readonly PluginSetting<Dictionary<string, ColorSwatch>> _colorCache;
+        private readonly PluginSetting<Dictionary<string, int>> _skinIdCache;
         private readonly HttpClient _httpClient;
 
         public ChampionColorService(IColorQuantizerService colorQuantizerService, PluginSettings pluginSettings)
         {
             _colorQuantizerService = colorQuantizerService;
             _colorCache = pluginSettings.GetSetting("championColors", new Dictionary<string, ColorSwatch>());
+            _skinIdCache = pluginSettings.GetSetting("skinIds", new Dictionary<string, int>());
             _httpClient = new HttpClient();
         }
 
@@ -31,7 +31,10 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services
 
         public async Task<ColorSwatch> GetSwatch(string championShortName, int skinId)
         {
-            var key = GetKey(championShortName, skinId);
+            //we need this step tp get rid of chromas
+            var baseSkinId = await GetBaseSkinIdAsync(championShortName, skinId);
+
+            var key = GetDataDragonSplashUrl(championShortName, baseSkinId);
             lock (_colorCache)
             {
                 if (_colorCache.Value.TryGetValue(key, out var s))
@@ -53,11 +56,64 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services
             return swatch;
         }
 
-        private static string GetKey(string championShortName, int skinId)
+        public async Task<int> GetBaseSkinIdAsync(string championShortName, int skinId)
         {
-            //return the league of legends splash image for the given champion and skin id
+            const int SKIN_CLASSIFICATION_NONCHROMA = 1;
+            const int SKIN_CLASSIFICATION_CHROMA = 2;
+            string key = GetCommunityDragonSkinJsonUrl(championShortName, skinId);
+
+            lock (_skinIdCache)
+            {
+                if (_skinIdCache.Value.TryGetValue(key, out var id))
+                    return id;
+            }
+
+            string championSkinJson = await _httpClient.GetStringAsync(key);
+            var championSkinInfo = JObject.Parse(championSkinJson);
+
+            var usefulInfo = championSkinInfo.First.First;
+            var skinClassificationJson = usefulInfo["skinClassification"];
+            if (skinClassificationJson == null)
+                throw new Exception();
+
+            int skinClassification = (int)skinClassificationJson;
+            int baseSkinId;
+            if (skinClassification == SKIN_CLASSIFICATION_NONCHROMA)
+            {
+                baseSkinId = skinId;
+            }
+            else if (skinClassification == SKIN_CLASSIFICATION_CHROMA)
+            {
+                var parentId = usefulInfo["skinParent"];
+                if (parentId == null)
+                    throw new Exception();
+
+                baseSkinId = (int)parentId;
+            }
+            else
+            {
+                throw new Exception();
+            }
+
+            lock (_skinIdCache)
+            {
+                _skinIdCache.Value[key] = baseSkinId;
+                _skinIdCache.Save();
+            }
+
+            return baseSkinId;
+        }
+
+        private static string GetDataDragonSplashUrl(string championShortName, int skinId)
+        {
             const string BASE_URL = "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/";
             return $"{BASE_URL}{championShortName}_{skinId}.jpg";
+        }
+
+        private static string GetCommunityDragonSkinJsonUrl(string championShortName, int skinId)
+        {
+            const string BASE_URL = "https://raw.communitydragon.org/latest/game/data/characters/";
+            return $"{BASE_URL}{championShortName.ToLowerInvariant()}/skins/skin{skinId}.bin.json";
         }
 
         #region IDisposable Support
