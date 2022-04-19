@@ -12,7 +12,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
         public bool Consumable { get; set; }
         public int Count { get; set; }
 
-        public void Apply(Item[] items, int index)
+        public void Update(Item[] items, int index)
         {
             var item = Array.Find(items, i => i.Slot == index);
             if (item == null)

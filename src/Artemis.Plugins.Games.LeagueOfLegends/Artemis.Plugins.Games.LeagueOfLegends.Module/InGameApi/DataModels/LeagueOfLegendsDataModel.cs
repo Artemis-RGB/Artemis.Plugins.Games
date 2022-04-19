@@ -8,10 +8,16 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
         public PlayerDataModel Player { get; } = new();
         public MatchDataModel Match { get; } = new();
 
-        public void Apply(RootGameData rootGameData)
+        public void SetupMatch(RootGameData rootGameData)
         {
-            Player.Apply(rootGameData);
-            Match.Apply(rootGameData);
+            Player.SetupMatch(rootGameData);
+            Match.SetupMatch(rootGameData);
+        }
+
+        public void Update(RootGameData rootGameData)
+        {
+            Player.Update(rootGameData);
+            Match.Update(rootGameData);
         }
     }
 }

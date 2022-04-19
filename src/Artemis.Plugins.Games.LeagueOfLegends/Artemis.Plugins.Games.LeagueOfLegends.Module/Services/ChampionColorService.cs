@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services
 {
@@ -24,13 +25,11 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services
             _httpClient = new HttpClient();
         }
 
-        public Task<ColorSwatch> GetSwatch(string championShortName)
-        {
-            return GetSwatch(championShortName, 0);
-        }
-
         public async Task<ColorSwatch> GetSwatch(string championShortName, int skinId)
         {
+            if (string.IsNullOrWhiteSpace(championShortName))
+                return new ColorSwatch();
+
             //we need this step tp get rid of chromas
             var baseSkinId = await GetBaseSkinIdAsync(championShortName, skinId);
 
@@ -41,14 +40,13 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services
                     return s;
             }
 
-            using var stream = await _httpClient.GetStreamAsync(key);
+            using Stream stream = await _httpClient.GetStreamAsync(key);
             using SKBitmap skbm = SKBitmap.Decode(stream);
             SKColor[] skClrs = _colorQuantizerService.Quantize(skbm.Pixels, 256);
 
-            ColorSwatch swatch;
+            ColorSwatch swatch = _colorQuantizerService.FindAllColorVariations(skClrs);
             lock (_colorCache)
             {
-                swatch = _colorQuantizerService.FindAllColorVariations(skClrs);
                 _colorCache.Value[key] = swatch;
                 _colorCache.Save();
             }
@@ -56,7 +54,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services
             return swatch;
         }
 
-        public async Task<int> GetBaseSkinIdAsync(string championShortName, int skinId)
+        private async Task<int> GetBaseSkinIdAsync(string championShortName, int skinId)
         {
             const int SKIN_CLASSIFICATION_NONCHROMA = 1;
             const int SKIN_CLASSIFICATION_CHROMA = 2;

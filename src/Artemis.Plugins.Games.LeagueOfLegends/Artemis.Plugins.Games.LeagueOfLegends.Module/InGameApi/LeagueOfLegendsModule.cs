@@ -28,6 +28,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
         private LolInGameApiClient inGameApi;
         private RootGameData gameData;
         private float lastEventTime;
+        private bool newMatch;
 
         public LeagueOfLegendsModule(ILogger logger, ChampionColorService championColorService)
         {
@@ -50,12 +51,16 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
 
         public override void ModuleActivated(bool isOverride)
         {
+            newMatch = true;
         }
 
         public override void ModuleDeactivated(bool isOverride)
         {
             //reset data.
-            DataModel.Apply(new RootGameData());
+            _logger.Information("Deactivating module");
+            gameData = new();
+            SetupNewMatch();
+            UpdateTickData();
             lastEventTime = 0f;
         }
 
@@ -83,14 +88,32 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
                 return;
             }
 
-            DataModel.Apply(gameData);
-            await SetChampionColors();
-            FireOffEvents();
+            if (newMatch)
+            {
+                await SetupNewMatch();
+                newMatch = false;
+            }
+
+            UpdateTickData();
         }
 
-        private async Task SetChampionColors()
+        /// <summary>
+        /// Data that only needs to be set once per match
+        /// </summary>
+        private async Task SetupNewMatch()
         {
+            _logger.Information("Setting up new match...");
+            DataModel.SetupMatch(gameData);
             DataModel.Player.ChampionColors = await _championColorService.GetSwatch(DataModel.Player.ShortChampionName, DataModel.Player.SkinID);
+        }
+
+        /// <summary>
+        /// Data that needs to be set every tick
+        /// </summary>
+        private void UpdateTickData()
+        {
+            DataModel.Update(gameData);
+            FireOffEvents();
         }
 
         private void FireOffEvents()

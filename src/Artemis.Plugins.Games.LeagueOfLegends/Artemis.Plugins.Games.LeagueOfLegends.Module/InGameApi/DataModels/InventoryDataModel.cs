@@ -15,15 +15,15 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
 
         public int ItemCount { get; set; }
 
-        public void Apply(Item[] items)
+        public void Update(Item[] items)
         {
-            Slot1.Apply(items, 0);
-            Slot2.Apply(items, 1);
-            Slot3.Apply(items, 2);
-            Slot4.Apply(items, 3);
-            Slot5.Apply(items, 4);
-            Slot6.Apply(items, 5);
-            Trinket.Apply(items, 6);
+            Slot1.Update(items, 0);
+            Slot2.Update(items, 1);
+            Slot3.Update(items, 2);
+            Slot4.Update(items, 3);
+            Slot5.Update(items, 4);
+            Slot6.Update(items, 5);
+            Trinket.Update(items, 6);
             ItemCount = items.Length;
         }
     }

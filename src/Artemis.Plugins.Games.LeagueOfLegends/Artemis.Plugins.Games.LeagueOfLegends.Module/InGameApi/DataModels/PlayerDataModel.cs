@@ -36,17 +36,33 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
         [DataModelIgnore]
         public int SkinID { get; set; }
 
-        public void Apply(RootGameData rootGameData)
+        public void SetupMatch(RootGameData rootGameData)
         {
             var allPlayer = Array.Find(rootGameData.AllPlayers, p => p.SummonerName == rootGameData.ActivePlayer.SummonerName);
             if (allPlayer == null)
                 return;
 
-            Abilities.Apply(rootGameData.ActivePlayer.Abilities);
-            ChampionStats.Apply(rootGameData.ActivePlayer.ChampionStats);
-            Inventory.Apply(allPlayer.Items);
-
             SummonerName = rootGameData.ActivePlayer.SummonerName;
+            Team = ParseEnum<Team>.TryParseOr(allPlayer.Team, Team.Unknown);
+            Champion = ParseEnum<Champion>.TryParseOr(allPlayer.RawChampionName, Champion.Unknown);
+            Position = ParseEnum<Position>.TryParseOr(allPlayer.Position, Position.Unknown);
+
+            SkinID = allPlayer.SkinID;
+            ShortChampionName = allPlayer.RawChampionName.Split('_').Last();
+
+            ChampionStats.SetupMatch(rootGameData.ActivePlayer.ChampionStats);
+        }
+
+        public void Update(RootGameData rootGameData)
+        {
+            var allPlayer = Array.Find(rootGameData.AllPlayers, p => p.SummonerName == rootGameData.ActivePlayer.SummonerName);
+            if (allPlayer == null)
+                return;
+
+            Abilities.Update(rootGameData.ActivePlayer.Abilities);
+            ChampionStats.Update(rootGameData.ActivePlayer.ChampionStats);
+            Inventory.Update(allPlayer.Items);
+
             Level = rootGameData.ActivePlayer.Level;
             Gold = rootGameData.ActivePlayer.CurrentGold;
 
@@ -57,14 +73,9 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
             WardScore = allPlayer.Scores.WardScore;
             RespawnTimer = allPlayer.RespawnTimer;
             IsDead = allPlayer.IsDead;
-            Team = ParseEnum<Team>.TryParseOr(allPlayer.Team, Team.Unknown);
-            Champion = ParseEnum<Champion>.TryParseOr(allPlayer.RawChampionName, Champion.Unknown);
-            SkinID = allPlayer.SkinID;
-            Position = ParseEnum<Position>.TryParseOr(allPlayer.Position, Position.Unknown);
-            //TODO: change these to use the ID instead
-            SpellD = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellOne.DisplayName, SummonerSpell.Unknown);
-            SpellF = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellTwo.DisplayName, SummonerSpell.Unknown);
-            ShortChampionName = allPlayer.RawChampionName.Split('_').Last();
+
+            SpellD = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellOne.RawDisplayName, SummonerSpell.Unknown);
+            SpellF = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellTwo.RawDisplayName, SummonerSpell.Unknown);
         }
     }
 }

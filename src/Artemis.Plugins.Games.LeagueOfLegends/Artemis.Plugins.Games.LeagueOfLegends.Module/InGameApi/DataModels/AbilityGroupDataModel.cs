@@ -10,12 +10,20 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
         public AbilityDataModel E { get; } = new();
         public AbilityDataModel R { get; } = new();
 
-        public void Apply(Abilities abilities)
+        public void SetupMatch(Abilities abilities)
         {
-            Q.Apply(abilities.Q);
-            W.Apply(abilities.W);
-            E.Apply(abilities.E);
-            R.Apply(abilities.R);
+            Q.SetupMatch(abilities.Q);
+            W.SetupMatch(abilities.W);
+            E.SetupMatch(abilities.E);
+            R.SetupMatch(abilities.R);
+        }
+
+        public void Update(Abilities abilities)
+        {
+            Q.Update(abilities.Q);
+            W.Update(abilities.W);
+            E.Update(abilities.E);
+            R.Update(abilities.R);
         }
     }
 }
