@@ -1,15 +1,11 @@
 using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Net.WebSockets;
 using System.Text;
-using System.Net;
-using System.Threading.Tasks;
 using System.Threading;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System.Buffers;
+using System.Threading.Tasks;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
 {
@@ -19,6 +15,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
         private readonly Uri _uri;
         private readonly ClientWebSocket _ws;
         private readonly CancellationTokenSource _cts;
+        private readonly byte[] _buffer;
         private Task _readLoopTask;
 
         public event EventHandler<ILcuEvent> EventReceived;
@@ -31,6 +28,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
             _ws.Options.Credentials = new NetworkCredential(RIOT_USERNAME, data.Password);
             _ws.Options.RemoteCertificateValidationCallback = (req, cert, chain, polErrs)
                 => RiotCertificateUtils.CertificateValidationCallback(req, cert, chain, polErrs);
+            _buffer = new byte[1024 * 1024];
         }
 
         public async Task Connect()
@@ -63,15 +61,20 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
         {
             while (!_cts.IsCancellationRequested && _ws.State == WebSocketState.Open)
             {
-                var buffer = ArrayPool<byte>.Shared.Rent(32 * 1024);
-
                 try
                 {
-                    var result = await _ws.ReceiveAsync(buffer, _cts.Token);
-                    if (result.Count == 0)
+                    int bytesRead = 0;
+                    ValueWebSocketReceiveResult result;
+                    do
+                    {
+                        result = await _ws.ReceiveAsync(_buffer.AsMemory(bytesRead), _cts.Token);
+                        bytesRead += result.Count;
+                    } while (!result.EndOfMessage);
+
+                    if (bytesRead == 0)
                         continue;
 
-                    string data = Encoding.UTF8.GetString(buffer.AsSpan(0, result.Count));
+                    string data = Encoding.UTF8.GetString(_buffer.AsSpan(0, bytesRead));
                     var jArray = JArray.Parse(data);
 
                     //0 - opcode
@@ -87,16 +90,13 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
                             EventReceived?.Invoke(this, lcuEvent);
                             break;
                         default:
+                            
                             break;
                     }
                 }
                 catch (Exception e)
                 {
 
-                }
-                finally
-                {
-                    ArrayPool<byte>.Shared.Return(buffer);
                 }
             }
         }

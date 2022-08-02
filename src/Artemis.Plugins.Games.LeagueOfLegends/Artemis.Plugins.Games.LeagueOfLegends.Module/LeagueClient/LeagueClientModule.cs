@@ -19,8 +19,11 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
         private static readonly string[] LCU_EVENTS = new string[]
         {
             "OnJsonApiEvent_lol-gameflow_v1_session",
-            "OnJsonApiEvent_lol-champ-select_v1_session"
-            //"OnJsonApiEvent_lol-lobby_v2_lobby"
+            "OnJsonApiEvent_lol-champ-select_v1_session",
+            "OnJsonApiEvent_lol-game-settings_v1_ready",
+            "OnJsonApiEvent_lol-login_v1_session",
+            "OnJsonApiEvent_lol-login_v1_summoner_session",
+            "OnJsonApiEvent_lol-lobby_v2_lobby"
         };
 
         public override List<IModuleActivationRequirement> ActivationRequirements { get; }
