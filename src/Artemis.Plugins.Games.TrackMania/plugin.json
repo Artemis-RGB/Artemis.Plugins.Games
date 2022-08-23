@@ -1,5 +1,6 @@
 {
   "Guid": "67f63765-cb39-44f4-abc9-dd4298f8e415",
+  "Api": "1.0",
   "Name": "TrackMania",
   "Icon": "logo.png",
   "Description": "Provides TrackMania support via it's official telemetry",

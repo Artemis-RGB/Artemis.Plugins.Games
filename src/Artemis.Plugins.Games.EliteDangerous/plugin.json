@@ -1,7 +1,8 @@
 {
   "Guid": "80dea147-5fb3-46c9-a5c2-30a181f39612",
+  "Api": "1.0",
   "Name": "Elite: Dangerous",
-  "Icon" : "Elite-Dangerous.svg",
+  "Icon": "Elite-Dangerous.svg",
   "Description": "Elite: Dangerous game integration",
   "Author": "Wibble (Wibble#5423)",
   "Version": "1.0.0.0",
