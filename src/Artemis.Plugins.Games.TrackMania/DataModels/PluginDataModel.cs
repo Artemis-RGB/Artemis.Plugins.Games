@@ -98,6 +98,10 @@ namespace Artemis.Plugins.Games.TrackMania.DataModels
         public bool IsLightTrails { get; set; }
         public bool IsLightsOn { get; set; }
         public bool IsFlying { get; set; } // long time since touching ground.
+        public bool IsOnIce { get; set; }
+        public CarHandicap Handicap { get; set; }
+        public uint HandicapTest { get; set; }
+        public float BoostRatio { get; set; }
 
         public void Apply(STelemetry telemetry)
         {
@@ -131,12 +135,17 @@ namespace Artemis.Plugins.Games.TrackMania.DataModels
 
             MetricSpeed = (int) telemetry.Vehicle.SpeedMeter;
             ImperialSpeed = (int) Math.Round(telemetry.Vehicle.SpeedMeter * 0.621, MidpointRounding.AwayFromZero);
-            IsInWater = telemetry.Vehicle.IsSparkling;
+            IsInWater = telemetry.Vehicle.IsInWater;
             IsSparkling = telemetry.Vehicle.IsSparkling;
             IsLightTrails = telemetry.Vehicle.IsLightTrails;
             IsLightsOn = telemetry.Vehicle.IsLightsOn;
             IsFlying = telemetry.Vehicle.IsFlying;
+            IsOnIce = telemetry.Vehicle.IsOnIce;
+            Handicap = telemetry.Vehicle.Handicap;
+            BoostRatio = telemetry.Vehicle.BoostRatio;
         }
+
+
     }
 
     public class WheelDataModel
@@ -149,5 +158,17 @@ namespace Artemis.Plugins.Games.TrackMania.DataModels
     public enum TrackManiaVersion
     {
         ManiaPlanet
+    }
+    
+    
+    [Flags]
+    public enum CarHandicap
+    {
+        None = 0,
+        EngineForcedOff = 1,
+        EngineForcedOn = 2,
+        NoBrakes = 4,
+        NoSteering = 8,
+        NoGrip = 16
     }
 }

@@ -12,6 +12,7 @@ namespace Artemis.Plugins.Games.GTAV.Module
     public class GTAVModule : Module<GTAVDataModel>
     {
         private readonly IWebServerService _webServerService;
+        private DateTime _lastGameUpdate;
 
         public override List<IModuleActivationRequirement> ActivationRequirements => new() {new ProcessActivationRequirement("GTA5")};
 
@@ -46,11 +47,12 @@ namespace Artemis.Plugins.Games.GTAV.Module
 
         public override void Update(double deltaTime)
         {
-            // This is where you can add your update logic, this method is called before the profile is updated
+            DataModel.World.IsActive = DateTime.Now - _lastGameUpdate < TimeSpan.FromMilliseconds(500);
         }
 
         private void UpdateHandler(GTAGameState gameState)
         {
+            _lastGameUpdate = DateTime.Now;
             DataModel.World = gameState.World;
             DataModel.Player = gameState.Player;
             DataModel.Vehicle.ApplyGSI(gameState.Vehicle);

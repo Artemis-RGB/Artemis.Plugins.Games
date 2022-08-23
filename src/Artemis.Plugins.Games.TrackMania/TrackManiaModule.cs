@@ -15,6 +15,7 @@ namespace Artemis.Plugins.Games.TrackMania
         {
             new ProcessActivationRequirement("ManiaPlanet"),
             new ProcessActivationRequirement("ManiaPlanet32"),
+            new ProcessActivationRequirement("Trackmania"),
         };
 
         public override void Enable()

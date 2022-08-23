@@ -1,7 +1,7 @@
 {
   "Guid": "97e39a06-2efe-4271-889f-fc41a8ab2d03",
   "Name": "Grand Theft Auto V",
-  "Icon": "logo.svg",
+  "Icon": "logo.png",
   "Description": "A game module for GTA V (story mode only)",
   "Version": "1.0.0.0",
   "Main": "Artemis.Plugins.Games.GTAV.Module.dll",

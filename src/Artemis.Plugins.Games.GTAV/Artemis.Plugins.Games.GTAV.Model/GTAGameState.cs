@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using GTA;
 
 namespace Artemis.Plugins.Games.GTAV.Model
@@ -12,14 +13,15 @@ namespace Artemis.Plugins.Games.GTAV.Model
 
     public class GTAWorld
     {
-        public bool IsPaused { get; set; }
-        public bool IsLoading { get; set; }
+        public bool IsActive { get; set; }
         public bool IsCutsceneActive { get; set; }
         public bool IsMissionActive { get; set; }
         public bool IsRandomEventActive { get; set; }
         public bool IsWaypointActive { get; set; }
         public int MaxWantedLevel { get; set; }
         public RadioStation RadioStation { get; set; }
+        public Weather Weather { get; set; }
+        public TimeSpan TimeOfDay { get; set; }
     }
 
     public class GTAPlayer
@@ -28,11 +30,18 @@ namespace Artemis.Plugins.Games.GTAV.Model
         public bool CanControlCharacter { get; set; }
         public bool IsDriving { get; set; }
         public bool IsAiming { get; set; }
+        public bool IsShooting { get; set; }
         public bool IsAlive { get; set; }
         public bool IsClimbing { get; set; }
         public int Money { get; set; }
         public int WantedLevel { get; set; }
+        
+        public int Health { get; set; }
+        public int MaxHealth { get; set; }
+        public int Armor { get; set; }
         public int MaxArmor { get; set; }
+        
+        public ParachuteState ParachuteState { get; set; }
         public ParachuteTint PrimaryParachuteTint { get; set; }
         public ParachuteTint ReserveParachuteTint { get; set; }
         public float RemainingSprintTime { get; set; }
@@ -84,6 +93,8 @@ namespace Artemis.Plugins.Games.GTAV.Model
         public float EngineHealth { get; set; }
         public float PetrolTankHealth { get; set; }
         public float DirtLevel { get; set; }
+        public float SpeedMph { get; set; }
+        public float SpeedKph { get; set; }
         public float WheelSpeedMph { get; set; }
         public float WheelSpeedKph { get; set; }
         public bool IsAlarmSounding { get; set; }
@@ -105,6 +116,7 @@ namespace Artemis.Plugins.Games.GTAV.Model
         public string ClassDisplayName { get; set; }
         public string ClassLocalizedName { get; set; }
         public VehicleClass ClassType { get; set; }
+        public VehicleType VehicleType { get; set; }
 
         public bool IsConvertible { get; set; }
         public bool IsBig { get; set; }
@@ -115,5 +127,17 @@ namespace Artemis.Plugins.Games.GTAV.Model
         public bool HasRocketBoost { get; set; }
         public bool CanJump { get; set; }
         public bool HasSiren { get; set; }
+    }
+
+    public enum VehicleType
+    {
+        Car,
+        Bike,
+        QuadBike,
+        Bicycle,
+        Boat,
+        Plane,
+        Helicopter,
+        Train
     }
 }

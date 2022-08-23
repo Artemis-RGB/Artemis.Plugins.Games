@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Artemis.Plugins.Games.TrackMania.DataModels;
+
 // ReSharper disable InconsistentNaming
 #pragma warning disable 169
 
@@ -129,8 +131,12 @@ namespace Artemis.Plugins.Games.TrackMania.Telemetry
             public bool IsLightTrails;
             public bool IsLightsOn;
             public bool IsFlying; // long time since touching ground.
+            public bool IsOnIce;
+            
+            public CarHandicap Handicap;
+            public float BoostRatio;
 
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
             string __future__;
         };
 
