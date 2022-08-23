@@ -5,6 +5,7 @@ using System.Text;
 using Artemis.Plugins.Games.GTAV.Model;
 using GTA;
 using Newtonsoft.Json;
+using VehicleType = Artemis.Plugins.Games.GTAV.Model.VehicleType;
 
 namespace Artemis.Plugins.Games.GTAV.GSI
 {
@@ -41,24 +42,31 @@ namespace Artemis.Plugins.Games.GTAV.GSI
 
             var gameState = new GTAGameState();
 
-            gameState.World.IsPaused = Game.IsPaused;
-            gameState.World.IsLoading = Game.IsLoading;
             gameState.World.IsCutsceneActive = Game.IsCutsceneActive;
             gameState.World.IsMissionActive = Game.IsMissionActive;
             gameState.World.IsRandomEventActive = Game.IsRandomEventActive;
             gameState.World.IsWaypointActive = Game.IsWaypointActive;
             gameState.World.MaxWantedLevel = Game.MaxWantedLevel;
             gameState.World.RadioStation = Game.RadioStation;
-
+            gameState.World.Weather = World.Weather;
+            gameState.World.TimeOfDay = World.CurrentTimeOfDay;
+            
             gameState.Player.Model = (PedHash) Game.Player.Character.Model.Hash;
             gameState.Player.CanControlCharacter = Game.Player.CanControlCharacter;
-            gameState.Player.IsDriving = Game.Player.Character.CurrentVehicle != null;
+            gameState.Player.Health = Game.Player.Character.Health;
+            gameState.Player.MaxHealth = Game.Player.Character.MaxHealth;
+            gameState.Player.Armor = Game.Player.Character.Armor;
+            gameState.Player.MaxArmor = Game.Player.MaxArmor;
+            gameState.Player.IsDriving = Game.Player.Character.CurrentVehicle != null && Game.Player.Character.CurrentVehicle.Occupants.Length > 0;
             gameState.Player.IsAiming = Game.Player.IsAiming;
+            gameState.Player.IsShooting = Game.Player.Character.IsShooting;
             gameState.Player.IsAlive = Game.Player.IsAlive;
             gameState.Player.IsClimbing = Game.Player.IsClimbing;
+
             gameState.Player.Money = Game.Player.Money;
             gameState.Player.WantedLevel = Game.Player.WantedLevel;
-            gameState.Player.MaxArmor = Game.Player.MaxArmor;
+            
+            gameState.Player.ParachuteState = Game.Player.Character.ParachuteState;
             gameState.Player.PrimaryParachuteTint = Game.Player.PrimaryParachuteTint;
             gameState.Player.ReserveParachuteTint = Game.Player.ReserveParachuteTint;
             gameState.Player.RemainingSprintTime = Game.Player.RemainingSprintTime;
@@ -74,6 +82,24 @@ namespace Artemis.Plugins.Games.GTAV.GSI
             gameState.Vehicle.GeneralInformation.ClassDisplayName = Game.Player.LastVehicle.ClassDisplayName;
             gameState.Vehicle.GeneralInformation.ClassLocalizedName = Game.Player.LastVehicle.ClassLocalizedName;
             gameState.Vehicle.GeneralInformation.ClassType = Game.Player.LastVehicle.ClassType;
+
+            if (Game.Player.LastVehicle.IsAutomobile)
+                gameState.Vehicle.GeneralInformation.VehicleType = VehicleType.Car;
+            else if (Game.Player.LastVehicle.IsBike)
+                gameState.Vehicle.GeneralInformation.VehicleType = VehicleType.Bike;
+            else if (Game.Player.LastVehicle.IsQuadBike)
+                gameState.Vehicle.GeneralInformation.VehicleType = VehicleType.QuadBike;
+            else if (Game.Player.LastVehicle.IsBicycle)
+                gameState.Vehicle.GeneralInformation.VehicleType = VehicleType.Bicycle;
+            else if (Game.Player.LastVehicle.IsBoat)
+                gameState.Vehicle.GeneralInformation.VehicleType = VehicleType.Boat;
+            else if (Game.Player.LastVehicle.IsPlane)
+                gameState.Vehicle.GeneralInformation.VehicleType = VehicleType.Plane;
+            else if (Game.Player.LastVehicle.IsHelicopter)
+                gameState.Vehicle.GeneralInformation.VehicleType = VehicleType.Helicopter;
+            else if (Game.Player.LastVehicle.IsTrain)
+                gameState.Vehicle.GeneralInformation.VehicleType = VehicleType.Train;
+            
             gameState.Vehicle.GeneralInformation.IsConvertible = Game.Player.LastVehicle.IsConvertible;
             gameState.Vehicle.GeneralInformation.IsBig = Game.Player.LastVehicle.IsBig;
             gameState.Vehicle.GeneralInformation.HasBulletProofGlass = Game.Player.LastVehicle.HasBulletProofGlass;
@@ -90,6 +116,8 @@ namespace Artemis.Plugins.Games.GTAV.GSI
             gameState.Vehicle.State.PetrolTankHealth = Game.Player.LastVehicle.PetrolTankHealth;
             gameState.Vehicle.State.WheelSpeedMph = Game.Player.LastVehicle.WheelSpeed * 2.51f;
             gameState.Vehicle.State.WheelSpeedKph = gameState.Vehicle.State.WheelSpeedMph * 1.61f;
+            gameState.Vehicle.State.SpeedMph = Game.Player.LastVehicle.Speed * 2.51f;
+            gameState.Vehicle.State.SpeedKph = gameState.Vehicle.State.SpeedMph * 1.61f;
             gameState.Vehicle.State.IsSirenActive = Game.Player.LastVehicle.IsSirenActive;
             gameState.Vehicle.State.AreLightsOn = Game.Player.LastVehicle.AreLightsOn;
             gameState.Vehicle.State.AreHighBeamsOn = Game.Player.LastVehicle.AreHighBeamsOn;

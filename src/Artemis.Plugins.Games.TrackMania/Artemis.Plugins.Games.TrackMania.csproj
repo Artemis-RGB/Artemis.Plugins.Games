@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SkiaSharp" Version="2.80.3"  />
+    <PackageReference Include="SkiaSharp" Version="2.80.3" />
 
     <!--All packages Artemis already references are compile-only dependencies-->
     <PackageReference Update="@(PackageReference)" IncludeAssets="compile;build" />
@@ -21,11 +21,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="logo.svg" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="plugin.json" CopyToOutputDirectory="PreserveNewest" />
+    <PackageReference Include="ArtemisRGB.Plugins.BuildTask" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="plugin.json" CopyToOutputDirectory="PreserveNewest" />
-    <PackageReference Include="ArtemisRGB.Plugins.BuildTask" Version="1.1.0" />
+    <None Update="logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

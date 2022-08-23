@@ -1,0 +1,23 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+             xmlns:viewModels="clr-namespace:Artemis.Plugins.Modules.TruckSimulator.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Artemis.Plugins.Modules.TruckSimulator.Views.TruckSimulatorConfigurationView"
+             x:DataType="viewModels:TruckSimulatorConfigurationViewModel">
+    
+    <StackPanel Margin="15">
+        <TextBlock TextWrapping="Wrap">
+            Euro Truck Simulator 2 and American Truck Simulator data model support is provided through the use of a DLL plugin installed in the game's directory. Use the buttons below to install/uninstall the plugin. Alternatively, the plugin can be downloaded from the link below and manually copied into the folder at &lt;Game Directory&gt;/bin/&lt;Arch&gt;/plugins, creating it if it does not exist.
+        </TextBlock>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="15">
+            <Button Content="Install plugin" Command="{CompiledBinding InstallPlugins}" Margin="0,0,15,0" />
+            <Button Content="Uninstall plugin" Command="{CompiledBinding UninstallPlugins}" />
+        </StackPanel>
+        <controls:HyperlinkButton NavigateUri="https://github.com/RenCloud/scs-sdk-plugi">
+          Plugin Source
+        </controls:HyperlinkButton>
+    </StackPanel>
+</UserControl>

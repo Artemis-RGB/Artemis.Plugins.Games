@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <Platforms>x64</Platforms>
     <EnableDynamicLoading>True</EnableDynamicLoading>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
@@ -23,17 +23,19 @@
 
   <ItemGroup>
     <Reference Include="Artemis.Core">
-      <HintPath>..\..\..\..\Artemis\src\Artemis.UI\bin\net5.0-windows\Artemis.Core.dll</HintPath>
+      <HintPath>..\..\..\..\Artemis\src\Artemis.UI\bin\net6.0\Artemis.Core.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="logo.svg" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="plugin.json" CopyToOutputDirectory="PreserveNewest" />
+    <PackageReference Include="ArtemisRGB.Plugins.BuildTask" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="plugin.json" CopyToOutputDirectory="PreserveNewest" />
-    <PackageReference Include="ArtemisRGB.Plugins.BuildTask" Version="1.1.0" />
+    <None Update="logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

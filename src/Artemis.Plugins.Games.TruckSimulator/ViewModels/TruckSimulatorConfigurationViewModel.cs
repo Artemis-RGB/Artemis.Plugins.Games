@@ -1,22 +1,36 @@
 ﻿using Artemis.Core;
+using Artemis.Core.Services;
 using Artemis.UI.Shared;
+using Artemis.UI.Shared.Services;
 using Microsoft.Win32;
+using ReactiveUI;
 using System.IO;
-using System.Windows.Navigation;
+using System.Reactive;
+using System.Threading.Tasks;
 
 namespace Artemis.Plugins.Modules.TruckSimulator.ViewModels
 {
     public class TruckSimulatorConfigurationViewModel : PluginConfigurationViewModel
     {
-
+        private readonly IWindowService _windowService;
         private const string x64PluginPath = @"win_x64\plugins\scs-telemetry.dll";
         private const string x86PluginPath = @"win_x86\plugins\scs-telemetry.dll";
 
-        public TruckSimulatorConfigurationViewModel(Plugin plugin) : base(plugin) { }
+        public ReactiveCommand<Unit, Unit> InstallPlugins { get; }
+        public ReactiveCommand<Unit, Unit> UninstallPlugins { get; }
 
-        public void InstallPlugins()
+        public TruckSimulatorConfigurationViewModel(Plugin plugin, IWindowService windowService) : base(plugin)
         {
-            if (GetGameBinPath() is string path)
+            _windowService = windowService;
+
+            InstallPlugins = ReactiveCommand.CreateFromTask(ExecuteInstallPlugins);
+            UninstallPlugins = ReactiveCommand.CreateFromTask(ExecuteUninstallPlugins);
+        }
+
+        public async Task ExecuteInstallPlugins()
+        {
+            var path = await GetGameBinPath();
+            if (path != null)
             {
                 CopyDLL(Path.Join(path, x86PluginPath), "scs-telemetry-x86.dll");
                 CopyDLL(Path.Join(path, x64PluginPath), "scs-telemetry-x64.dll");
@@ -25,9 +39,10 @@ namespace Artemis.Plugins.Modules.TruckSimulator.ViewModels
             }
         }
 
-        public void UninstallPlugins()
+        public async Task ExecuteUninstallPlugins()
         {
-            if (GetGameBinPath() is string path)
+            var path = await GetGameBinPath();
+            if (path != null)
             {
                 DeleteDLL(Path.Join(path, x86PluginPath));
                 DeleteDLL(Path.Join(path, x64PluginPath));
@@ -41,7 +56,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.ViewModels
         /// </summary>
         /// <param name="path">The destination path (directory and filename) of the destination file to write.</param>
         /// <param name="resourceName">The name of the resource inside the /Telemetry/Plugins folder of the dll to write.</param>
-        private void CopyDLL(string path, string resourceName)
+        private static void CopyDLL(string path, string resourceName)
         {
             if (File.Exists(path))
                 return;
@@ -57,7 +72,7 @@ namespace Artemis.Plugins.Modules.TruckSimulator.ViewModels
         /// <summary>
         /// If the given file exists, deletes it.
         /// </summary>
-        public void DeleteDLL(string path)
+        private static void DeleteDLL(string path)
         {
             if (File.Exists(path))
                 File.Delete(path);
@@ -67,21 +82,18 @@ namespace Artemis.Plugins.Modules.TruckSimulator.ViewModels
         /// Gets the game 'bin' path by asking the user to select one of the game exes.
         /// </summary>
         /// <returns>The bin path of the selected game, or null if the user cancelled.</returns>
-        private string GetGameBinPath()
+        private async Task<string> GetGameBinPath()
         {
-            var dialog = new OpenFileDialog
-            {
-                Title = "Select Euro Truck Simulator 2 or American Truck Simulator game executable",
-                Filter = "Game Executable (eurotrucks2.exe; amtrucks.exe)|eurotrucks2.exe;amtrucks.exe"
-            };
+            var dlg = _windowService.CreateOpenFileDialog()
+                .WithTitle("Select Euro Truck Simulator 2 or American Truck Simulator game executable")
+                .HavingFilter(f => f.WithExtension("exe").WithName("Euro Truck Simulator 2 or American Truck Simulator game executable"));
+
+            var files = await dlg.ShowAsync();
+            if (files?.Length == 0)
+                return null;
 
             // Game exe is in /bin/win_x64 or /bin/win_x86, so to get bin need to GetDirectoryName twice.
-            return dialog.ShowDialog() == true ? Path.GetDirectoryName(Path.GetDirectoryName(dialog.FileName)) : null;
-        }
-
-        public void OpenHyperlink(object sender, RequestNavigateEventArgs e)
-        {
-            Utilities.OpenUrl(e.Uri.AbsoluteUri);
+            return Path.GetDirectoryName(Path.GetDirectoryName(files[0]));
         }
     }
 }
