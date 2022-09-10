@@ -1,13 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30711.63
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.TrackMania", "Artemis.Plugins.Games.TrackMania\Artemis.Plugins.Games.TrackMania.csproj", "{463E1D7B-EDC7-4549-A3C7-EC6C6A09097C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artemis.Plugins.Games.GTAV", "Artemis.Plugins.Games.GTAV", "{5EF4659F-8EEF-4E4F-8B67-EEA844F66B2B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.GTAV.Module", "Artemis.Plugins.Games.GTAV\Artemis.Plugins.Games.GTAV.Module\Artemis.Plugins.Games.GTAV.Module.csproj", "{8A63A306-6A11-45AF-A144-46678C5370C0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7} = {B21BE8EC-A508-42D5-9DDE-63CB73BE56B7}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.GTAV.GSI", "Artemis.Plugins.Games.GTAV\Artemis.Plugins.Games.GTAV.GSI\Artemis.Plugins.Games.GTAV.GSI.csproj", "{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7}"
 EndProject
@@ -20,6 +23,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.Valheim.GSI", "Artemis.Plugins.Games.Valheim\Artemis.Plugins.Games.Valheim.GSI\Artemis.Plugins.Games.Valheim.GSI.csproj", "{F60ED9AC-7EE7-4074-BAC6-6D1ABE3EDA4B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.Valheim.Module", "Artemis.Plugins.Games.Valheim\Artemis.Plugins.Games.Valheim.Module\Artemis.Plugins.Games.Valheim.Module.csproj", "{1F65207D-0861-4BC1-BE29-16893BD2610F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F60ED9AC-7EE7-4074-BAC6-6D1ABE3EDA4B} = {F60ED9AC-7EE7-4074-BAC6-6D1ABE3EDA4B}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artemis.Plugins.Games.Valheim", "Artemis.Plugins.Games.Valheim", "{5EB44938-DE19-4F1C-AF63-A236815EB7E2}"
 EndProject
@@ -28,12 +34,15 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artemis.Plugins.Games.RocketLeague", "Artemis.Plugins.Games.RocketLeague", "{4DD0A4D7-7977-419D-AD11-A852D037D764}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.RocketLeague.Module", "Artemis.Plugins.Games.RocketLeague\Artemis.Plugins.Games.RocketLeague.Module\Artemis.Plugins.Games.RocketLeague.Module.csproj", "{62D0A8F5-795B-4EFC-B186-DFFE5DCA770C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A01DE00-ECA4-4476-B380-E2DEEFBD6ACA} = {1A01DE00-ECA4-4476-B380-E2DEEFBD6ACA}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Artemis.Plugins.Games.RocketLeague.GSI", "Artemis.Plugins.Games.RocketLeague\Artemis.Plugins.Games.RocketLeague.GSI\ArtemisGSI.vcxproj", "{1A01DE00-ECA4-4476-B380-E2DEEFBD6ACA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artemis.Plugins.Games.LeagueOfLegends", "Artemis.Plugins.Games.LeagueOfLegends", "{45532261-3F70-4BBD-8313-35C454A4CB5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.LeagueOfLegends.Generators", "Artemis.Plugins.Games.LeagueOfLegends\Artemis.Plugins.Games.LeagueOfLegends.Generators\Artemis.Plugins.Games.LeagueOfLegends.Generators.csproj", "{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.LeagueOfLegends.Generators", "Artemis.Plugins.Games.LeagueOfLegends\Artemis.Plugins.Games.LeagueOfLegends.Generators\Artemis.Plugins.Games.LeagueOfLegends.Generators.csproj", "{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -196,3 +196,5 @@ src/Artemis\.Storage/Storage\.db
 docfx/docfx_project/_site/
 
 src/Artemis.Plugins.Games.RocketLeague/Artemis.Plugins.Games.RocketLeague.GSI/plugins/
+
+src/Artemis.Plugins.Games.Valheim/Artemis.Plugins.Games.Valheim.Module/mod/

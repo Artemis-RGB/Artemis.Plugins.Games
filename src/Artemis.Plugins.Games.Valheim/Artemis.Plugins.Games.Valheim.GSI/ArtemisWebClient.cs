@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Timers;
 using UnityEngine.Networking;
+using SystemTimer = System.Timers.Timer;
 
 namespace Artemis.Plugins.Games.Valheim.GSI
 {
@@ -13,7 +14,7 @@ namespace Artemis.Plugins.Games.Valheim.GSI
         private const string PLUGIN_GUID = "f2c7c7cc-0ef8-4836-aa81-1fedb6836892";
 
         private readonly ManualLogSource _logger;
-        private readonly Timer timer;
+        private readonly SystemTimer timer;
         private readonly string _baseUri;
 
         public ArtemisWebClient(ManualLogSource logger)
@@ -53,7 +54,7 @@ namespace Artemis.Plugins.Games.Valheim.GSI
 
             _logger.LogInfo("Connected to Artemis, starting timer.");
 
-            timer = new Timer(100);
+            timer = new SystemTimer(100);
             timer.Elapsed += OnTimerElapsed;
         }
 

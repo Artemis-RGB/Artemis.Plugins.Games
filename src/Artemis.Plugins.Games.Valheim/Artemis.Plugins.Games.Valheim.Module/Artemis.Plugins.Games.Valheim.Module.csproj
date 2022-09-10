@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Content Include="valheim.svg" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="mod/Artemis.Plugins.Games.Valheim.GSI.dll" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
