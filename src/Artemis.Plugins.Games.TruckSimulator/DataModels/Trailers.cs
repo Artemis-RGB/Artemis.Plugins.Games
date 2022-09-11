@@ -1,9 +1,9 @@
 ﻿using Artemis.Core.Modules;
-using Artemis.Plugins.Modules.TruckSimulator.Telemetry;
+using Artemis.Plugins.Games.TruckSimulator.Telemetry;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Artemis.Plugins.Modules.TruckSimulator.DataModels
+namespace Artemis.Plugins.Games.TruckSimulator.DataModels
 {
     public class Trailers : ChildDataModel
     {

@@ -1,8 +1,8 @@
 ﻿using Artemis.Core.Modules;
-using Artemis.Plugins.Modules.TruckSimulator.Conversions;
+using Artemis.Plugins.Games.TruckSimulator.Conversions;
 using System;
 
-namespace Artemis.Plugins.Modules.TruckSimulator.DataModels
+namespace Artemis.Plugins.Games.TruckSimulator.DataModels
 {
     public class Truck : ChildDataModel
     {

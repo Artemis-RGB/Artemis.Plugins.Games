@@ -1,7 +1,7 @@
 ﻿using Artemis.Core.Modules;
-using Artemis.Plugins.Modules.TruckSimulator.Telemetry;
+using Artemis.Plugins.Games.TruckSimulator.Telemetry;
 
-namespace Artemis.Plugins.Modules.TruckSimulator.DataModels
+namespace Artemis.Plugins.Games.TruckSimulator.DataModels
 {
     public partial class TruckSimulatorDataModel : DataModel
     {

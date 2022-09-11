@@ -1,7 +1,7 @@
 ﻿using Artemis.Core;
 using Artemis.Core.Modules;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.DataModels
+namespace Artemis.Plugins.Games.EliteDangerous.DataModels
 {
     public class SRV
     {

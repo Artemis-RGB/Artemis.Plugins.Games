@@ -1,6 +1,6 @@
-﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Games.EliteDangerous.DataModels;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Other
+namespace Artemis.Plugins.Games.EliteDangerous.Journal.Other
 {
     internal class DockSRVEvent : IJournalEvent
     {

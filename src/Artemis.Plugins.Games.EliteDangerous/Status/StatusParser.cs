@@ -1,9 +1,9 @@
-﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
-using Artemis.Plugins.Modules.EliteDangerous.Utils;
+﻿using Artemis.Plugins.Games.EliteDangerous.DataModels;
+using Artemis.Plugins.Games.EliteDangerous.Utils;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Status
+namespace Artemis.Plugins.Games.EliteDangerous.Status
 {
     internal class StatusParser : FileReaderBase
     {

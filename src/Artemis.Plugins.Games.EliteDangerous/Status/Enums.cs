@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Status
+namespace Artemis.Plugins.Games.EliteDangerous.Status
 {
 
     // List of statuses found here

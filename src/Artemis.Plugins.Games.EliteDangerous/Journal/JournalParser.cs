@@ -1,10 +1,10 @@
-﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
-using Artemis.Plugins.Modules.EliteDangerous.Utils;
+﻿using Artemis.Plugins.Games.EliteDangerous.DataModels;
+using Artemis.Plugins.Games.EliteDangerous.Utils;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Journal
+namespace Artemis.Plugins.Games.EliteDangerous.Journal
 {
     internal class JournalParser : FileReaderBase
     {

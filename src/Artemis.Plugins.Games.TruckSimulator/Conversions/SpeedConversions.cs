@@ -1,4 +1,4 @@
-﻿namespace Artemis.Plugins.Modules.TruckSimulator.Conversions
+﻿namespace Artemis.Plugins.Games.TruckSimulator.Conversions
 {
     /// <summary>
     /// Conversions for converting speed formats.

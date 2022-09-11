@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry
+namespace Artemis.Plugins.Games.TruckSimulator.Telemetry
 {
 
     // Adapted from the code at https://github.com/RenCloud/scs-sdk-plugin/blob/master/scs-client/C%23/SCSSdkClient/SCSSdkConvert.cs

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Artemis.Plugins.Modules.TruckSimulator.DataModels
+namespace Artemis.Plugins.Games.TruckSimulator.DataModels
 {
     /// <summary>
     /// A data model that wraps a date time and simplifies what properties are available to the user.

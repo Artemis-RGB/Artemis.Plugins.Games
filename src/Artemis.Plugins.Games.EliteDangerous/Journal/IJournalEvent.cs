@@ -1,10 +1,10 @@
-﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Games.EliteDangerous.DataModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Journal
+namespace Artemis.Plugins.Games.EliteDangerous.Journal
 {
     /// <summary>
     /// Interface for parsed C# objects for journal events.

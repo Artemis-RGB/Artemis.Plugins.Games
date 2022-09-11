@@ -1,6 +1,6 @@
-﻿using Artemis.Plugins.Modules.TruckSimulator.Telemetry;
+﻿using Artemis.Plugins.Games.TruckSimulator.Telemetry;
 
-namespace Artemis.Plugins.Modules.TruckSimulator.DataModels
+namespace Artemis.Plugins.Games.TruckSimulator.DataModels
 {
     /// <summary>
     /// Base class for a child DataModel class that stores a reference to the root TruckSimulatorDataModel

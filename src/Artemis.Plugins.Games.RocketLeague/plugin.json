@@ -2,7 +2,7 @@
   "Guid": "945dc0aa-7ee3-47ec-9be6-f378fb7cb7b0",
   "Api": "1.0",
   "Name": "Rocket League",
-  "Icon": "RocketLeague.svg",
+  "Icon": "RocketLeague.png",
   "Description": "Rocket League Game State Integration",
   "Author": "diogotr7",
   "Version": "1.0.0.0",

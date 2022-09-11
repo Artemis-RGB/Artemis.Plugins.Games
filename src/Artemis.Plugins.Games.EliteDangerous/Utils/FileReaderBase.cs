@@ -1,8 +1,8 @@
-﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Games.EliteDangerous.DataModels;
 using System;
 using System.IO;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Utils
+namespace Artemis.Plugins.Games.EliteDangerous.Utils
 {
     /// <summary>
     /// Base class that provides access to a file and will read from it each update.

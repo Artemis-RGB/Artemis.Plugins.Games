@@ -2,7 +2,7 @@
 using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
 
-namespace Artemis.Plugins.Modules.TruckSimulator.Telemetry
+namespace Artemis.Plugins.Games.TruckSimulator.Telemetry
 {
 
     public class MappedFileReader<TStruct> : IDisposable where TStruct : struct

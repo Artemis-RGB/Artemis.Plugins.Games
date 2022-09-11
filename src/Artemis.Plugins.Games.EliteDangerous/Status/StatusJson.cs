@@ -1,4 +1,4 @@
-﻿namespace Artemis.Plugins.Modules.EliteDangerous.Status
+﻿namespace Artemis.Plugins.Games.EliteDangerous.Status
 {
     public sealed class StatusJson
     {

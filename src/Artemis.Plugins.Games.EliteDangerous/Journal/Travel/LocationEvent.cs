@@ -1,6 +1,6 @@
-﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Games.EliteDangerous.DataModels;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Travel
+namespace Artemis.Plugins.Games.EliteDangerous.Journal.Travel
 {
     // Written at startup and resurrection
     internal class LocationEvent : IJournalEvent

@@ -1,7 +1,7 @@
-﻿using Artemis.Plugins.Modules.EliteDangerous.Journal;
+﻿using Artemis.Plugins.Games.EliteDangerous.Journal;
 using System.Collections.Generic;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Utils
+namespace Artemis.Plugins.Games.EliteDangerous.Utils
 {
     internal static class ShipTypeDefinitions
     {

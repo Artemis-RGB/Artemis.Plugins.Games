@@ -3,9 +3,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
-             xmlns:viewModels="clr-namespace:Artemis.Plugins.Modules.TruckSimulator.ViewModels"
+             xmlns:viewModels="clr-namespace:Artemis.Plugins.Games.TruckSimulator.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Artemis.Plugins.Modules.TruckSimulator.Views.TruckSimulatorConfigurationView"
+             x:Class="Artemis.Plugins.Games.TruckSimulator.Views.TruckSimulatorConfigurationView"
              x:DataType="viewModels:TruckSimulatorConfigurationViewModel">
     
     <StackPanel Margin="15">

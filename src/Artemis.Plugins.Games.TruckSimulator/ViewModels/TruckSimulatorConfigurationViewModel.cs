@@ -8,7 +8,7 @@ using System.IO;
 using System.Reactive;
 using System.Threading.Tasks;
 
-namespace Artemis.Plugins.Modules.TruckSimulator.ViewModels
+namespace Artemis.Plugins.Games.TruckSimulator.ViewModels
 {
     public class TruckSimulatorConfigurationViewModel : PluginConfigurationViewModel
     {

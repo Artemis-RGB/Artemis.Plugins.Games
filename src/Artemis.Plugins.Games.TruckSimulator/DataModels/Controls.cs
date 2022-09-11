@@ -1,6 +1,6 @@
 ﻿using Artemis.Core.Modules;
 
-namespace Artemis.Plugins.Modules.TruckSimulator.DataModels
+namespace Artemis.Plugins.Games.TruckSimulator.DataModels
 {
     public class Controls : ChildDataModel
     {

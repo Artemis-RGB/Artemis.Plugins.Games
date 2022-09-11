@@ -1,7 +1,7 @@
-﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
-using Artemis.Plugins.Modules.EliteDangerous.Utils;
+﻿using Artemis.Plugins.Games.EliteDangerous.DataModels;
+using Artemis.Plugins.Games.EliteDangerous.Utils;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Startup
+namespace Artemis.Plugins.Games.EliteDangerous.Journal.Startup
 {
     internal class LoadoutEvent : IJournalEvent
     {

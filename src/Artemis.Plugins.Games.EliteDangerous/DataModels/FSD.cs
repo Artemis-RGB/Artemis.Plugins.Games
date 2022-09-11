@@ -1,8 +1,8 @@
 ﻿using Artemis.Core;
 using Artemis.Core.Modules;
-using Artemis.Plugins.Modules.EliteDangerous.Journal;
+using Artemis.Plugins.Games.EliteDangerous.Journal;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.DataModels
+namespace Artemis.Plugins.Games.EliteDangerous.DataModels
 {
     public class FSD
     {

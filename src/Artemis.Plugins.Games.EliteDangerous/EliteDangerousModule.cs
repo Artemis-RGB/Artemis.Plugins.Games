@@ -1,13 +1,13 @@
 ﻿using Artemis.Core;
 using Artemis.Core.Modules;
-using Artemis.Plugins.Modules.EliteDangerous.DataModels;
-using Artemis.Plugins.Modules.EliteDangerous.Journal;
-using Artemis.Plugins.Modules.EliteDangerous.Status;
+using Artemis.Plugins.Games.EliteDangerous.DataModels;
+using Artemis.Plugins.Games.EliteDangerous.Journal;
+using Artemis.Plugins.Games.EliteDangerous.Status;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Artemis.Plugins.Modules.EliteDangerous
+namespace Artemis.Plugins.Games.EliteDangerous
 {
     [PluginFeature(Name = "Elite: Dangerous", Icon = "Elite-Dangerous.svg", AlwaysEnabled = true)]
     public class EliteDangerousModule : Module<EliteDangerousDataModel>

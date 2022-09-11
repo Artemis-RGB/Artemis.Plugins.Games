@@ -1,8 +1,8 @@
 ﻿using Artemis.Core;
-using Artemis.Plugins.Modules.TruckSimulator.ViewModels;
+using Artemis.Plugins.Games.TruckSimulator.ViewModels;
 using Artemis.UI.Shared;
 
-namespace Artemis.Plugins.Modules.TruckSimulator
+namespace Artemis.Plugins.Games.TruckSimulator
 {
     public class Bootstrapper : PluginBootstrapper
     {

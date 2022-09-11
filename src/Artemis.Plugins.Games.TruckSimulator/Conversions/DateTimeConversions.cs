@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Artemis.Plugins.Modules.TruckSimulator.Conversions
+namespace Artemis.Plugins.Games.TruckSimulator.Conversions
 {
     // Taken from https://github.com/RenCloud/scs-sdk-plugin/blob/master/scs-client/C%23/SCSSdkClient/Object/SCSTelemetry.Methods.cs
 

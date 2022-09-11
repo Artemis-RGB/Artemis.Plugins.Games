@@ -1,6 +1,6 @@
-﻿using Artemis.Plugins.Modules.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Games.EliteDangerous.DataModels;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Journal.Combat
+namespace Artemis.Plugins.Games.EliteDangerous.Journal.Combat
 {
     internal class DiedEvent : IJournalEvent
     {

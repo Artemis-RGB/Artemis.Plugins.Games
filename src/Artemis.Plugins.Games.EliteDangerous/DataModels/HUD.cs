@@ -1,6 +1,6 @@
-﻿using Artemis.Plugins.Modules.EliteDangerous.Status;
+﻿using Artemis.Plugins.Games.EliteDangerous.Status;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.DataModels
+namespace Artemis.Plugins.Games.EliteDangerous.DataModels
 {
     public class HUD
     {

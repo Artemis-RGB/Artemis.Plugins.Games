@@ -1,7 +1,7 @@
 ﻿using Artemis.Core;
 using Artemis.Core.Modules;
-using Artemis.Plugins.Modules.TruckSimulator.DataModels;
-using Artemis.Plugins.Modules.TruckSimulator.Telemetry;
+using Artemis.Plugins.Games.TruckSimulator.DataModels;
+using Artemis.Plugins.Games.TruckSimulator.Telemetry;
 using System.Collections.Generic;
 
 namespace Artemis.Plugins.Games.TruckSimulator

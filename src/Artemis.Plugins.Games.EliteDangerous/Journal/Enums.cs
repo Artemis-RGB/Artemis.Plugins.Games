@@ -3,7 +3,7 @@
 
 using System.ComponentModel;
 
-namespace Artemis.Plugins.Modules.EliteDangerous.Journal
+namespace Artemis.Plugins.Games.EliteDangerous.Journal
 {
     public enum StarClass
     {
