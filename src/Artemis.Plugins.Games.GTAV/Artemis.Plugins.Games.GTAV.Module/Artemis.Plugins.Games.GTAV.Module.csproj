@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Platforms>x64</Platforms>
     <EnableDynamicLoading>True</EnableDynamicLoading>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
@@ -14,16 +14,12 @@
   </ItemGroup>
 
   <ItemGroup>
-      <PackageReference Include="ScriptHookVDotNet3" Version="3.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Artemis.Plugins.Games.GTAV.Model\Artemis.Plugins.Games.GTAV.Model.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Artemis.Core">
-      <HintPath>..\..\..\..\Artemis\src\Artemis.UI\bin\net6.0\Artemis.Core.dll</HintPath>
+      <HintPath>..\..\..\..\Artemis\src\Artemis.Core\bin\net6.0\Artemis.Core.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>
