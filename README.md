@@ -1,11 +1,13 @@
-# Artemis Plugins
-[![Build Status](https://dev.azure.com/artemis-rgb/Artemis/_apis/build/status/Artemis-RGB.Artemis.Plugins.Games?repoName=Artemis-RGB%2FArtemis.Plugins.Games&branchName=master)](https://dev.azure.com/artemis-rgb/Artemis/_build/latest?definitionId=2&repoName=Artemis-RGB%2FName="GB"&branchName=master)
+# Artemis Game Plugins
 [![GitHub license](https://img.shields.io/badge/license-noncommercial-blue.svg)](https://github.com/Artemis-RGB/Artemis.Plugins.Games/blob/master/LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/Artemis-RGB/Artemis.Plugins.Games.svg)](https://github.com/Artemis-RGB/Artemis.Plugins.Games/stargazers)
 [![Discord](https://img.shields.io/discord/392093058352676874?logo=discord&logoColor=white)](https://discord.gg/S3MVaC9) 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VQBAEJYUFLU4J) 
 
-Repository containing official Artemis plugins
+Repository containing official Artemis game plugins
+
+## Download
+https://nightly.link/Artemis-RGB/Artemis.Plugins.Games/workflows/build/master
 
 **If you run into any issues please let us know on Discord.**
 
