@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="HarmonyX" Version="2.3.1" IncludeAssets="compile;build" />
-    <PackageReference Include="Pfhoenix.Valheim.ModProjectReferences" IncludeAssets="compile;build" />
+    <PackageReference Include="Pfhoenix.Valheim.ModProjectReferences" Version="1.0.13" IncludeAssets="compile;build" />
   </ItemGroup>
 
 </Project>
