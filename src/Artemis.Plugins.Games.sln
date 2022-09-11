@@ -37,6 +37,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artemis.Plugins.Games.Leagu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.LeagueOfLegends.Generators", "Artemis.Plugins.Games.LeagueOfLegends\Artemis.Plugins.Games.LeagueOfLegends.Generators\Artemis.Plugins.Games.LeagueOfLegends.Generators.csproj", "{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.Fallout4", "Artemis.Plugins.Games.Fallout4\Artemis.Plugins.Games.Fallout4.csproj", "{1B3E2806-2959-4698-BE8A-60E428A2668D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -87,6 +89,10 @@ Global
 		{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}.Debug|x64.Build.0 = Debug|Any CPU
 		{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}.Release|x64.ActiveCfg = Release|x64
 		{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}.Release|x64.Build.0 = Release|x64
+		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Debug|x64.Build.0 = Debug|Any CPU
+		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Release|x64.ActiveCfg = Release|x64
+		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

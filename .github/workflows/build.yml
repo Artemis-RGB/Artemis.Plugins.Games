@@ -83,3 +83,10 @@ jobs:
           name: Artemis.Plugins.Games.Valheim
           path: ./Plugins/src/Artemis.Plugins.Games.Valheim/Artemis.Plugins.Games.Valheim.Module/bin/x64/Release/net6.0/publish
           if-no-files-found: error
+          
+      - name: Upload Fallout 4
+        uses: actions/upload-artifact@v3
+        with:
+          name: Artemis.Plugins.Games.Fallout4
+          path: ./Plugins/src/Artemis.Plugins.Games.Fallout4/bin/x64/Release/net6.0/publish
+          if-no-files-found: error
