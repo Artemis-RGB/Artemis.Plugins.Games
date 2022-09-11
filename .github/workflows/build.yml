@@ -45,7 +45,7 @@ jobs:
       - name: Upload GTAV
         uses: actions/upload-artifact@v3
         with:
-          name: Artemis.Plugins.Modules.GTAV.Module
+          name: Artemis.Plugins.Games.GTAV.Module
           path: ./Plugins/src/Artemis.Plugins.Games.GTAV/Artemis.Plugins.Games.GTAV.Module/bin/x64/Release/net6.0/publish
           if-no-files-found: error
 
