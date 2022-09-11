@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Artemis.Plugins.Games.Valheim.Module
 {
-    [PluginFeature(AlwaysEnabled = true, Name = "Valheim", Icon = "Valheim.svg")]
+    [PluginFeature(AlwaysEnabled = true, Name = "Valheim")]
     public class ValheimModule : Module<ValheimDataModel>
     {
         private readonly IWebServerService _webServerService;

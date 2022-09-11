@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
 {
-    [PluginFeature(Name = "League Of Legends Game", Icon = "icon.svg")]
+    [PluginFeature(Name = "League Of Legends")]
     public class LeagueOfLegendsModule : Module<LeagueOfLegendsDataModel>
     {
         public override List<IModuleActivationRequirement> ActivationRequirements { get; }
@@ -59,7 +59,8 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
             //reset data.
             _logger.Information("Deactivating module");
             gameData = new();
-            SetupNewMatch();
+            //fire and forget
+            _ = SetupNewMatch();
             UpdateTickData();
             lastEventTime = 0f;
         }

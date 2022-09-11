@@ -6,7 +6,7 @@ using Artemis.Plugins.Games.TrackMania.Telemetry;
 
 namespace Artemis.Plugins.Games.TrackMania
 {
-    [PluginFeature(Name = "TrackMania", Icon = "logo.svg")]
+    [PluginFeature(Name = "TrackMania")]
     public class TrackManiaModule : Module<PluginDataModel>
     {
         private SharedProcessMemory<STelemetry> _sharedProcessMemory;

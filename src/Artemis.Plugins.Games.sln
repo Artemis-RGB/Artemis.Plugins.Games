@@ -12,7 +12,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.GTAV.
 		{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7} = {B21BE8EC-A508-42D5-9DDE-63CB73BE56B7}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.GTAV.GSI", "Artemis.Plugins.Games.GTAV\Artemis.Plugins.Games.GTAV.GSI\Artemis.Plugins.Games.GTAV.GSI.csproj", "{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.GTAV.GSI", "Artemis.Plugins.Games.GTAV\Artemis.Plugins.Games.GTAV.GSI\Artemis.Plugins.Games.GTAV.GSI.csproj", "{B21BE8EC-A508-42D5-9DDE-63CB73BE56B7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.GTAV.Model", "Artemis.Plugins.Games.GTAV\Artemis.Plugins.Games.GTAV.Model\Artemis.Plugins.Games.GTAV.Model.csproj", "{C3567E74-1E16-47AD-9E15-CC25391DD3D1}"
 EndProject
@@ -37,7 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artemis.Plugins.Games.Leagu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.LeagueOfLegends.Generators", "Artemis.Plugins.Games.LeagueOfLegends\Artemis.Plugins.Games.LeagueOfLegends.Generators\Artemis.Plugins.Games.LeagueOfLegends.Generators.csproj", "{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.Fallout4", "Artemis.Plugins.Games.Fallout4\Artemis.Plugins.Games.Fallout4.csproj", "{1B3E2806-2959-4698-BE8A-60E428A2668D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.Fallout4", "Artemis.Plugins.Games.Fallout4\Artemis.Plugins.Games.Fallout4.csproj", "{1B3E2806-2959-4698-BE8A-60E428A2668D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,12 +85,12 @@ Global
 		{62D0A8F5-795B-4EFC-B186-DFFE5DCA770C}.Debug|x64.Build.0 = Debug|x64
 		{62D0A8F5-795B-4EFC-B186-DFFE5DCA770C}.Release|x64.ActiveCfg = Release|x64
 		{62D0A8F5-795B-4EFC-B186-DFFE5DCA770C}.Release|x64.Build.0 = Release|x64
-		{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}.Debug|x64.Build.0 = Debug|Any CPU
+		{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}.Debug|x64.ActiveCfg = Debug|x64
+		{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}.Debug|x64.Build.0 = Debug|x64
 		{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}.Release|x64.ActiveCfg = Release|x64
 		{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}.Release|x64.Build.0 = Release|x64
-		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Debug|x64.Build.0 = Debug|Any CPU
+		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Debug|x64.ActiveCfg = Debug|x64
+		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Debug|x64.Build.0 = Debug|x64
 		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Release|x64.ActiveCfg = Release|x64
 		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Artemis.Plugins.Games.Fallout4
 {
-    [PluginFeature(AlwaysEnabled = true, Name = "Fallout 4", Icon = "Radioactive")]
+    [PluginFeature(AlwaysEnabled = true, Name = "Fallout 4")]
     public class Fallout4Module : Module<FalloutMapDataModel>
     {
         private readonly ILogger _logger;

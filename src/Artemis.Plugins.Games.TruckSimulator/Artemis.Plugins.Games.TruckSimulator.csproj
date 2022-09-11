@@ -32,6 +32,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Telemetry\Plugins\scs-telemetry-x64.dll" />
     <EmbeddedResource Include="Telemetry\Plugins\scs-telemetry-x86.dll" />
+    <Content Include="ets2.png" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

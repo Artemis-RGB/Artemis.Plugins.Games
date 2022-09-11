@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
 {
-    [PluginFeature(Name = "League Client", Icon = "icon.svg")]
+    [PluginFeature(Name = "League Client (Experimental)")]
     public class LeagueClientModule : Module<LeagueClientDataModel>
     {
         private const string PROCESS_NAME = "LeagueClientUx";

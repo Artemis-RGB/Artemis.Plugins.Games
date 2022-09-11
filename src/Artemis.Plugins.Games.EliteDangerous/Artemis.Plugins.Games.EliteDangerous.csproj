@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Elite-Dangerous.svg" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="elite-dangerous.png" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

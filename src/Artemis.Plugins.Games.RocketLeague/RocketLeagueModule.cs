@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Artemis.Plugins.Games.RocketLeague
 {
-    [PluginFeature(AlwaysEnabled = true, Name = "Rocket League", Icon = "RocketLeague.png")]
+    [PluginFeature(AlwaysEnabled = true, Name = "Rocket League")]
     public class RocketLeagueModule : Module<RocketLeagueDataModel>
     {
         private readonly IWebServerService _webServerService;

@@ -3,7 +3,7 @@
   "Api": "1.0",
   "Name": "Fallout 4 Module",
   "Author": "diogotr7",
-  "Icon": "Radioactive",
+  "Icon": "fallout4.png",
   "Description": "Provides Fallout 4 game integration.",
   "Version": "1.0.0.0",
   "Main": "Artemis.Plugins.Games.Fallout4.dll"

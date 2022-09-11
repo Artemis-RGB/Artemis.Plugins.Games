@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="icon.svg" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="league-of-legends.jpg" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,7 +2,7 @@
   "Guid": "f2c7c7cc-0ef8-4836-aa81-1fedb6836892",
   "Api": "1.0",
   "Name": "Valheim",
-  "Icon": "Valheim.svg",
+  "Icon": "Valheim.jpg",
   "Description": "Valheim game state integration",
   "Author": "diogotr7",
   "Version": "1.0.0.0",

@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Artemis.Plugins.Games.EliteDangerous
 {
-    [PluginFeature(Name = "Elite: Dangerous", Icon = "Elite-Dangerous.svg", AlwaysEnabled = true)]
+    [PluginFeature(Name = "Elite: Dangerous", AlwaysEnabled = true)]
     public class EliteDangerousModule : Module<EliteDangerousDataModel>
     {
         private static readonly string EliteDataDirectory = Path.Combine(
