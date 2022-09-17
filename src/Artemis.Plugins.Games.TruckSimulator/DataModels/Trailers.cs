@@ -36,8 +36,13 @@ namespace Artemis.Plugins.Games.TruckSimulator.DataModels
             }
         }
 
-        [DataModelProperty(Description = "Whether the first trailer is attached to the truck.")]
+        [DataModelProperty(Description = "Whether a trailer is attached to the truck.")]
         public bool Attached => Telemetry.trailers != null && Telemetry.trailers[0].attached != 0;
+
+        [DataModelProperty(Description = "Whether the trailer's lift axle is currently lifted.")]
+        public bool TrailerLiftAxle => Telemetry.trailerLiftAxle != 0;
+        [DataModelProperty(Description = "Whether the trailer's lift axle indicator light is currently on.")]
+        public bool TrailerLiftAxleIndicator => Telemetry.trailerLiftAxleIndicator != 0;
 
         [DataModelProperty(Description = "List containing details about the state of each trailer.")]
         // Returns as many trailers as there are currently spawned in the world - not necessarily as many as the SDK supports.

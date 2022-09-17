@@ -5,7 +5,12 @@ namespace Artemis.Plugins.Games.TruckSimulator.DataModels
 {
     public class Navigation : ChildDataModel
     {
-        public Navigation(TruckSimulatorDataModel root) : base(root) { }
+        public Navigation(TruckSimulatorDataModel root) : base(root)
+        {
+        }
+
+        [DataModelProperty(Description = "Number of minutes until the driver is due a rest stop.", Affix = "min")]
+        public int NextRestStop => Telemetry.nextRestStop;
 
         [DataModelProperty(Name = "Speed limit (km/h)", Description = "Speed limit of the current road in kilometers-per-hour.", Affix = "km/h")]
         public float SpeedLimitKph => Telemetry.speedLimit < 0f ? 0f : Telemetry.speedLimit.MsToKph();

@@ -3,7 +3,7 @@ using Artemis.Plugins.Games.TruckSimulator.Telemetry;
 
 namespace Artemis.Plugins.Games.TruckSimulator.DataModels
 {
-    public partial class TruckSimulatorDataModel : DataModel
+    public class TruckSimulatorDataModel : DataModel
     {
         public TruckSimulatorDataModel()
         {
@@ -14,6 +14,7 @@ namespace Artemis.Plugins.Games.TruckSimulator.DataModels
             Navigation = new Navigation(this);
             CruiseControl = new CruiseControl(this);
             Controls = new Controls(this);
+            Events = new Events(this);
         }
 
         // This is the struct that gets updated with the latest telemetry data from the mapped file reader.
@@ -27,9 +28,6 @@ namespace Artemis.Plugins.Games.TruckSimulator.DataModels
         public Navigation Navigation { get; }
         public CruiseControl CruiseControl { get; }
         public Controls Controls { get; }
-
-        // Misc./ungrouped properties
-        [DataModelProperty(Description = "Number of minutes until the driver is due a rest stop.", Affix = "min")]
-        public int NextRestStop => Telemetry.nextRestStop;
+        public Events Events { get; }
     }
 }

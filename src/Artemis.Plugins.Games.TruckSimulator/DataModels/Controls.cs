@@ -4,7 +4,9 @@ namespace Artemis.Plugins.Games.TruckSimulator.DataModels
 {
     public class Controls : ChildDataModel
     {
-        public Controls(TruckSimulatorDataModel root) : base(root) { }
+        public Controls(TruckSimulatorDataModel root) : base(root)
+        {
+        }
 
         [DataModelProperty(Description = "The amount of steering that is being sent to the game as input in the range -1 (right) to 1 (left). For digital inputs (such as keyboards), this value will instantly go to -1 or 1.", MinValue = -1, MaxValue = 1)]
         public float SteeringInput => Telemetry.steeringInput;

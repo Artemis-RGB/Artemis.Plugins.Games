@@ -5,7 +5,7 @@ namespace Artemis.Plugins.Games.TruckSimulator.Telemetry
 
     // Adapted from the code at https://github.com/RenCloud/scs-sdk-plugin/blob/master/scs-client/C%23/SCSSdkClient/SCSSdkConvert.cs
 
-    // Designed for SCS SDK v1.12
+    // Designed for SCS SDK v1.13
 
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     internal readonly struct TruckSimulatorMemoryStruct
@@ -183,16 +183,23 @@ namespace Artemis.Plugins.Games.TruckSimulator.Telemetry
         public readonly byte beaconOn;
         public readonly byte brakeLightsOn;
         public readonly byte reverseLightsOn;
+        public readonly byte hazardLightsOn;
         public readonly byte cruiseControlActive;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = WheelCount)] public readonly byte[] wheelsOnGround;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)] public readonly byte[] hShifterSelector;
 
+        public readonly byte differentialLock;
+        public readonly byte liftAxle;
+        public readonly byte liftAxleIndicator;
+        public readonly byte trailerLiftAxle;
+        public readonly byte trailerLiftAxleIndicator;
+
         public readonly byte jobAutoParked;
         public readonly byte jobAutoLoaded;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 31)] readonly byte[] _g5; // Gap of 31 bytes
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 25)] readonly byte[] _g5; // Gap of 25 bytes
 
 
         // ----------------------------------------------
@@ -226,14 +233,14 @@ namespace Artemis.Plugins.Games.TruckSimulator.Telemetry
 
 
         // ----------------------------------------------
-        // Eigth zone (offset 2200)
+        // Eighth zone (offset 2200)
         // ----------------------------------------------
         public readonly Placement<double> truckPosition;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 52)] readonly byte[] _g8; // Gap of 52 bytes
 
         // ----------------------------------------------
-        // Nineth zone (offset 2300)
+        // Ninth zone (offset 2300)
         // ----------------------------------------------
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string brandId;
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = StringSize)] public readonly string brand;
@@ -295,7 +302,7 @@ namespace Artemis.Plugins.Games.TruckSimulator.Telemetry
 
 
         // ----------------------------------------------
-        // Twelveth zone (offset 4300)
+        // Twelfth zone (offset 4300)
         // ----------------------------------------------
         public readonly byte onJob;
         public readonly byte jobFinished;

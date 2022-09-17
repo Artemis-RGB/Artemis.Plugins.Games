@@ -21,6 +21,9 @@ namespace Artemis.Plugins.Games.TruckSimulator.DataModels
         [DataModelProperty(Description = "Number of wheels on this truck.")]
         public int WheelCount => (int)Telemetry.wheelCount;
 
+        [DataModelProperty(Description = "Whether the differential lock is enabled.")]
+        public bool DifferentialLock => Telemetry.differentialLock != 0;
+
         [DataModelProperty(Description = "Gets whether the wheels are currently in a lifted state. For trucks without liftable wheels, this is always false.")]
         public bool Lifted
         {
