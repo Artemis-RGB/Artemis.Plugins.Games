@@ -5,7 +5,9 @@ namespace Artemis.Plugins.Games.TruckSimulator.DataModels
 {
     public class CruiseControl : ChildDataModel
     {
-        public CruiseControl(TruckSimulatorDataModel root) : base(root) { }
+        public CruiseControl(TruckSimulatorDataModel root) : base(root)
+        {
+        }
 
         public bool CruiseControlActive => Telemetry.cruiseControlActive != 0;
         [DataModelProperty(Name = "Cruise control speed (Km/h)", Description = "The speed the cruise control is set to in kilometers-per-hour.", Affix = "km/h")]

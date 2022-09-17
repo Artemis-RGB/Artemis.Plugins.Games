@@ -1,8 +1,6 @@
 ﻿using Artemis.Core;
-using Artemis.Core.Services;
 using Artemis.UI.Shared;
 using Artemis.UI.Shared.Services;
-using Microsoft.Win32;
 using ReactiveUI;
 using System.IO;
 using System.Reactive;
@@ -58,15 +56,14 @@ namespace Artemis.Plugins.Games.TruckSimulator.ViewModels
         /// <param name="resourceName">The name of the resource inside the /Telemetry/Plugins folder of the dll to write.</param>
         private static void CopyDLL(string path, string resourceName)
         {
-            if (File.Exists(path))
-                return;
-
             if (!Directory.Exists(Path.GetDirectoryName(path)))
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
 
-            var resourcePath = $"Artemis.Plugins.Modules.TruckSimulator.Telemetry.Plugins.{resourceName}";
+            var asm = typeof(TruckSimulatorConfigurationViewModel).Assembly;
+            var resourcePath = $"{asm.GetName().Name}.Telemetry.Plugins.{resourceName}";
             using var fileStream = File.Create(path);
-            typeof(TruckSimulatorConfigurationViewModel).Assembly.GetManifestResourceStream(resourcePath).CopyTo(fileStream);
+            using var resourceStream = asm.GetManifestResourceStream(resourcePath);
+            resourceStream.CopyTo(fileStream);
         }
 
         /// <summary>

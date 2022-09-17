@@ -24,9 +24,6 @@ namespace Artemis.Plugins.Games.TruckSimulator.DataModels
         public Damage Damage { get; }
 
         // Misc/ungrouped truck properties
-        public bool IgnitionOn => Telemetry.electricEnabled != 0;
-        public bool EngineOn => Telemetry.engineEnabled != 0;
-
         [DataModelProperty(Name = "Speed (km/h)", Description = "Speed of the truck measured in kilometers-per-hour.", Affix = "km/h")]
         public float SpeedKph => Telemetry.speed.MsToKph();
         [DataModelProperty(Name = "Speed (mph)", Description = "Speed of the truck measured in miles-per-hour.", Affix = "mph")]
@@ -50,12 +47,21 @@ namespace Artemis.Plugins.Games.TruckSimulator.DataModels
         public string Model => Telemetry.modelName;
 
         public bool DashboardBacklightActive => Telemetry.dashboardBacklight != 0;
+
+        [DataModelProperty(Description = "Whether the truck's lift axle is currently lifted.")]
+        public bool LiftAxle => Telemetry.liftAxle != 0;
+        [DataModelProperty(Description = "Whether the truck's lift axle indicator light is currently on.")]
+        public bool LiftAxleIndicator => Telemetry.liftAxleIndicator != 0;
     }
 
 
     public class Engine : ChildDataModel
     {
         public Engine(TruckSimulatorDataModel root) : base(root) { }
+
+
+        public bool IgnitionOn => Telemetry.electricEnabled != 0;
+        public bool EngineOn => Telemetry.engineEnabled != 0;
 
         public float RPM => Telemetry.engineRpm;
         public float MaximumRPM => Telemetry.engineRpmMax;
@@ -133,16 +139,20 @@ namespace Artemis.Plugins.Games.TruckSimulator.DataModels
         public bool FrontAuxiliary => Telemetry.lightsAuxFront != 0;
         public bool RoofAuxiliary => Telemetry.lightsAuxRoof != 0;
 
-        [DataModelProperty(Description = "Whether the left blinker lights (as seen from outside the truck) are on. This may be due to the left indicator being active, or the harzard lights being on.")]
+        [DataModelProperty(Description = "Whether the left blinker lights are on (i.e. represents the physical lights, not the button in the cab).")]
         public bool LeftIndicatorLightOn => Telemetry.blinkerLeftOn != 0;
-        [DataModelProperty(Description = "Whether the right blinker lights (as seen from outside the truck) are on. This may be due to the right indicator being active, or the harzard lights being on.")]
+        [DataModelProperty(Description = "Whether the right blinker lights are on (i.e. represents the physical lights, not the button in the cab).")]
         public bool RightIndicatorLightOn => Telemetry.blinkerRightOn != 0;
 
-        [DataModelProperty(Description = "Whether the driver has enabled the left indicators.")]
+        [DataModelProperty(Description = "Whether the driver has enabled the left indicators (i.e. represents the button in the cab, not the actual state of the indicator light).")]
         public bool LeftIndicatorActive => Telemetry.blinkerLeftActive != 0;
-        [DataModelProperty(Description = "Whether the driver has enabled the right indicators.")]
+        [DataModelProperty(Description = "Whether the driver has enabled the right indicators (i.e. represents the button in the cab, not the actual state of the indicator light).")]
         public bool RightIndicatorActive => Telemetry.blinkerRightActive != 0;
 
+        [DataModelProperty(Description = "Whether the drive has enabled the hazard lights (i.e. represents the button in the cab, not the actual state of the indicator light).")]
+        public bool Hazard => Telemetry.hazardLightsOn != 0;
+
+        [DataModelProperty(Description = "Whether the drive has enabled the beacon (i.e. represents the button in the cab, not the actual state of the beacon lights).")]
         public bool Beacon => Telemetry.beaconOn != 0;
     }
 
@@ -171,9 +181,9 @@ namespace Artemis.Plugins.Games.TruckSimulator.DataModels
     public enum ShifterType
     {
         Unknown,
-        Acarde,
+        Arcade,
         Automatic,
-        Manaul,
+        Manual,
         HShifter
     }
 }
