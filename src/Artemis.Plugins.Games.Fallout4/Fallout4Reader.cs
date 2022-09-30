@@ -59,7 +59,7 @@ namespace Artemis.Plugins.Games.Fallout4
             while (!_cancellationTokenSource.IsCancellationRequested && _tcpClient.Connected)
             {
                 await _stream.ReadAsync(_headerBuffer);
-
+                
                 var messageSize = (int)BitConverter.ToUInt32(_headerBuffer, 0);
                 var commandType = (FalloutPacketType)_headerBuffer[4];
 
@@ -83,7 +83,7 @@ namespace Artemis.Plugins.Games.Fallout4
                     switch (commandType)
                     {
                         case FalloutPacketType.NewConnection:
-                            var initText = JsonConvert.DeserializeObject<FalloutInitPacket>(Encoding.UTF8.GetString(buffer, 0, messageSize));
+                            var initText = JsonConvert.DeserializeObject<FalloutInitPacket>(Encoding.ASCII.GetString(buffer, 0, messageSize));
                             Connected?.Invoke(this, initText);
                             break;
                         case FalloutPacketType.DataUpdate:
@@ -143,7 +143,7 @@ namespace Artemis.Plugins.Games.Fallout4
                         FalloutDataType.Float => new FloatFalloutElement(reader.ReadSingle()),
                         FalloutDataType.String => new StringFalloutElement(reader.ReadNullTerminatedString()),
                         FalloutDataType.Array => new ArrayFalloutElement(reader.ReadArray()),
-                        _ => throw new ArgumentException()
+                        _ => throw new ArgumentException("Unknown data type"),
                     };
                 }
             }

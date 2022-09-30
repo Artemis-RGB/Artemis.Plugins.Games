@@ -3,6 +3,7 @@ using Artemis.Core.Modules;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Artemis.Plugins.Games.Fallout4
 {
@@ -35,9 +36,23 @@ namespace Artemis.Plugins.Games.Fallout4
 
         public override void ModuleActivated(bool isOverride)
         {
-            reader = new();
-            reader.DataReceived += OnReaderDataReceived;
-            reader.FieldRemoved += OnReaderFieldRemoved;
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    reader = new();
+                    reader.DataReceived += OnReaderDataReceived;
+                    reader.FieldRemoved += OnReaderFieldRemoved;
+                    return;
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, "Failed to initialize Fallout 4 reader, retrying...");
+                    Thread.Sleep(2000);
+                }
+            }
+
+            throw new ArtemisPluginException("Failed to initialize Fallout 4 module. Make sure the Pip-boy option is enabled.");
         }
 
         private void OnReaderFieldRemoved(object sender, uint e)
