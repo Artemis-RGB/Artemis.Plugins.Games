@@ -1,0 +1,15 @@
+{
+    "Guid": "59B9BDB5-DD22-4EAF-9B79-62777ECBE04D",
+    "Name": "Dota 2",
+    "Description": "complete me",
+    "Author": "",
+    "Website": "",
+    "Repository": "",
+    "Icon": "QuestionMark",
+    "Version": "1.0.0.0",
+    "Main": "Artemis.Plugins.EmptyTemplate.dll",
+    "AutoEnableProperties": true,
+    "RequiresAdmin": false,
+    "Platforms": "Windows,Linux,OSX",
+    "Api": "1.0.0"
+}
