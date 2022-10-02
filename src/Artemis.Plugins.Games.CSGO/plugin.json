@@ -1,0 +1,15 @@
+{
+  "Guid": "D2803184-4E1C-450A-80D2-F3C469E04540",
+  "Name": "Counter Strike: Global Offensive",
+  "Description": "Game State integration for CSGO",
+  "Author": "AlpacaFur, diogotr7",
+  "Website": "https://artemis-rgb.com/",
+  "Repository": "https://github.com/Artemis-RGB/Artemis.Plugins.Games",
+  "Icon": "QuestionMark",
+  "Version": "1.0.0.0",
+  "Main": "Artemis.Plugins.Games.CSGO.dll",
+  "AutoEnableProperties": true,
+  "RequiresAdmin": false,
+  "Platforms": "Windows,Linux,OSX",
+  "Api": "1.0.0"
+}
