@@ -7,7 +7,7 @@
     "Repository": "",
     "Icon": "QuestionMark",
     "Version": "1.0.0.0",
-    "Main": "Artemis.Plugins.EmptyTemplate.dll",
+    "Main": "Artemis.Plugins.Games.Dota2.dll",
     "AutoEnableProperties": true,
     "RequiresAdmin": false,
     "Platforms": "Windows,Linux,OSX",
