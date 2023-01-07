@@ -51,18 +51,20 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
 
         public override void ModuleActivated(bool isOverride)
         {
+            _logger.Debug("Setting new match flag to true.");
             newMatch = true;
         }
 
         public override void ModuleDeactivated(bool isOverride)
         {
-            //reset data.
-            _logger.Information("Deactivating module");
+            _logger.Debug("Deactivating module");
+            
             gameData = new();
-            //fire and forget
-            _ = SetupNewMatch();
+            SetupNewMatch().Wait();
             UpdateTickData();
             lastEventTime = 0f;
+
+            _logger.Debug("Deactivated module");
         }
 
         public override void Update(double deltaTime) { }
@@ -91,8 +93,10 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
 
             if (newMatch)
             {
+                _logger.Debug("New match detected, updating match data.");
                 await SetupNewMatch();
                 newMatch = false;
+                _logger.Debug("Done updating new match data.");
             }
 
             UpdateTickData();
@@ -103,7 +107,6 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
         /// </summary>
         private async Task SetupNewMatch()
         {
-            _logger.Information("Setting up new match...");
             DataModel.SetupMatch(gameData);
             DataModel.Player.ChampionColors = await _championColorService.GetSwatch(DataModel.Player.ShortChampionName, DataModel.Player.SkinID);
         }

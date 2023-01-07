@@ -9,13 +9,9 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
         public int Level { get; set; }
         public bool Learned => Level > 0;
 
-        public void SetupMatch(Ability ability)
-        {
-            Name = ability.DisplayName;
-        }
-
         public void Update(Ability ability)
         {
+            Name = ability.DisplayName;
             Level = ability.AbilityLevel;
         }
     }
