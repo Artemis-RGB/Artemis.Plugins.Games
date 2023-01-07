@@ -28,13 +28,9 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
         public DataModelEvent<MultikillEventArgs> Multikill { get; } = new();
         public DataModelEvent<TurretKillEventArgs> TurretKill { get; } = new();
 
-        public void SetupMatch(RootGameData rootGameData)
-        {
-            GameMode = ParseEnum<GameMode>.TryParseOr(rootGameData.GameData.GameMode, GameMode.Unknown);
-        }
-
         public void Update(RootGameData rootGameData)
         {
+            GameMode = ParseEnum<GameMode>.TryParseOr(rootGameData.GameData.GameMode, GameMode.Unknown);
             MapTerrain = ParseEnum<MapTerrain>.TryParseOr(rootGameData.GameData.MapTerrain, MapTerrain.Unknown);
             GameTime = rootGameData.GameData.GameTime;
         }

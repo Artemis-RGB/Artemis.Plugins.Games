@@ -22,7 +22,10 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services
             _colorQuantizerService = colorQuantizerService;
             _colorCache = pluginSettings.GetSetting("championColors", new Dictionary<string, ColorSwatch>());
             _skinIdCache = pluginSettings.GetSetting("skinIds", new Dictionary<string, int>());
-            _httpClient = new HttpClient();
+            _httpClient = new HttpClient
+            {
+                Timeout = TimeSpan.FromSeconds(5)
+            };
         }
 
         public async Task<ColorSwatch> GetSwatch(string championShortName, int skinId)

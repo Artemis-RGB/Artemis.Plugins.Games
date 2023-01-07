@@ -36,7 +36,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
         [DataModelIgnore]
         public int SkinID { get; set; }
 
-        public void SetupMatch(RootGameData rootGameData)
+        public void Update(RootGameData rootGameData)
         {
             var allPlayer = Array.Find(rootGameData.AllPlayers, p => p.SummonerName == rootGameData.ActivePlayer.SummonerName);
             if (allPlayer == null)
@@ -48,16 +48,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
             Position = ParseEnum<Position>.TryParseOr(allPlayer.Position, Position.Unknown);
 
             SkinID = allPlayer.SkinID;
-            ShortChampionName = allPlayer.RawChampionName.Split('_').Last();
-
-            ChampionStats.SetupMatch(rootGameData.ActivePlayer.ChampionStats);
-        }
-
-        public void Update(RootGameData rootGameData)
-        {
-            var allPlayer = Array.Find(rootGameData.AllPlayers, p => p.SummonerName == rootGameData.ActivePlayer.SummonerName);
-            if (allPlayer == null)
-                return;
+            ShortChampionName = allPlayer.RawChampionName[27..];
 
             Abilities.Update(rootGameData.ActivePlayer.Abilities);
             ChampionStats.Update(rootGameData.ActivePlayer.ChampionStats);

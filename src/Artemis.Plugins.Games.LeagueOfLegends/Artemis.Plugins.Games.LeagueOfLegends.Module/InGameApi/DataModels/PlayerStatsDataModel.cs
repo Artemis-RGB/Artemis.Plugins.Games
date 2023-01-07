@@ -40,11 +40,6 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
         public float SpellVamp { get; set; }
         public float Tenacity { get; set; }
 
-        public void SetupMatch(ChampionStats championStats)
-        {
-            ResourceType = ParseEnum<ResourceType>.TryParseOr(championStats.ResourceType, ResourceType.Unknown);
-        }
-
         public void Update(ChampionStats championStats)
         {
             AbilityHaste = championStats.AbilityHaste;
@@ -77,6 +72,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
             ResourceRegenRate = championStats.ResourceRegenRate;
             SpellVamp = championStats.SpellVamp;
             Tenacity = championStats.Tenacity * 100f;
+            ResourceType = ParseEnum<ResourceType>.TryParseOr(championStats.ResourceType, ResourceType.Unknown);
         }
     }
 }

@@ -25,10 +25,11 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
         private readonly ILogger _logger;
         private readonly ChampionColorService _championColorService;
 
-        private LolInGameApiClient inGameApi;
-        private RootGameData gameData;
+        private LolInGameApiClient? inGameApi;
+        private RootGameData? gameData;
         private float lastEventTime;
-        private bool newMatch;
+        private string? lastChampionName;
+        private int lastChampionSkin;
 
         public LeagueOfLegendsModule(ILogger logger, ChampionColorService championColorService)
         {
@@ -52,7 +53,6 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
         public override void ModuleActivated(bool isOverride)
         {
             _logger.Debug("Setting new match flag to true.");
-            newMatch = true;
         }
 
         public override void ModuleDeactivated(bool isOverride)
@@ -60,8 +60,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
             _logger.Debug("Deactivating module");
             
             gameData = new();
-            SetupNewMatch();
-            UpdateTickData();
+            UpdateDataModel();
             lastEventTime = 0f;
 
             _logger.Debug("Deactivated module");
@@ -91,32 +90,23 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
                 return;
             }
 
-            if (newMatch)
-            {
-                _logger.Debug("New match detected, updating match data.");
-                SetupNewMatch();
-                newMatch = false;
-                _logger.Debug("Done updating new match data.");
-            }
-
-            UpdateTickData();
-        }
-
-        /// <summary>
-        /// Data that only needs to be set once per match
-        /// </summary>
-        private void SetupNewMatch()
-        {
-            _logger.Debug("Setting up new game with summonerName {SummonerName}", gameData.ActivePlayer.SummonerName);
-            DataModel.SetupMatch(gameData);
-            //DataModel.Player.ChampionColors = await _championColorService.GetSwatch(DataModel.Player.ShortChampionName, DataModel.Player.SkinID);
+            UpdateDataModel();
         }
 
         /// <summary>
         /// Data that needs to be set every tick
         /// </summary>
-        private void UpdateTickData()
+        private void UpdateDataModel()
         {
+            if (DataModel.Player.ShortChampionName != lastChampionName && DataModel.Player.SkinID != lastChampionSkin)
+            {
+                Task.Run(async () =>
+                {
+                    DataModel.Player.ChampionColors = await _championColorService.GetSwatch(DataModel.Player.ShortChampionName, DataModel.Player.SkinID);
+                    lastChampionName = DataModel.Player.ShortChampionName;
+                    lastChampionSkin = DataModel.Player.SkinID;
+                });
+            }
             DataModel.Update(gameData);
             FireOffEvents();
         }
