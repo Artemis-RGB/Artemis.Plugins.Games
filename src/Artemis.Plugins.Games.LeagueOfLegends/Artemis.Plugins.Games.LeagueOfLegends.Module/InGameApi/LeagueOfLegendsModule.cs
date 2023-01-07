@@ -60,7 +60,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
             _logger.Debug("Deactivating module");
             
             gameData = new();
-            SetupNewMatch().Wait();
+            SetupNewMatch();
             UpdateTickData();
             lastEventTime = 0f;
 
@@ -94,7 +94,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
             if (newMatch)
             {
                 _logger.Debug("New match detected, updating match data.");
-                await SetupNewMatch();
+                SetupNewMatch();
                 newMatch = false;
                 _logger.Debug("Done updating new match data.");
             }
@@ -105,10 +105,11 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
         /// <summary>
         /// Data that only needs to be set once per match
         /// </summary>
-        private async Task SetupNewMatch()
+        private void SetupNewMatch()
         {
+            _logger.Debug("Setting up new game with summonerName {SummonerName}", gameData.ActivePlayer.SummonerName);
             DataModel.SetupMatch(gameData);
-            DataModel.Player.ChampionColors = await _championColorService.GetSwatch(DataModel.Player.ShortChampionName, DataModel.Player.SkinID);
+            //DataModel.Player.ChampionColors = await _championColorService.GetSwatch(DataModel.Player.ShortChampionName, DataModel.Player.SkinID);
         }
 
         /// <summary>
