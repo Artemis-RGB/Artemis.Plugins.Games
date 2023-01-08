@@ -1,7 +1,7 @@
-﻿using System;
-using Artemis.Plugins.Games.EliteDangerous.DataModels;
+﻿using Artemis.Plugins.Games.EliteDangerous.DataModels;
 using Artemis.Plugins.Games.EliteDangerous.Utils;
 using Newtonsoft.Json;
+using System;
 using System.IO;
 
 namespace Artemis.Plugins.Games.EliteDangerous.Status
