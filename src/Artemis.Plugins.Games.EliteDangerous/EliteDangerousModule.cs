@@ -6,6 +6,7 @@ using Artemis.Plugins.Games.EliteDangerous.Status;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Serilog;
 
 namespace Artemis.Plugins.Games.EliteDangerous
 {
@@ -16,6 +17,13 @@ namespace Artemis.Plugins.Games.EliteDangerous
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             @"Saved Games\Frontier Developments\Elite Dangerous"
         );
+
+        private readonly ILogger _logger;
+
+        public EliteDangerousModule(ILogger logger)
+        {
+            _logger = logger;
+        }
 
         private JournalParser journalParser;
         private StatusParser statusParser;
@@ -28,7 +36,7 @@ namespace Artemis.Plugins.Games.EliteDangerous
         public override void Enable()
         {
             journalParser = new JournalParser(EliteDataDirectory);
-            statusParser = new StatusParser(EliteDataDirectory);
+            statusParser = new StatusParser(EliteDataDirectory, _logger);
         }
 
         public override void Disable()

@@ -1,6 +1,7 @@
 ﻿using Artemis.Plugins.Games.EliteDangerous.DataModels;
 using Artemis.Plugins.Games.EliteDangerous.Utils;
 using Newtonsoft.Json;
+using Serilog;
 using System;
 using System.IO;
 
@@ -9,18 +10,30 @@ namespace Artemis.Plugins.Games.EliteDangerous.Status
     internal class StatusParser : FileReaderBase
     {
         private readonly string dataDirectory;
+        private readonly ILogger _logger;
 
-        public StatusParser(string dataDirectory) : base(false)
+        public StatusParser(string dataDirectory, ILogger logger) : base(false)
         {
             this.dataDirectory = dataDirectory;
+            _logger = logger;
         }
 
         public override void Activate() => OpenFile(Path.Combine(dataDirectory, "Status.json"));
 
         protected override void OnContentRead(EliteDangerousDataModel dataModel, string content)
         {
-            var trimmed = content.TrimEnd(Environment.NewLine.ToCharArray());
-            var status = JsonConvert.DeserializeObject<StatusJson>(trimmed);
+            if (content.Length == 0) return;
+            StatusJson status;
+            try
+            {
+                var trimmed = content.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries)[0];
+                status = JsonConvert.DeserializeObject<StatusJson>(trimmed);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to parse Status.json");
+                return;
+            }
             if (status == null) return;
 
             bool Has(StatusFlags flag) => (status.Flags & flag) != 0;
