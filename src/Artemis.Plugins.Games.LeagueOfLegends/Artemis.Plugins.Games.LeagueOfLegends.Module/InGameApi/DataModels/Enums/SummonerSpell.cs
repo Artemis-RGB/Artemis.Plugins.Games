@@ -1,4 +1,6 @@
 ﻿using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums
 {
@@ -29,14 +31,23 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enum
         [Name("GeneratedTip_SummonerSpell_SummonerSmite_DisplayName")]
         Smite,
 
-        [Name("GeneratedTip_SummonerSpell_S5_SummonerSmiteDuel_DisplayName")]
-        ChallengingSmite,
-
         [Name("GeneratedTip_SummonerSpell_S5_SummonerSmitePlayerGanker_DisplayName")]
-        ChillingSmite,
+        UnleashedSmite,
+
+        [Name("GeneratedTip_SummonerSpell_SummonerSmiteAvatarDefensive_DisplayName")]
+        PrimalSmiteMosstomper,
+
+        [Name("GeneratedTip_SummonerSpell_SummonerSmiteAvatarUtility_DisplayName")]
+        PrimalSmiteGustwalker,
+
+        [Name("GeneratedTip_SummonerSpell_SummonerSmiteAvatarOffensive_DisplayName")]
+        PrimalSmiteScorchclaw,
 
         [Name("GeneratedTip_SummonerSpell_SummonerTeleport_DisplayName")]
         Teleport,
+
+        [Name("GeneratedTip_SummonerSpell_S12_SummonerTeleportUpgrade_DisplayName")]
+        UnleashedTeleport,
 
         [Name("GeneratedTip_SummonerSpell_SummonerMana_DisplayName")]
         Clarity,
