@@ -52,7 +52,6 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
 
         public override void ModuleActivated(bool isOverride)
         {
-            _logger.Debug("Setting new match flag to true.");
         }
 
         public override void ModuleDeactivated(bool isOverride)

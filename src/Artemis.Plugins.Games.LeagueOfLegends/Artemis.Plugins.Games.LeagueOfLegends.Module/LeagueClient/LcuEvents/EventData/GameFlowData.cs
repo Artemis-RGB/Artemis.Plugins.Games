@@ -219,7 +219,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.Ev
     public class GameData
     {
         [JsonProperty("gameId")]
-        public int GameId { get; set; }
+        public long GameId { get; set; }
 
         [JsonProperty("gameName")]
         public string GameName { get; set; }

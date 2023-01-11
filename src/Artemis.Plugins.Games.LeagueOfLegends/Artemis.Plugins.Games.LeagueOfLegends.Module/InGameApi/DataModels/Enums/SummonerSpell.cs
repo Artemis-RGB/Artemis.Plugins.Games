@@ -31,13 +31,17 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enum
         [Name("GeneratedTip_SummonerSpell_SummonerSmite_DisplayName")]
         Smite,
 
-        [Name("GeneratedTip_SummonerSpell_S5_SummonerSmiteDuel_DisplayName")]
-        [Display(Name = "Unleashed Smite")]
-        ChallengingSmite,
-
         [Name("GeneratedTip_SummonerSpell_S5_SummonerSmitePlayerGanker_DisplayName")]
-        [Display(Name = "Primal Smite")]
-        ChillingSmite,
+        UnleashedSmite,
+
+        [Name("GeneratedTip_SummonerSpell_SummonerSmiteAvatarDefensive_DisplayName")]
+        PrimalSmiteMosstomper,
+
+        [Name("GeneratedTip_SummonerSpell_SummonerSmiteAvatarUtility_DisplayName")]
+        PrimalSmiteGustwalker,
+
+        [Name("GeneratedTip_SummonerSpell_SummonerSmiteAvatarOffensive_DisplayName")]
+        PrimalSmiteScorchclaw,
 
         [Name("GeneratedTip_SummonerSpell_SummonerTeleport_DisplayName")]
         Teleport,

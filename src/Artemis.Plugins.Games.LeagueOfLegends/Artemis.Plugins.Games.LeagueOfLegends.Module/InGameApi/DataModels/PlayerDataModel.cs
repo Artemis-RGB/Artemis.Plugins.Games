@@ -1,5 +1,5 @@
-﻿using Artemis.Core.Modules;
-using Artemis.Core.Services;
+﻿using Artemis.Core.ColorScience;
+using Artemis.Core.Modules;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;

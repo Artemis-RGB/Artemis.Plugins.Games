@@ -7,19 +7,18 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.IO;
+using Artemis.Core.ColorScience;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services
 {
     public class ChampionColorService : IPluginService, IDisposable
     {
-        private readonly IColorQuantizerService _colorQuantizerService;
         private readonly PluginSetting<Dictionary<string, ColorSwatch>> _colorCache;
         private readonly PluginSetting<Dictionary<string, int>> _skinIdCache;
         private readonly HttpClient _httpClient;
 
-        public ChampionColorService(IColorQuantizerService colorQuantizerService, PluginSettings pluginSettings)
+        public ChampionColorService(PluginSettings pluginSettings)
         {
-            _colorQuantizerService = colorQuantizerService;
             _colorCache = pluginSettings.GetSetting("championColors", new Dictionary<string, ColorSwatch>());
             _skinIdCache = pluginSettings.GetSetting("skinIds", new Dictionary<string, int>());
             _httpClient = new HttpClient
@@ -45,9 +44,9 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services
 
             using Stream stream = await _httpClient.GetStreamAsync(key);
             using SKBitmap skbm = SKBitmap.Decode(stream);
-            SKColor[] skClrs = _colorQuantizerService.Quantize(skbm.Pixels, 256);
+            SKColor[] skClrs = ColorQuantizer.Quantize(skbm.Pixels, 256);
 
-            ColorSwatch swatch = _colorQuantizerService.FindAllColorVariations(skClrs);
+            ColorSwatch swatch = ColorQuantizer.FindAllColorVariations(skClrs);
             lock (_colorCache)
             {
                 _colorCache.Value[key] = swatch;
