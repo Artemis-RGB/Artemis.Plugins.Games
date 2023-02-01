@@ -1,11 +1,13 @@
 ﻿using Artemis.Core.Modules;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels;
 using System;
+using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
 {
     public class ItemSlotDataModel : DataModel
     {
+        public Enums.Item Item { get; set; }
         public string Name { get; set; }
         public bool HasItem => !string.IsNullOrWhiteSpace(Name);
         public bool CanUse { get; set; }
@@ -17,6 +19,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
             var item = Array.Find(items, i => i.Slot == index);
             if (item == null)
             {
+                Item = Enums.Item.None;
                 Name = "";
                 CanUse = false;
                 Consumable = false;
@@ -24,6 +27,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
                 return;
             }
 
+            Item = Enum.IsDefined(typeof(Enums.Item), item.ItemID) ? (Enums.Item)item.ItemID : Enums.Item.Unknown;
             Name = item.DisplayName;
             CanUse = item.CanUse;
             Consumable = item.Consumable;
