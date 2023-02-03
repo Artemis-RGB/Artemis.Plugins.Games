@@ -6,28 +6,12 @@ using System.Net.Http;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Generators
 {
-    public class ChampInfo
-    {
-        public string version { get; set; }
-        public string id { get; set; }
-        public string key { get; set; }
-        public string name { get; set; }
-        public string title { get; set; }
-    }
-
-    public class ChampionsRoot
-    {
-        public string type { get; set; }
-        public string format { get; set; }
-        public string version { get; set; }
-        public Dictionary<string, ChampInfo> Data { get; set; }
-    }
-
     [Generator]
-    public class ChampionEnumGenerator : ISourceGenerator
+    public class LeagueEnumGenerator : ISourceGenerator
     {
         private readonly HttpClient _client = new HttpClient();
         private readonly Dictionary<string, ChampInfo> _champions = new Dictionary<string, ChampInfo>();
+        private readonly Dictionary<string, ItemInfo> _items = new Dictionary<string, ItemInfo>();
 
         public void Initialize(GeneratorInitializationContext context)
         {
@@ -36,10 +20,18 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Generators
             var latestVersion = versions[0];
 
             var championsJson = _client.GetStringAsync($"https://ddragon.leagueoflegends.com/cdn/{latestVersion}/data/en_US/champion.json").Result;
+            var itemsJson = _client.GetStringAsync($"https://ddragon.leagueoflegends.com/cdn/{latestVersion}/data/en_US/item.json").Result;
             var champions = JsonConvert.DeserializeObject<ChampionsRoot>(championsJson);
+            var items = JsonConvert.DeserializeObject<ItemsRoot>(itemsJson);
+            
             foreach (var item in champions.Data)
             {
                 _champions.Add(item.Key, item.Value);
+            }
+            
+            foreach (var item in items.Data)
+            {
+                _items.Add(item.Key, item.Value);
             }
         }
 
@@ -51,15 +43,24 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Generators
                 new EnumDefinition { Name = "None", DisplayName = "None", Id  = 0 }
             };
 
-            var defs = _champions.Select(ci => new EnumDefinition
+            var champDefs = _champions.Select(ci => new EnumDefinition
             {
                 Name = ci.Key,
                 AlternativeNames = new string[] { $"game_character_displayname_{ci.Key}" },
                 DisplayName = ci.Value.name,
                 Id = int.Parse(ci.Value.key)
             });
+            
+            var itemDefs = _items.Select(ci => new EnumDefinition
+            {
+                Name = $"Item{ci.Key}",
+                AlternativeNames = new string[] { },
+                DisplayName = ci.Value.name,
+                Id = int.Parse(ci.Key)
+            });
 
-            context.AddSource("Champion.gen.cs", EnumGenerator.GetEnum("Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums", "Champion", defaultDefs.Concat(defs)));
+            context.AddSource("Champion.g.cs", EnumGenerator.GetEnum("Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums", "Champion", defaultDefs.Concat(champDefs)));
+            context.AddSource("Item.g.cs", EnumGenerator.GetEnum("Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums", "Item", defaultDefs.Concat(itemDefs)));
         }
     }
 }
