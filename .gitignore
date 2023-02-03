@@ -483,3 +483,5 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/rider,visualstudio
 src/Artemis.Plugins.Games.Valheim/Artemis.Plugins.Games.Valheim.Module/mod/Artemis.Plugins.Games.Valheim.GSI.dll
+
+src/.idea/
