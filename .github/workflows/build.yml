@@ -12,81 +12,64 @@ jobs:
         with:
           dotnet-version: '6.0.x'
 
-      - name: Clone Artemis
-        uses: actions/checkout@v2
-        with:
-          repository: Artemis-RGB/Artemis
-          path: Artemis
-
-      - name: Build Artemis Core
-        run: dotnet build ./Artemis/src/Artemis.Core/Artemis.Core.csproj
-        
-      - name: Build Artemis UI Shared
-        run: dotnet build ./Artemis/src/Artemis.UI.Shared/Artemis.UI.Shared.csproj
-
       - name: Clone Plugins
         uses: actions/checkout@v2
-        with:
-          path: Plugins
 
       - name: Build Plugins
-        run: dotnet publish -c Release ./Plugins/src/Artemis.Plugins.Games.sln
-
-        #msbuild is dumb so we have to upload one at a time :)
-        #https://github.com/dotnet/sdk/issues/7238
+        run: dotnet publish -c Release src/Artemis.Plugins.Games.sln
 
       - name: Upload Elite Dangerous
         uses: actions/upload-artifact@v3
         with:
           name: Artemis.Plugins.Games.EliteDangerous
-          path: ./Plugins/src/Artemis.Plugins.Games.EliteDangerous/bin/x64/Release/net6.0/publish
+          path: src/Artemis.Plugins.Games.EliteDangerous/bin/x64/Release/net6.0/publish
           if-no-files-found: error
 
       - name: Upload GTAV
         uses: actions/upload-artifact@v3
         with:
           name: Artemis.Plugins.Games.GTAV.Module
-          path: ./Plugins/src/Artemis.Plugins.Games.GTAV/Artemis.Plugins.Games.GTAV.Module/bin/x64/Release/net6.0/publish
+          path: src/Artemis.Plugins.Games.GTAV/Artemis.Plugins.Games.GTAV.Module/bin/x64/Release/net6.0/publish
           if-no-files-found: error
 
       - name: Upload League Of Legends
         uses: actions/upload-artifact@v3
         with:
           name: Artemis.Plugins.Games.LeagueOfLegends.Module
-          path: ./Plugins/src/Artemis.Plugins.Games.LeagueOfLegends/Artemis.Plugins.Games.LeagueOfLegends.Module/bin/x64/Release/net6.0/publish
+          path: src/Artemis.Plugins.Games.LeagueOfLegends/Artemis.Plugins.Games.LeagueOfLegends.Module/bin/x64/Release/net6.0/publish
           if-no-files-found: error
 
       - name: Upload Rocket League
         uses: actions/upload-artifact@v3
         with:
           name: Artemis.Plugins.Games.RocketLeague
-          path: ./Plugins/src/Artemis.Plugins.Games.RocketLeague/bin/x64/Release/net6.0/publish
+          path: src/Artemis.Plugins.Games.RocketLeague/bin/x64/Release/net6.0/publish
           if-no-files-found: error
 
       - name: Upload TrackMania
         uses: actions/upload-artifact@v3
         with:
           name: Artemis.Plugins.Games.TrackMania
-          path: ./Plugins/src/Artemis.Plugins.Games.TrackMania/bin/x64/Release/net6.0/publish
+          path: src/Artemis.Plugins.Games.TrackMania/bin/x64/Release/net6.0/publish
           if-no-files-found: error
 
       - name: Upload Truck Simulator
         uses: actions/upload-artifact@v3
         with:
           name: Artemis.Plugins.Games.TruckSimulator
-          path: ./Plugins/src/Artemis.Plugins.Games.TruckSimulator/bin/x64/Release/net6.0/publish
+          path: src/Artemis.Plugins.Games.TruckSimulator/bin/x64/Release/net6.0/publish
           if-no-files-found: error
 
       - name: Upload Valheim
         uses: actions/upload-artifact@v3
         with:
           name: Artemis.Plugins.Games.Valheim
-          path: ./Plugins/src/Artemis.Plugins.Games.Valheim/Artemis.Plugins.Games.Valheim.Module/bin/x64/Release/net6.0/publish
+          path: src/Artemis.Plugins.Games.Valheim/Artemis.Plugins.Games.Valheim.Module/bin/x64/Release/net6.0/publish
           if-no-files-found: error
           
       - name: Upload Fallout 4
         uses: actions/upload-artifact@v3
         with:
           name: Artemis.Plugins.Games.Fallout4
-          path: ./Plugins/src/Artemis.Plugins.Games.Fallout4/bin/x64/Release/net6.0/publish
+          path: src/Artemis.Plugins.Games.Fallout4/bin/x64/Release/net6.0/publish
           if-no-files-found: error
