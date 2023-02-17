@@ -3,6 +3,7 @@ using Artemis.Plugins.Games.EliteDangerous.Utils;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 
 namespace Artemis.Plugins.Games.EliteDangerous.Status
 {
@@ -19,7 +20,8 @@ namespace Artemis.Plugins.Games.EliteDangerous.Status
 
         protected override void OnContentRead(EliteDangerousDataModel dataModel, string content)
         {
-            var trimmed = content.TrimEnd(Environment.NewLine.ToCharArray());
+            var trimmed = content.Split(Environment.NewLine).FirstOrDefault();
+            if (trimmed == null) return;
             var status = JsonConvert.DeserializeObject<StatusJson>(trimmed);
             if (status == null) return;
 
