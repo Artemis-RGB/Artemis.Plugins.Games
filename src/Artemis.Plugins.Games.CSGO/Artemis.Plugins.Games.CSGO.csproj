@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Platforms>x64</Platforms>
         <EnableDynamicLoading>true</EnableDynamicLoading>
         <Nullable>enable</Nullable>
@@ -8,12 +8,15 @@
 
     <ItemGroup>
         <PackageReference Include="ArtemisRGB.UI.Shared" IncludeAssets="compile;build" Version="1.0.0-master.20220930.8" />
-        <PackageReference Include="GameFinder.StoreHandlers.Steam" Version="2.5.0" />
+        <PackageReference Include="ArtemisRGB.GameFinder" Version="2.0.0" />
     </ItemGroup>
 
     <ItemGroup>
         <Content Include="plugin.json" CopyToOutputDirectory="PreserveNewest" />
-        <PackageReference Include="ArtemisRGB.Plugins.BuildTask" Version="1.1.0" />
+        <PackageReference Include="ArtemisRGB.Plugins.BuildTask" Version="2.0.0">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         
         <Content Include="Resources/**" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>

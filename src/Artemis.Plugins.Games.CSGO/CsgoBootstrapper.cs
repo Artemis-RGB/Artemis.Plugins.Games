@@ -2,21 +2,20 @@ using System.IO;
 using Artemis.Core;
 using Artemis.GameFinder.Prerequisites;
 
-namespace Artemis.Plugins.Games.Dota2;
+namespace Artemis.Plugins.Games.CSGO;
 
-public class Bootstrapper : PluginBootstrapper
+public class CsgoBootstrapper : PluginBootstrapper
 {
-    private  const int Dota2SteamId = 570;
+    private  const int CsgoSteamId = 730;
     private const string CsgoGsiConfigFilename = "gamestate_integration_artemis.cfg";
     
     public override void OnPluginLoaded(Plugin plugin)
     {
-        //TODO: verify this
         AddPluginPrerequisite(new IsSteamInstalledPrerequisite(plugin));
-        AddPluginPrerequisite(new IsSteamGameInstalledPrerequisite(Dota2SteamId, "Dota 2"));
+        AddPluginPrerequisite(new IsSteamGameInstalledPrerequisite(CsgoSteamId, "CS:GO"));
         AddPluginPrerequisite(new IsFilePresentInSteamGameFolderPrerequisite(
-            Dota2SteamId,
+            CsgoSteamId,
             plugin.ResolveRelativePath(Path.Combine("Resources", CsgoGsiConfigFilename)),
-            Path.Combine("dota2", "cfg", CsgoGsiConfigFilename) ));
+            Path.Combine("csgo", "cfg", CsgoGsiConfigFilename) ));
     }
 }
