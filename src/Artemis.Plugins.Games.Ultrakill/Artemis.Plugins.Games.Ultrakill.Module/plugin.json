@@ -1,0 +1,15 @@
+{
+    "Guid": "ef19ca95-9716-406a-a708-b73c81dbc859",
+    "Name": "Ultrakill",
+    "Description": "Ultrakill",
+    "Author": "diogotr7",
+    "Website": "",
+    "Repository": "",
+    "Icon": "QuestionMark",
+    "Version": "1.0.0.0",
+    "Main": "Artemis.Plugins.Games.Ultrakill.Module.dll",
+    "AutoEnableProperties": true,
+    "RequiresAdmin": false,
+    "Platforms": "Windows,Linux,OSX",
+    "Api": "1.0.0"
+}

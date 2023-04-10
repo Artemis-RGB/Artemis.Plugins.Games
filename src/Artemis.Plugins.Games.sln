@@ -43,6 +43,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.CSGO"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.Dota2", "Artemis.Plugins.Games.Dota2\Artemis.Plugins.Games.Dota2.csproj", "{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Artemis.Plugins.Games.Ultrakill", "Artemis.Plugins.Games.Ultrakill", "{44C98467-5AA8-4ED0-9CDD-13A53E96F834}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.Ultrakill.GSI", "Artemis.Plugins.Games.Ultrakill\Artemis.Plugins.Games.Ultrakill.GSI\Artemis.Plugins.Games.Ultrakill.GSI.csproj", "{99856A1A-3722-4944-AA80-5BA69B0FE77B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.Ultrakill.Module", "Artemis.Plugins.Games.Ultrakill\Artemis.Plugins.Games.Ultrakill.Module\Artemis.Plugins.Games.Ultrakill.Module.csproj", "{EB9FEFF9-EBC2-4171-822B-A6CD970D4F53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -105,6 +111,14 @@ Global
 		{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}.Debug|x64.Build.0 = Debug|x64
 		{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}.Release|x64.ActiveCfg = Release|x64
 		{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}.Release|x64.Build.0 = Release|x64
+		{99856A1A-3722-4944-AA80-5BA69B0FE77B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{99856A1A-3722-4944-AA80-5BA69B0FE77B}.Debug|x64.Build.0 = Debug|Any CPU
+		{99856A1A-3722-4944-AA80-5BA69B0FE77B}.Release|x64.ActiveCfg = Release|Any CPU
+		{99856A1A-3722-4944-AA80-5BA69B0FE77B}.Release|x64.Build.0 = Release|Any CPU
+		{EB9FEFF9-EBC2-4171-822B-A6CD970D4F53}.Debug|x64.ActiveCfg = Debug|x64
+		{EB9FEFF9-EBC2-4171-822B-A6CD970D4F53}.Debug|x64.Build.0 = Debug|x64
+		{EB9FEFF9-EBC2-4171-822B-A6CD970D4F53}.Release|x64.ActiveCfg = Release|x64
+		{EB9FEFF9-EBC2-4171-822B-A6CD970D4F53}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,6 +131,8 @@ Global
 		{1F65207D-0861-4BC1-BE29-16893BD2610F} = {5EB44938-DE19-4F1C-AF63-A236815EB7E2}
 		{A2038F27-F3F4-49CC-9041-3D48731B2B47} = {45532261-3F70-4BBD-8313-35C454A4CB5A}
 		{E18E9C84-3B6C-4EBE-9DC9-9318453F344F} = {45532261-3F70-4BBD-8313-35C454A4CB5A}
+		{99856A1A-3722-4944-AA80-5BA69B0FE77B} = {44C98467-5AA8-4ED0-9CDD-13A53E96F834}
+		{EB9FEFF9-EBC2-4171-822B-A6CD970D4F53} = {44C98467-5AA8-4ED0-9CDD-13A53E96F834}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D7098FD1-41F0-40AE-BDBC-B028EE85ADCC}
