@@ -62,7 +62,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient
                 Thread.Sleep(1000);
             }
 
-            throw new ArtemisPluginException(Plugin, "Couldn't setup LCU client.");
+            throw new ArtemisPluginException("Couldn't setup LCU client.");
         }
 
         private async Task<bool> TrySetupLcuClient()
