@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ArtemisRGB.UI.Shared" IncludeAssets="compile;build;buildTransitive" Version="1.2023.410.5-feature-update-avalonia" />
-    <PackageReference Include="JsonSubTypes" Version="1.8.0" />
+    <PackageReference Include="ArtemisRGB.UI.Shared" IncludeAssets="compile;build;buildTransitive" Version="1.2023.410.9" />
+    <PackageReference Include="JsonSubTypes" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>

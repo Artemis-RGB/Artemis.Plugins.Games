@@ -4,8 +4,6 @@ using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
 using System;
-using System.Linq;
-using Item = Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums.Item;
 using SummonerSpell = Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums.SummonerSpell;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels
