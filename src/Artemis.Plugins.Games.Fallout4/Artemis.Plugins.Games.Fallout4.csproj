@@ -10,7 +10,6 @@
     <PackageReference Include="ArtemisRGB.UI.Shared" IncludeAssets="compile;build;buildTransitive" Version="1.2023.612.3" />
   </ItemGroup>
 
-
   <ItemGroup>
     <Content Include="fallout4.png" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
