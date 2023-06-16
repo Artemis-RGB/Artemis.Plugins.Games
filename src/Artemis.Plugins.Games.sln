@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
@@ -38,6 +38,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.LeagueOfLegends.Generators", "Artemis.Plugins.Games.LeagueOfLegends\Artemis.Plugins.Games.LeagueOfLegends.Generators\Artemis.Plugins.Games.LeagueOfLegends.Generators.csproj", "{E18E9C84-3B6C-4EBE-9DC9-9318453F344F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Artemis.Plugins.Games.Fallout4", "Artemis.Plugins.Games.Fallout4\Artemis.Plugins.Games.Fallout4.csproj", "{1B3E2806-2959-4698-BE8A-60E428A2668D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.CSGO", "Artemis.Plugins.Games.CSGO\Artemis.Plugins.Games.CSGO.csproj", "{2EB51D00-8C67-47CD-B853-5E51E4F7C28C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.Dota2", "Artemis.Plugins.Games.Dota2\Artemis.Plugins.Games.Dota2.csproj", "{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +97,14 @@ Global
 		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Debug|x64.Build.0 = Debug|x64
 		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Release|x64.ActiveCfg = Release|x64
 		{1B3E2806-2959-4698-BE8A-60E428A2668D}.Release|x64.Build.0 = Release|x64
+		{2EB51D00-8C67-47CD-B853-5E51E4F7C28C}.Debug|x64.ActiveCfg = Debug|x64
+		{2EB51D00-8C67-47CD-B853-5E51E4F7C28C}.Debug|x64.Build.0 = Debug|x64
+		{2EB51D00-8C67-47CD-B853-5E51E4F7C28C}.Release|x64.ActiveCfg = Release|x64
+		{2EB51D00-8C67-47CD-B853-5E51E4F7C28C}.Release|x64.Build.0 = Release|x64
+		{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}.Debug|x64.ActiveCfg = Debug|x64
+		{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}.Debug|x64.Build.0 = Debug|x64
+		{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}.Release|x64.ActiveCfg = Release|x64
+		{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -73,3 +73,17 @@ jobs:
           name: Artemis.Plugins.Games.Fallout4
           path: src/Artemis.Plugins.Games.Fallout4/bin/x64/Release/net7.0/publish
           if-no-files-found: error
+          
+      - name: Upload Dota 2
+        uses: actions/upload-artifact@v3
+        with:
+          name: Artemis.Plugins.Games.Dota2
+          path: src/Artemis.Plugins.Games.Dota2/bin/x64/Release/net7.0/publish
+          if-no-files-found: error
+          
+      - name: Upload CSGO
+        uses: actions/upload-artifact@v3
+        with:
+          name: Artemis.Plugins.Games.CSGO
+          path: src/Artemis.Plugins.Games.CSGO/bin/x64/Release/net7.0/publish
+          if-no-files-found: error
