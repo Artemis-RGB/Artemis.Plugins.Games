@@ -4,7 +4,7 @@ using Artemis.GameFinder.Prerequisites;
 
 namespace Artemis.Plugins.Games.Dota2;
 
-public class Bootstrapper : PluginBootstrapper
+public class Dota2Bootstrapper : PluginBootstrapper
 {
     private  const int Dota2SteamId = 570;
     private const string CsgoGsiConfigFilename = "gamestate_integration_artemis.cfg";
@@ -17,6 +17,6 @@ public class Bootstrapper : PluginBootstrapper
         AddPluginPrerequisite(new IsFilePresentInSteamGameFolderPrerequisite(
             Dota2SteamId,
             plugin.ResolveRelativePath(Path.Combine("Resources", CsgoGsiConfigFilename)),
-            Path.Combine("dota2", "cfg", CsgoGsiConfigFilename) ));
+            Path.Combine("game", "dota2", "cfg", CsgoGsiConfigFilename) ));
     }
 }
