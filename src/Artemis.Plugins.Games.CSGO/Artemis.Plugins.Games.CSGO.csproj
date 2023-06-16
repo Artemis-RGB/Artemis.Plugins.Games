@@ -8,7 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="ArtemisRGB.UI.Shared" IncludeAssets="compile;build;buildTransitive" Version="1.2023.612.3" />
-        <PackageReference Include="ArtemisRGB.GameFinder" Version="2.0.0" />
+        <PackageReference Include="ArtemisRGB.GameFinder" Version="2.1.0" />
     </ItemGroup>
 
     <ItemGroup>
