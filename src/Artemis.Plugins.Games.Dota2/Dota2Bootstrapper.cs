@@ -17,6 +17,6 @@ public class Dota2Bootstrapper : PluginBootstrapper
         AddPluginPrerequisite(new IsFilePresentInSteamGameFolderPrerequisite(
             Dota2SteamId,
             plugin.ResolveRelativePath(Path.Combine("Resources", CsgoGsiConfigFilename)),
-            Path.Combine("game", "dota2", "cfg", CsgoGsiConfigFilename) ));
+            Path.Combine("game", "dota2", "cfg", "gamestate_integration",CsgoGsiConfigFilename)));
     }
 }
