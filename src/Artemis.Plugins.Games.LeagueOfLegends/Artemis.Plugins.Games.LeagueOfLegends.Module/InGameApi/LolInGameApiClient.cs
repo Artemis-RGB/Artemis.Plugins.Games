@@ -38,16 +38,7 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
         {
             string response = await _httpClient.GetStringAsync(endpoint);
 #if DEBUG
-            try
-            {
-                return JsonConvert.DeserializeObject<T>(response, _debugSerializerSettings);
-            }
-            //helpful to debug out of date data structures
-            catch (JsonException jsonException)
-            {
-                System.Diagnostics.Debugger.Break();
-                throw;
-            }
+            return JsonConvert.DeserializeObject<T>(response, _debugSerializerSettings);
 #else
             return JsonConvert.DeserializeObject<T>(response);
 #endif

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
 {
@@ -81,6 +82,11 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
             catch (HttpRequestException)
             {
                 //ignore
+                return;
+            }
+            catch (JsonSerializationException jsonException) when (jsonException.Path == "activePlayer.error")
+            {
+                //happens on the first couple of ticks, ignore
                 return;
             }
             catch (Exception e)
