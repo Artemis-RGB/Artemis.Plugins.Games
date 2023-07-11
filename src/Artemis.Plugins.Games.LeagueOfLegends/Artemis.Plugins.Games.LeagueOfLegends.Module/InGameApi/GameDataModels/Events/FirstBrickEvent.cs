@@ -1,7 +1,6 @@
-﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels.Events
+﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels.Events;
+
+public class FirstBrickEvent : LolEvent
 {
-    public class FirstBrickEvent : LolEvent
-    {
-        public string KillerName { get; set; }
-    }
+    public string KillerName { get; set; }
 }

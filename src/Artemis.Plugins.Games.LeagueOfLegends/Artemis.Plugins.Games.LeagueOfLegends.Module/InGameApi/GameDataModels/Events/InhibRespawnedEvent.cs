@@ -1,7 +1,6 @@
-﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels.Events
+﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels.Events;
+
+public class InhibRespawnedEvent : LolEvent
 {
-    public class InhibRespawnedEvent : LolEvent
-    {
-        public string InhibRespawned { get; set; }
-    }
+    public string InhibRespawned { get; set; }
 }

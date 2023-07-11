@@ -2,14 +2,14 @@
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Utils
+namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
+
+//taken from https://github.com/MingweiSamuel/Camille/blob/release/3.x.x/src/Camille.Core/RiotCertificateUtils.cs
+public static class RiotCertificateUtils
 {
-    //taken from https://github.com/MingweiSamuel/Camille/blob/release/3.x.x/src/Camille.Core/RiotCertificateUtils.cs
-    public static class RiotCertificateUtils
-    {
-        /// <summary>Root certificate used by Riot Games for the LCU and In-Game APIs.</summary>
-        public static readonly X509Certificate2 RiotCertificate =
-            new X509Certificate2(Convert.FromBase64String(
+    /// <summary>Root certificate used by Riot Games for the LCU and In-Game APIs.</summary>
+    public static readonly X509Certificate2 RiotCertificate =
+        new(Convert.FromBase64String(
             "MIIEIDCCAwgCCQDJC+QAdVx4UDANBgkqhkiG9w0BAQUFADCB0TELMAkGA1UEBhMC" +
             "VVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFTATBgNVBAcTDFNhbnRhIE1vbmljYTET" +
             "MBEGA1UEChMKUmlvdCBHYW1lczEdMBsGA1UECxMUTG9MIEdhbWUgRW5naW5lZXJp" +
@@ -34,31 +34,30 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Utils
             "EcGfKZ+g024k/J32XP4hdho7WYAS2xMiV83CfLR/MNi8oSMaVQTdKD8cpgiWJk3L" +
             "XWehWA=="));
 
-        public static readonly RemoteCertificateValidationCallback CertificateValidationCallback =
-            (obj, cert, chain, polErrs) =>
-            {
-                if (null == cert)
-                    return false;
+    public static readonly RemoteCertificateValidationCallback CertificateValidationCallback =
+        (obj, cert, chain, polErrs) =>
+        {
+            if (null == cert)
+                return false;
 
-                X509Certificate2 cert2 = cert as X509Certificate2 ?? new X509Certificate2(cert);
+            var cert2 = cert as X509Certificate2 ?? new X509Certificate2(cert);
 
-                // Normal verification.
-                if (SslPolicyErrors.None == polErrs)
-                    return true;
+            // Normal verification.
+            if (SslPolicyErrors.None == polErrs)
+                return true;
 
-                // Private chain for our root cert.
-                // Implements IDisposable starting in Framework 4.6, so we manually dispose here.
-                using X509Chain privateChain = new X509Chain();
-                // Do not use `AllowUnknownCertificateAuthority` (ignores `ExtraStore`).
-                // https://stackoverflow.com/questions/6097671/how-to-verify-x509-cert-without-importing-root-cert
-                privateChain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
-                privateChain.ChainPolicy.ExtraStore.Add(RiotCertificate); // Add root certificate.
-                privateChain.Build(cert2);
+            // Private chain for our root cert.
+            // Implements IDisposable starting in Framework 4.6, so we manually dispose here.
+            using var privateChain = new X509Chain();
+            // Do not use `AllowUnknownCertificateAuthority` (ignores `ExtraStore`).
+            // https://stackoverflow.com/questions/6097671/how-to-verify-x509-cert-without-importing-root-cert
+            privateChain.ChainPolicy.RevocationMode = X509RevocationMode.NoCheck;
+            privateChain.ChainPolicy.ExtraStore.Add(RiotCertificate); // Add root certificate.
+            privateChain.Build(cert2);
 
-                // Only error should be untrusted root certificate.
-                // (Chain error if root isn't our root).
-                return 1 == privateChain.ChainStatus.Length &&
-                    privateChain.ChainStatus[0].Status == X509ChainStatusFlags.UntrustedRoot;
-            };
-    }
+            // Only error should be untrusted root certificate.
+            // (Chain error if root isn't our root).
+            return 1 == privateChain.ChainStatus.Length &&
+                   privateChain.ChainStatus[0].Status == X509ChainStatusFlags.UntrustedRoot;
+        };
 }

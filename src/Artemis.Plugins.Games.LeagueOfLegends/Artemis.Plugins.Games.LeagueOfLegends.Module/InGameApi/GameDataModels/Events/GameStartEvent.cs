@@ -1,4 +1,5 @@
-﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels.Events
+﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels.Events;
+
+public class GameStartEvent : LolEvent
 {
-    public class GameStartEvent : LolEvent { }
 }

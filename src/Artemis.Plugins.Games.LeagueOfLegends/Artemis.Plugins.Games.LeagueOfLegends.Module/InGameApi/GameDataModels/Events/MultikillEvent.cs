@@ -1,8 +1,7 @@
-﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels.Events
+﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels.Events;
+
+public class MultikillEvent : LolEvent
 {
-    public class MultikillEvent : LolEvent
-    {
-        public string KillerName { get; set; }
-        public int KillStreak { get; set; }
-    }
+    public string KillerName { get; set; }
+    public int KillStreak { get; set; }
 }

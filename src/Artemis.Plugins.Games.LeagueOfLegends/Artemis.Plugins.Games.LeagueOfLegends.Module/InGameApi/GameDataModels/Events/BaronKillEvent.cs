@@ -1,9 +1,8 @@
-﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels.Events
+﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels.Events;
+
+public class BaronKillEvent : LolEvent
 {
-    public class BaronKillEvent : LolEvent
-    {
-        public bool Stolen { get; set; }
-        public string KillerName { get; set; }
-        public string[] Assisters { get; set; }
-    }
+    public bool Stolen { get; set; }
+    public string KillerName { get; set; }
+    public string[] Assisters { get; set; }
 }

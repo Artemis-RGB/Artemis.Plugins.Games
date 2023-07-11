@@ -1,6 +1,9 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using Microsoft.CodeAnalysis;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using Artemis.Plugins.Games.LeagueOfLegends.Generators.DataModels;
@@ -13,7 +16,6 @@ public class LeagueEnumGenerator : ISourceGenerator
     private readonly HttpClient _client = new();
     private Champions _champions;
     private Items _items;
-    
 
     public void Initialize(GeneratorInitializationContext context)
     {
@@ -31,28 +33,30 @@ public class LeagueEnumGenerator : ISourceGenerator
     {
         var defaultDefs = new List<EnumDefinition>
         {
-            new() { Name = "Unknown", DisplayName = "Unknown", Id  = -1 },
-            new() { Name = "None", DisplayName = "None", Id  = 0 }
+            new("Unknown", "Unknown", -1),
+            new("None", "None", 0)
         };
 
-        var champDefs = defaultDefs.Concat(_champions.Data.Select(ci => new EnumDefinition
-        {
-            Name = ci.Key,
-            // ReSharper disable once StringLiteralTypo
-            AlternativeNames = new[] { $"game_character_displayname_{ci.Key}" },
-            DisplayName = ci.Value.name,
-            Id = int.Parse(ci.Value.key)
-        }));
-            
-        var itemDefs = defaultDefs.Concat(_items.Data.Select(ci => new EnumDefinition
-        {
-            Name = $"Item{ci.Key}",
-            AlternativeNames = new string[] { },
-            DisplayName = ci.Value.name,
-            Id = int.Parse(ci.Key)
-        }));
+        var champDefs = defaultDefs.Concat(_champions.Data.Select(ci => 
+            new EnumDefinition(
+                ci.Key, 
+                ci.Value.name, 
+                int.Parse(ci.Value.key), 
+                $"game_character_displayname_{ci.Key}")
+        ));
 
-        context.AddSource("Champion.g.cs", EnumGenerator.GetEnum("Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums", "Champion", champDefs));
-        context.AddSource("Item.g.cs", EnumGenerator.GetEnum("Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums", "Item", itemDefs));
+        var itemDefs = defaultDefs.Concat(_items.Data.Select(ci =>
+            new EnumDefinition(
+                $"Item{ci.Key}",
+                ci.Value.name,
+                int.Parse(ci.Key)
+                )
+        ));
+
+        var championsSource = EnumGenerator.GetEnum("Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums", "Champion", champDefs);
+        var itemsSource = EnumGenerator.GetEnum("Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums", "Item", itemDefs);
+        
+        context.AddSource("Champion.g.cs", championsSource);
+        context.AddSource("Item.g.cs", itemsSource);
     }
 }
