@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Profile 1": {
+    "Generator": {
       "commandName": "DebugRoslynComponent",
       "targetProject": "..\\Artemis.Plugins.Games.LeagueOfLegends.Module\\Artemis.Plugins.Games.LeagueOfLegends.Module.csproj"
     }
