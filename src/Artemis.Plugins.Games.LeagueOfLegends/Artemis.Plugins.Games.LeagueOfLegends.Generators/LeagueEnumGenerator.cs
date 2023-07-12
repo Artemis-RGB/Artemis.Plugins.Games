@@ -4,6 +4,8 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
 using Artemis.Plugins.Games.LeagueOfLegends.Generators.DataModels;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Generators;
@@ -47,7 +49,7 @@ public class LeagueEnumGenerator : IIncrementalGenerator
             var itemDefs = defaultDefs.Concat(items.Data.Select(ci =>
                 new EnumDefinition(
                     $"Item{ci.Key}",
-                    ci.Value.name,
+                    CleanupName(ci.Value.name),
                     int.Parse(ci.Key)
                 )
             ));
@@ -58,5 +60,12 @@ public class LeagueEnumGenerator : IIncrementalGenerator
             spc.AddSource("Champion.g.cs", championsSource);
             spc.AddSource("Item.g.cs", itemsSource);
         });
+    }
+
+    private static readonly Regex NameRegex = new(@"<[^>]+>([^<]+)");
+    private static string CleanupName(string dirtyName)
+    {
+        var match = NameRegex.Match(dirtyName);
+        return !match.Success ? dirtyName : match.Groups[1].Value;
     }
 }

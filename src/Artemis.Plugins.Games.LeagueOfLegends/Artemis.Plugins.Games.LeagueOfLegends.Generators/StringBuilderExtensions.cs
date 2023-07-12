@@ -13,8 +13,7 @@ public static class StringBuilderExtensions
 
     public static StringBuilder AppendNameLine(this StringBuilder sb, string[] alternativeNames)
     {
-        if (alternativeNames.Any())
-            sb.Append("[Name(").Append(string.Join(",", alternativeNames.Select(s => $"@\"{s}\""))).Append(")]").AppendLine();
+        sb.Append("[Name(").Append(string.Join(",", alternativeNames.Select(s => $"@\"{s}\""))).Append(")]").AppendLine();
             
         return sb;
     }

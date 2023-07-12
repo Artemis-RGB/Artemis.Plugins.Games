@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Generators;
@@ -21,7 +22,10 @@ public static class EnumGenerator
         foreach (var enumDef in defs)
         {
             builder.Append(TAB).AppendDisplayNameLine(enumDef.DisplayName);
-            builder.Append(TAB).AppendNameLine(enumDef.AlternativeNames);
+            
+            if (enumDef.AlternativeNames.Any())
+                builder.Append(TAB).AppendNameLine(enumDef.AlternativeNames);
+            
             builder.Append(TAB).AppendEnumLine(enumDef.Name, enumDef.Id);
             builder.AppendLine();
         }
