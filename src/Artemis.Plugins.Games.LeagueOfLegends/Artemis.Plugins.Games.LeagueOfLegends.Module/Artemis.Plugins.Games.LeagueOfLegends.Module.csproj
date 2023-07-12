@@ -7,23 +7,29 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ArtemisRGB.UI.Shared" IncludeAssets="compile;build;buildTransitive" Version="1.2023.612.3"/>
-        <PackageReference Include="JsonSubTypes" Version="2.0.1"/>
+        <PackageReference Include="ArtemisRGB.UI.Shared" IncludeAssets="compile;build;buildTransitive" Version="1.2023.612.3" />
+        <PackageReference Include="JsonSubTypes" Version="2.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Artemis.Plugins.Games.LeagueOfLegends.Generators\Artemis.Plugins.Games.LeagueOfLegends.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+        <AdditionalFiles Include="champion.json" />
+        <AdditionalFiles Include="item.json" />
+        <ProjectReference Include="..\Artemis.Plugins.Games.LeagueOfLegends.Generators\Artemis.Plugins.Games.LeagueOfLegends.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="league-of-legends.jpg" CopyToOutputDirectory="PreserveNewest"/>
+        <Content Include="league-of-legends.jpg" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="plugin.json" CopyToOutputDirectory="PreserveNewest"/>
+        <Content Include="plugin.json" CopyToOutputDirectory="PreserveNewest" />
         <PackageReference Include="ArtemisRGB.Plugins.BuildTask" Version="2.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
+    
+    <Target Name="PrepareForBuildEvent" BeforeTargets="PrepareForBuild">
+        <Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;$(ProjectDir)prebuild.ps1&quot;" />
+    </Target>
 </Project>
