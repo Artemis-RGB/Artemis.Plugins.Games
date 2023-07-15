@@ -1,8 +1,7 @@
-﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels
+﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels;
+
+public class StatRune
 {
-    public class StatRune
-    {
-        public int Id { get; set; }
-        public string RawDescription { get; set; }
-    }
+    public int Id { get; set; }
+    public string RawDescription { get; set; }
 }

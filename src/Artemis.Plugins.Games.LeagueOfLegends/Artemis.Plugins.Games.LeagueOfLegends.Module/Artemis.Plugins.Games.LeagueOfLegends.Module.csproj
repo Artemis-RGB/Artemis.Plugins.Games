@@ -1,28 +1,37 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <Platforms>x64</Platforms>
-    <EnableDynamicLoading>true</EnableDynamicLoading>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Platforms>x64</Platforms>
+        <EnableDynamicLoading>true</EnableDynamicLoading>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="ArtemisRGB.UI.Shared" IncludeAssets="compile;build;buildTransitive" Version="1.2023.612.3" />
-    <PackageReference Include="JsonSubTypes" Version="2.0.1" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="ArtemisRGB.UI.Shared" IncludeAssets="compile;build;buildTransitive" Version="1.2023.612.3" />
+        <PackageReference Include="JsonSubTypes" Version="2.0.1" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Artemis.Plugins.Games.LeagueOfLegends.Generators\Artemis.Plugins.Games.LeagueOfLegends.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-  </ItemGroup>
+    <ItemGroup>
+        <AdditionalFiles Include="gen-data\item.json" />
+        <AdditionalFiles Include="gen-data\champion.json" />
+        <AdditionalFiles Include="gen-data\map.json" />
+        <AdditionalFiles Include="gen-data\runesReforged.json" />
+        <ProjectReference Include="..\Artemis.Plugins.Games.LeagueOfLegends.Generators\Artemis.Plugins.Games.LeagueOfLegends.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="league-of-legends.jpg" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
+    <ItemGroup>
+        <Content Include="league-of-legends.jpg" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Content Include="plugin.json" CopyToOutputDirectory="PreserveNewest" />
-    <PackageReference Include="ArtemisRGB.Plugins.BuildTask" Version="2.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+    <ItemGroup>
+        <Content Include="plugin.json" CopyToOutputDirectory="PreserveNewest" />
+        <PackageReference Include="ArtemisRGB.Plugins.BuildTask" Version="2.0.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+    
+    <Target Name="DownloadJsonFiles" BeforeTargets="PreBuildEvent">
+        <Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;$(ProjectDir)prebuild.ps1&quot;" />
+    </Target>
 </Project>

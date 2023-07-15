@@ -13,211 +13,228 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi
+namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi;
+
+[PluginFeature(Name = "League Of Legends")]
+public class LeagueOfLegendsModule : Module<LeagueOfLegendsDataModel>
 {
-    [PluginFeature(Name = "League Of Legends")]
-    public class LeagueOfLegendsModule : Module<LeagueOfLegendsDataModel>
+    public override List<IModuleActivationRequirement> ActivationRequirements { get; }
+        = new() { new ProcessActivationRequirement("League Of Legends") };
+
+    private readonly ILogger _logger;
+    private readonly ChampionColorService _championColorService;
+    private LolInGameApiClient? _inGameApi;
+    
+    private RootGameData? _gameData;
+    private float? _lastEventTime;
+    private string? _lastChampionName;
+    private int? _lastChampionSkin;
+
+    public LeagueOfLegendsModule(ILogger logger, ChampionColorService championColorService)
     {
-        public override List<IModuleActivationRequirement> ActivationRequirements { get; }
-            = new() { new ProcessActivationRequirement("League Of Legends") };
+        _logger = logger;
+        _championColorService = championColorService;
 
-        private readonly ILogger _logger;
-        private readonly ChampionColorService _championColorService;
+        UpdateDuringActivationOverride = false;
+    }
 
-        private LolInGameApiClient? inGameApi;
-        private RootGameData? gameData;
-        private float lastEventTime;
-        private string? lastChampionName;
-        private int lastChampionSkin;
+    public override void Enable()
+    {
+        _inGameApi = new LolInGameApiClient();
+        AddTimedUpdate(TimeSpan.FromMilliseconds(100), UpdateData);
+    }
 
-        public LeagueOfLegendsModule(ILogger logger, ChampionColorService championColorService)
+    public override void Disable()
+    {
+        _inGameApi?.Dispose();
+    }
+
+    public override void ModuleActivated(bool isOverride)
+    {
+        _gameData = null;
+        _lastEventTime = null;
+        _lastChampionName = null;
+        _lastChampionSkin = null;
+    }
+
+    public override void ModuleDeactivated(bool isOverride)
+    {
+        _gameData = new RootGameData();
+        UpdateDataModel();
+        _lastEventTime = 0f;
+    }
+
+    public override void Update(double deltaTime)
+    {
+    }
+
+    private async Task UpdateData(double deltaTime)
+    {
+        if (_inGameApi == null)
+            return;
+        
+        try
         {
-            _logger = logger;
-            _championColorService = championColorService;
-
-            UpdateDuringActivationOverride = false;
+            _gameData = await _inGameApi.GetAllGameDataAsync();
+        }
+        catch (TaskCanceledException)
+        {
+            //ignore
+            return;
+        }
+        catch (HttpRequestException)
+        {
+            //ignore
+            return;
+        }
+        catch (JsonSerializationException jsonException) when (jsonException.Path == "activePlayer.error")
+        {
+            //happens on the first couple of ticks, ignore
+            return;
+        }
+        catch (Exception e)
+        {
+            _logger.Error(e, "Error updating LoL game data");
+            return;
         }
 
-        public override void Enable()
+        UpdateDataModel();
+    }
+
+    /// <summary>
+    /// Data that needs to be set every tick
+    /// </summary>
+    private void UpdateDataModel()
+    {
+        if (_gameData == null)
+            return;
+        
+        if (DataModel.Player.ShortChampionName != _lastChampionName && DataModel.Player.SkinID != _lastChampionSkin)
         {
-            inGameApi = new LolInGameApiClient();
-            AddTimedUpdate(TimeSpan.FromMilliseconds(100), UpdateData);
-        }
-
-        public override void Disable()
-        {
-            inGameApi?.Dispose();
-        }
-
-        public override void ModuleActivated(bool isOverride)
-        {
-        }
-
-        public override void ModuleDeactivated(bool isOverride)
-        {
-            _logger.Debug("Deactivating module");
-            
-            gameData = new();
-            UpdateDataModel();
-            lastEventTime = 0f;
-
-            _logger.Debug("Deactivated module");
-        }
-
-        public override void Update(double deltaTime) { }
-
-        private async Task UpdateData(double deltaTime)
-        {
-            try
+            Task.Run(async () =>
             {
-                gameData = await inGameApi.GetAllGameDataAsync();
-            }
-            catch (TaskCanceledException)
-            {
-                //ignore
-                return;
-            }
-            catch (HttpRequestException)
-            {
-                //ignore
-                return;
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Error updating LoL game data");
-                return;
-            }
-
-            UpdateDataModel();
+                DataModel.Player.ChampionColors = await _championColorService.GetSwatch(DataModel.Player.ShortChampionName, DataModel.Player.SkinID);
+                _lastChampionName = DataModel.Player.ShortChampionName;
+                _lastChampionSkin = DataModel.Player.SkinID;
+            });
         }
 
-        /// <summary>
-        /// Data that needs to be set every tick
-        /// </summary>
-        private void UpdateDataModel()
-        {
-            if (DataModel.Player.ShortChampionName != lastChampionName && DataModel.Player.SkinID != lastChampionSkin)
-            {
-                Task.Run(async () =>
-                {
-                    DataModel.Player.ChampionColors = await _championColorService.GetSwatch(DataModel.Player.ShortChampionName, DataModel.Player.SkinID);
-                    lastChampionName = DataModel.Player.ShortChampionName;
-                    lastChampionSkin = DataModel.Player.SkinID;
-                });
-            }
-            DataModel.Update(gameData);
-            FireOffEvents();
-        }
+        DataModel.Update(_gameData);
+        FireOffEvents();
+    }
 
-        private void FireOffEvents()
+    private void FireOffEvents()
+    {
+        if (_gameData == null)
+            return;
+        
+        foreach (var e in _gameData.Events.Events.Where(ev => ev.EventTime > _lastEventTime))
         {
-            foreach (LolEvent e in gameData.Events.Events.Where(ev => ev.EventTime > lastEventTime))
-            {
-                lastEventTime = e.EventTime;
+            _lastEventTime = e.EventTime;
 
-                switch (e)
-                {
-                    case AceEvent aceEvent:
-                        DataModel.Match.Ace.Trigger(new AceEventArgs
-                        {
-                            Acer = aceEvent.Acer,
-                            AcingTeam = ParseEnum<Team>.TryParseOr(aceEvent.AcingTeam, Team.Unknown)
-                        });
-                        break;
-                    case BaronKillEvent baronKillEvent:
-                        DataModel.Match.BaronKill.Trigger(new EpicCreatureKillEventArgs
-                        {
-                            Assisters = baronKillEvent.Assisters,
-                            KillerName = baronKillEvent.KillerName,
-                            Stolen = baronKillEvent.Stolen
-                        });
-                        break;
-                    case ChampionKillEvent championKillEvent:
-                        DataModel.Match.ChampionKill.Trigger(new ChampionKillEventArgs
-                        {
-                            KillerName = championKillEvent.KillerName,
-                            Assisters = championKillEvent.Assisters,
-                            VictimName = championKillEvent.VictimName
-                        });
-                        break;
-                    case DragonKillEvent dragonKillEvent:
-                        DataModel.Match.DragonKill.Trigger(new DragonKillEventArgs
-                        {
-                            Assisters = dragonKillEvent.Assisters,
-                            DragonType = ParseEnum<DragonType>.TryParseOr(dragonKillEvent.DragonType, DragonType.Unknown),
-                            KillerName = dragonKillEvent.KillerName,
-                            Stolen = dragonKillEvent.Stolen
-                        });
-                        break;
-                    case FirstBloodEvent firstBloodEvent:
-                        DataModel.Match.FirstBlood.Trigger(new FirstBloodEventArgs
-                        {
-                            Recipient = firstBloodEvent.Recipient
-                        });
-                        break;
-                    case FirstBrickEvent firstBrickEvent:
-                        DataModel.Match.FirstBrick.Trigger(new FirstBrickEventArgs
-                        {
-                            KillerName = firstBrickEvent.KillerName
-                        });
-                        break;
-                    case GameEndEvent gameEndEvent:
-                        DataModel.Match.GameEnd.Trigger(new GameEndEventArgs
-                        {
-                            Win = gameEndEvent.Result == "Win"
-                        });
-                        break;
-                    case GameStartEvent gameStartEvent:
-                        DataModel.Match.GameStart.Trigger();
-                        break;
-                    case HeraldKillEvent heraldKillEvent:
-                        DataModel.Match.HeraldKill.Trigger(new EpicCreatureKillEventArgs
-                        {
-                            Stolen = heraldKillEvent.Stolen,
-                            KillerName = heraldKillEvent.KillerName,
-                            Assisters = heraldKillEvent.Assisters
-                        });
-                        break;
-                    case InhibKillEvent inhibKillEvent:
-                        DataModel.Match.InhibKill.Trigger(new InhibKillEventArgs
-                        {
-                            Assisters = inhibKillEvent.Assisters,
-                            KillerName = inhibKillEvent.KillerName,
-                            InhibKilled = ParseEnum<Inhibitor>.TryParseOr(inhibKillEvent.InhibKilled, Inhibitor.Unknown)
-                        });
-                        break;
-                    case InhibRespawnedEvent inhibRespawnedEvent:
-                        DataModel.Match.InhibRespawned.Trigger(new InhibRespawnedEventArgs
-                        {
-                            InhibRespawned = ParseEnum<Inhibitor>.TryParseOr(inhibRespawnedEvent.InhibRespawned, Inhibitor.Unknown)
-                        });
-                        break;
-                    case InhibRespawningSoonEvent inhibRespawningSoonEvent:
-                        DataModel.Match.InhibRespawningSoon.Trigger(new InhibRespawningSoonEventArgs
-                        {
-                            InhibRespawningSoon = ParseEnum<Inhibitor>.TryParseOr(inhibRespawningSoonEvent.InhibRespawningSoon, Inhibitor.Unknown)
-                        });
-                        break;
-                    case MinionsSpawningEvent minionsSpawningEvent:
-                        DataModel.Match.MinionsSpawning.Trigger();
-                        break;
-                    case MultikillEvent multikillEvent:
-                        DataModel.Match.Multikill.Trigger(new MultikillEventArgs
-                        {
-                            KillerName = multikillEvent.KillerName,
-                            KillStreak = multikillEvent.KillStreak
-                        });
-                        break;
-                    case TurretKillEvent turretKillEvent:
-                        DataModel.Match.TurretKill.Trigger(new TurretKillEventArgs
-                        {
-                            KillerName = turretKillEvent.KillerName,
-                            Assisters = turretKillEvent.Assisters,
-                            TurretKilled = ParseEnum<Turret>.TryParseOr(turretKillEvent.TurretKilled, Turret.Unknown)
-                        });
-                        break;
-                }
+            switch (e)
+            {
+                case AceEvent aceEvent:
+                    DataModel.Match.Ace.Trigger(new AceEventArgs
+                    {
+                        Acer = aceEvent.Acer,
+                        AcingTeam = ParseEnum<Team>.TryParseOr(aceEvent.AcingTeam, Team.Unknown)
+                    });
+                    break;
+                case BaronKillEvent baronKillEvent:
+                    DataModel.Match.BaronKill.Trigger(new EpicCreatureKillEventArgs
+                    {
+                        Assisters = baronKillEvent.Assisters,
+                        KillerName = baronKillEvent.KillerName,
+                        Stolen = baronKillEvent.Stolen
+                    });
+                    break;
+                case ChampionKillEvent championKillEvent:
+                    DataModel.Match.ChampionKill.Trigger(new ChampionKillEventArgs
+                    {
+                        KillerName = championKillEvent.KillerName,
+                        Assisters = championKillEvent.Assisters,
+                        VictimName = championKillEvent.VictimName
+                    });
+                    break;
+                case DragonKillEvent dragonKillEvent:
+                    DataModel.Match.DragonKill.Trigger(new DragonKillEventArgs
+                    {
+                        Assisters = dragonKillEvent.Assisters,
+                        DragonType = ParseEnum<DragonType>.TryParseOr(dragonKillEvent.DragonType, DragonType.Unknown),
+                        KillerName = dragonKillEvent.KillerName,
+                        Stolen = dragonKillEvent.Stolen
+                    });
+                    break;
+                case FirstBloodEvent firstBloodEvent:
+                    DataModel.Match.FirstBlood.Trigger(new FirstBloodEventArgs
+                    {
+                        Recipient = firstBloodEvent.Recipient
+                    });
+                    break;
+                case FirstBrickEvent firstBrickEvent:
+                    DataModel.Match.FirstBrick.Trigger(new FirstBrickEventArgs
+                    {
+                        KillerName = firstBrickEvent.KillerName
+                    });
+                    break;
+                case GameEndEvent gameEndEvent:
+                    DataModel.Match.GameEnd.Trigger(new GameEndEventArgs
+                    {
+                        Win = gameEndEvent.Result == "Win"
+                    });
+                    break;
+                case GameStartEvent gameStartEvent:
+                    DataModel.Match.GameStart.Trigger();
+                    break;
+                case HeraldKillEvent heraldKillEvent:
+                    DataModel.Match.HeraldKill.Trigger(new EpicCreatureKillEventArgs
+                    {
+                        Stolen = heraldKillEvent.Stolen,
+                        KillerName = heraldKillEvent.KillerName,
+                        Assisters = heraldKillEvent.Assisters
+                    });
+                    break;
+                case InhibKillEvent inhibKillEvent:
+                    DataModel.Match.InhibKill.Trigger(new InhibKillEventArgs
+                    {
+                        Assisters = inhibKillEvent.Assisters,
+                        KillerName = inhibKillEvent.KillerName,
+                        InhibKilled = ParseEnum<Inhibitor>.TryParseOr(inhibKillEvent.InhibKilled, Inhibitor.Unknown)
+                    });
+                    break;
+                case InhibRespawnedEvent inhibRespawnedEvent:
+                    DataModel.Match.InhibRespawned.Trigger(new InhibRespawnedEventArgs
+                    {
+                        InhibRespawned = ParseEnum<Inhibitor>.TryParseOr(inhibRespawnedEvent.InhibRespawned, Inhibitor.Unknown)
+                    });
+                    break;
+                case InhibRespawningSoonEvent inhibRespawningSoonEvent:
+                    DataModel.Match.InhibRespawningSoon.Trigger(new InhibRespawningSoonEventArgs
+                    {
+                        InhibRespawningSoon = ParseEnum<Inhibitor>.TryParseOr(inhibRespawningSoonEvent.InhibRespawningSoon, Inhibitor.Unknown)
+                    });
+                    break;
+                case MinionsSpawningEvent minionsSpawningEvent:
+                    DataModel.Match.MinionsSpawning.Trigger();
+                    break;
+                case MultikillEvent multikillEvent:
+                    DataModel.Match.Multikill.Trigger(new MultikillEventArgs
+                    {
+                        KillerName = multikillEvent.KillerName,
+                        KillStreak = multikillEvent.KillStreak
+                    });
+                    break;
+                case TurretKillEvent turretKillEvent:
+                    DataModel.Match.TurretKill.Trigger(new TurretKillEventArgs
+                    {
+                        KillerName = turretKillEvent.KillerName,
+                        Assisters = turretKillEvent.Assisters,
+                        TurretKilled = ParseEnum<Turret>.TryParseOr(turretKillEvent.TurretKilled, Turret.Unknown)
+                    });
+                    break;
             }
         }
     }

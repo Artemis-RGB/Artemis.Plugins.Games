@@ -485,3 +485,5 @@ FodyWeavers.xsd
 src/Artemis.Plugins.Games.Valheim/Artemis.Plugins.Games.Valheim.Module/mod/Artemis.Plugins.Games.Valheim.GSI.dll
 
 src/.idea/
+
+src/Artemis.Plugins.Games.LeagueOfLegends/Artemis.Plugins.Games.LeagueOfLegends.Module/gen-data/
