@@ -16,11 +16,6 @@ public class LeagueEnumGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        //TODO: fix summoner spells,
-        //figure out if any id at all is compatible with the ingame api ones
-
-        //also runes are kinda busted:
-        //do we need them and how do we use them
         var defaultDefs = new List<EnumDefinition>
         {
             new("Unknown", "Unknown", -1),
@@ -31,10 +26,28 @@ public class LeagueEnumGenerator : IIncrementalGenerator
         var itemsText = GetValueProvider(context, "item.json");
         var mapsText = GetValueProvider(context, "map.json");
         var runesText = GetValueProvider(context, "runesReforged.json");
-        var summonerSpellsText = GetValueProvider(context, "summoner.json");
 
         context.RegisterSourceOutput(championsText, (spc, args) =>
         {
+            if (args.Length == 0)
+            {
+                var diagnostics =
+                    Diagnostic.Create(
+                        new DiagnosticDescriptor(
+                            "LOL001",
+                            "League of Legends generator",
+                            "No champion data found",
+                            "League of Legends",
+                            DiagnosticSeverity.Error,
+                            true
+                        ),
+                        Location.None
+                    );
+                
+                spc.ReportDiagnostic(diagnostics);
+                return;
+            }
+            
             var championsString = args[0];
             var champions = JsonConvert.DeserializeObject<Root<ChampionInfo>>(championsString);
 
@@ -53,6 +66,25 @@ public class LeagueEnumGenerator : IIncrementalGenerator
 
         context.RegisterSourceOutput(itemsText, (spc, args) =>
         {
+            if (args.Length == 0)
+            {
+                var diagnostics =
+                    Diagnostic.Create(
+                        new DiagnosticDescriptor(
+                            "LOL002",
+                            "League of Legends generator",
+                            "No item data found",
+                            "League of Legends",
+                            DiagnosticSeverity.Error,
+                            true
+                        ),
+                        Location.None
+                    );
+                
+                spc.ReportDiagnostic(diagnostics);
+                return;
+            }
+            
             var itemsString = args[0];
             var items = JsonConvert.DeserializeObject<Root<ItemInfo>>(itemsString);
 
@@ -70,6 +102,26 @@ public class LeagueEnumGenerator : IIncrementalGenerator
 
         context.RegisterSourceOutput(mapsText, (spc, args) =>
         {
+            if (args.Length == 0)
+            {
+                var diagnostics =
+                    Diagnostic.Create(
+                        new DiagnosticDescriptor(
+                            "LOL003",
+                            "League of Legends generator",
+                            "No map data found",
+                            "League of Legends",
+                            DiagnosticSeverity.Error,
+                            true
+                        ),
+                        Location.None
+                    );
+                
+                spc.ReportDiagnostic(diagnostics);
+                return;
+            }
+            
+            
             var mapsString = args[0];
             var maps = JsonConvert.DeserializeObject<Root<MapInfo>>(mapsString);
 
@@ -85,6 +137,26 @@ public class LeagueEnumGenerator : IIncrementalGenerator
 
         context.RegisterSourceOutput(runesText, (spc, args) =>
         {
+            if (args.Length == 0)
+            {
+                var diagnostics =
+                    Diagnostic.Create(
+                        new DiagnosticDescriptor(
+                            "LOL004",
+                            "League of Legends generator",
+                            "No rune data found",
+                            "League of Legends",
+                            DiagnosticSeverity.Error,
+                            true
+                        ),
+                        Location.None
+                    );
+                
+                spc.ReportDiagnostic(diagnostics);
+                return;
+            }
+            
+            
             var runesString = args[0];
             var runes = JsonConvert.DeserializeObject<RuneInfo[]>(runesString);
 

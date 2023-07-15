@@ -5,7 +5,9 @@ $fileNames = @("champion.json", "item.json", "map.json", "runesReforged.json")
 $folder = Join-Path $PSScriptRoot "gen-data"
 
 # Create the folder if it doesn't exist
-if (!(Test-Path $folder)) { New-Item -ItemType Directory -Path $folder }
+if (!(Test-Path $folder)) { 
+    New-Item -ItemType Directory -Path $folder | Out-Null
+}
 
 # Get the path to the files
 $filePaths = $fileNames | ForEach-Object { Join-Path $folder $_ }
@@ -24,7 +26,7 @@ foreach ($filePath in $filePaths) {
     if (Test-Path $filePath) {
         $fileVersion = (Get-Content $filePath | ConvertFrom-Json).version
     }
-    else{
+    else {
         $fileVersion = ""
     }
 

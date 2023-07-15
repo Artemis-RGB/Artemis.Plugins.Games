@@ -67,6 +67,7 @@ internal sealed class LcuClient : IDisposable
     private async Task ReadLoop()
     {
         while (!_cts.IsCancellationRequested && _ws.State == WebSocketState.Open)
+        {
             try
             {
                 var bytesRead = 0;
@@ -108,6 +109,7 @@ internal sealed class LcuClient : IDisposable
             {
                 Error?.Invoke(this, e);
             }
+        }
     }
 
     #region IDisposable Support
