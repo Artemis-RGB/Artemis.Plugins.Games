@@ -2,6 +2,6 @@
 
 public class SummonerSpells
 {
-    public SummonerSpell SummonerSpellOne { get; set; } = new();
-    public SummonerSpell SummonerSpellTwo { get; set; } = new();
+    public SummonerSpell? SummonerSpellOne { get; set; } = new();
+    public SummonerSpell? SummonerSpellTwo { get; set; } = new();
 }

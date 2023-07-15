@@ -25,12 +25,12 @@ public class LeagueOfLegendsModule : Module<LeagueOfLegendsDataModel>
 
     private readonly ILogger _logger;
     private readonly ChampionColorService _championColorService;
-
-    private LolInGameApiClient? inGameApi;
-    private RootGameData? gameData;
-    private float lastEventTime;
-    private string? lastChampionName;
-    private int lastChampionSkin;
+    private LolInGameApiClient? _inGameApi;
+    
+    private RootGameData? _gameData;
+    private float? _lastEventTime;
+    private string? _lastChampionName;
+    private int? _lastChampionSkin;
 
     public LeagueOfLegendsModule(ILogger logger, ChampionColorService championColorService)
     {
@@ -42,28 +42,28 @@ public class LeagueOfLegendsModule : Module<LeagueOfLegendsDataModel>
 
     public override void Enable()
     {
-        inGameApi = new LolInGameApiClient();
+        _inGameApi = new LolInGameApiClient();
         AddTimedUpdate(TimeSpan.FromMilliseconds(100), UpdateData);
     }
 
     public override void Disable()
     {
-        inGameApi?.Dispose();
+        _inGameApi?.Dispose();
     }
 
     public override void ModuleActivated(bool isOverride)
     {
+        _gameData = null;
+        _lastEventTime = null;
+        _lastChampionName = null;
+        _lastChampionSkin = null;
     }
 
     public override void ModuleDeactivated(bool isOverride)
     {
-        _logger.Debug("Deactivating module");
-
-        gameData = new RootGameData();
+        _gameData = new RootGameData();
         UpdateDataModel();
-        lastEventTime = 0f;
-
-        _logger.Debug("Deactivated module");
+        _lastEventTime = 0f;
     }
 
     public override void Update(double deltaTime)
@@ -72,9 +72,12 @@ public class LeagueOfLegendsModule : Module<LeagueOfLegendsDataModel>
 
     private async Task UpdateData(double deltaTime)
     {
+        if (_inGameApi == null)
+            return;
+        
         try
         {
-            gameData = await inGameApi.GetAllGameDataAsync();
+            _gameData = await _inGameApi.GetAllGameDataAsync();
         }
         catch (TaskCanceledException)
         {
@@ -105,22 +108,31 @@ public class LeagueOfLegendsModule : Module<LeagueOfLegendsDataModel>
     /// </summary>
     private void UpdateDataModel()
     {
-        if (DataModel.Player.ShortChampionName != lastChampionName && DataModel.Player.SkinID != lastChampionSkin)
+        if (_gameData == null)
+            return;
+        
+        if (DataModel.Player.ShortChampionName != _lastChampionName && DataModel.Player.SkinID != _lastChampionSkin)
+        {
             Task.Run(async () =>
             {
                 DataModel.Player.ChampionColors = await _championColorService.GetSwatch(DataModel.Player.ShortChampionName, DataModel.Player.SkinID);
-                lastChampionName = DataModel.Player.ShortChampionName;
-                lastChampionSkin = DataModel.Player.SkinID;
+                _lastChampionName = DataModel.Player.ShortChampionName;
+                _lastChampionSkin = DataModel.Player.SkinID;
             });
-        DataModel.Update(gameData);
+        }
+
+        DataModel.Update(_gameData);
         FireOffEvents();
     }
 
     private void FireOffEvents()
     {
-        foreach (var e in gameData.Events.Events.Where(ev => ev.EventTime > lastEventTime))
+        if (_gameData == null)
+            return;
+        
+        foreach (var e in _gameData.Events.Events.Where(ev => ev.EventTime > _lastEventTime))
         {
-            lastEventTime = e.EventTime;
+            _lastEventTime = e.EventTime;
 
             switch (e)
             {

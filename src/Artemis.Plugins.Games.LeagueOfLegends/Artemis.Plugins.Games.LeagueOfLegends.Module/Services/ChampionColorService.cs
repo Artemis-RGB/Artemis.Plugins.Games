@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading;
 using Artemis.Core.ColorScience;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Services;
@@ -16,44 +17,50 @@ public class ChampionColorService : IPluginService, IDisposable
     private readonly PluginSetting<Dictionary<string, ColorSwatch>> _colorCache;
     private readonly PluginSetting<Dictionary<string, int>> _skinIdCache;
     private readonly HttpClient _httpClient;
+    private readonly SemaphoreSlim _semaphore;
 
     public ChampionColorService(PluginSettings pluginSettings)
     {
         _colorCache = pluginSettings.GetSetting("championColors", new Dictionary<string, ColorSwatch>());
         _skinIdCache = pluginSettings.GetSetting("skinIds", new Dictionary<string, int>());
-        _httpClient = new HttpClient
+        _httpClient = new()
         {
             Timeout = TimeSpan.FromSeconds(5)
         };
+        _semaphore = new(1, 1);
     }
 
     public async Task<ColorSwatch> GetSwatch(string championShortName, int skinId)
     {
         if (string.IsNullOrWhiteSpace(championShortName))
-            return new ColorSwatch();
+            throw new ArgumentNullException(nameof(championShortName));
 
-        //we need this step tp get rid of chromas
-        var baseSkinId = await GetBaseSkinIdAsync(championShortName, skinId);
+        await _semaphore.WaitAsync();
 
-        var key = GetDataDragonSplashUrl(championShortName, baseSkinId);
-        lock (_colorCache)
+        try
         {
-            if (_colorCache.Value.TryGetValue(key, out var s))
+            //we need this step tp get rid of chromas
+            var baseSkinId = await GetBaseSkinIdAsync(championShortName, skinId);
+
+            var key = GetDataDragonSplashUrl(championShortName, baseSkinId);
+
+            if (_colorCache.Value!.TryGetValue(key, out var s))
                 return s;
-        }
 
-        using var stream = await _httpClient.GetStreamAsync(key);
-        using var skbm = SKBitmap.Decode(stream);
-        var skClrs = ColorQuantizer.Quantize(skbm.Pixels, 256);
+            await using var stream = await _httpClient.GetStreamAsync(key);
+            using var skBitmap = SKBitmap.Decode(stream);
+            var skClrs = ColorQuantizer.Quantize(skBitmap.Pixels, 256);
 
-        var swatch = ColorQuantizer.FindAllColorVariations(skClrs);
-        lock (_colorCache)
-        {
+            var swatch = ColorQuantizer.FindAllColorVariations(skClrs, true);
             _colorCache.Value[key] = swatch;
             _colorCache.Save();
-        }
 
-        return swatch;
+            return swatch;
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
     }
 
     private async Task<int> GetBaseSkinIdAsync(string championShortName, int skinId)
@@ -62,46 +69,30 @@ public class ChampionColorService : IPluginService, IDisposable
         const int SKIN_CLASSIFICATION_CHROMA = 2;
         var key = GetCommunityDragonSkinJsonUrl(championShortName, skinId);
 
-        lock (_skinIdCache)
-        {
-            if (_skinIdCache.Value.TryGetValue(key, out var id))
-                return id;
-        }
+        if (_skinIdCache.Value!.TryGetValue(key, out var id))
+            return id;
 
         var championSkinJson = await _httpClient.GetStringAsync(key);
         var championSkinInfo = JObject.Parse(championSkinJson);
+        var usefulInfo = championSkinInfo.First?.First;
+        var skinClassification = usefulInfo?.Value<int>("skinClassification");
+        if (skinClassification == null)
+            throw new Exception("Skin classification is null.");
 
-        var usefulInfo = championSkinInfo.First.First;
-        var skinClassificationJson = usefulInfo["skinClassification"];
-        if (skinClassificationJson == null)
-            throw new Exception();
-
-        var skinClassification = (int)skinClassificationJson;
-        int baseSkinId;
-        if (skinClassification == SKIN_CLASSIFICATION_NONCHROMA)
+        var baseSkinId = skinClassification switch
         {
-            baseSkinId = skinId;
-        }
-        else if (skinClassification == SKIN_CLASSIFICATION_CHROMA)
-        {
-            var parentId = usefulInfo["skinParent"];
-            if (parentId == null)
-                throw new Exception();
+            SKIN_CLASSIFICATION_NONCHROMA => skinId,
+            SKIN_CLASSIFICATION_CHROMA => usefulInfo?.Value<int>("skinParent"),
+            _ => throw new Exception("Unknown skin classification.")
+        };
+        
+        if (!baseSkinId.HasValue)
+            throw new Exception("Base skin id is null.");
 
-            baseSkinId = (int)parentId;
-        }
-        else
-        {
-            throw new Exception();
-        }
+        _skinIdCache.Value[key] = baseSkinId.Value;
+        _skinIdCache.Save();
 
-        lock (_skinIdCache)
-        {
-            _skinIdCache.Value[key] = baseSkinId;
-            _skinIdCache.Save();
-        }
-
-        return baseSkinId;
+        return baseSkinId.Value;
     }
 
     private static string GetDataDragonSplashUrl(string championShortName, int skinId)

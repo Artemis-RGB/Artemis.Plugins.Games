@@ -5,6 +5,4 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.DataModels;
 
 public class LeagueClientDataModel : DataModel
 {
-    public GameFlowData GameFlow { get; set; }
-    public ChampSelectData ChampSelect { get; set; }
 }

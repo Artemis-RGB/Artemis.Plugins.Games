@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.EventData;
 
-public class GameFlowData
+public record GameFlowData
 {
     [JsonProperty("gameClient")] public GameClient GameClient { get; set; }
 
@@ -16,7 +16,7 @@ public class GameFlowData
     [JsonProperty("phase")] public string Phase { get; set; }
 }
 
-public class GameClient
+public record GameClient
 {
     [JsonProperty("observerServerIp")] public string ObserverServerIp { get; set; }
 
@@ -31,7 +31,7 @@ public class GameClient
     [JsonProperty("visible")] public bool Visible { get; set; }
 }
 
-public class GameTypeConfig
+public record GameTypeConfig
 {
     [JsonProperty("advancedLearningQuests")]
     public bool AdvancedLearningQuests { get; set; }
@@ -78,7 +78,7 @@ public class GameTypeConfig
     [JsonProperty("teamChampionPool")] public bool TeamChampionPool { get; set; }
 }
 
-public class QueueRewards
+public record QueueRewards
 {
     [JsonProperty("isChampionPointsEnabled")]
     public bool IsChampionPointsEnabled { get; set; }
@@ -90,7 +90,7 @@ public class QueueRewards
     [JsonProperty("partySizeIpRewards")] public List<object> PartySizeIpRewards { get; set; }
 }
 
-public class Queue
+public record Queue
 {
     [JsonProperty("allowablePremadeSizes")]
     public List<int> AllowablePremadeSizes { get; set; }
@@ -163,7 +163,7 @@ public class Queue
     [JsonProperty("type")] public string Type { get; set; }
 }
 
-public class GameData
+public record GameData
 {
     [JsonProperty("gameId")] public long GameId { get; set; }
 
@@ -185,7 +185,7 @@ public class GameData
     [JsonProperty("teamTwo")] public List<object> TeamTwo { get; set; }
 }
 
-public class GameDodge
+public record GameDodge
 {
     [JsonProperty("dodgeIds")] public List<object> DodgeIds { get; set; }
 
@@ -194,7 +194,7 @@ public class GameDodge
     [JsonProperty("state")] public string State { get; set; }
 }
 
-public class Assets
+public record Assets
 {
     [JsonProperty("champ-select-background-sound")]
     public string ChampSelectBackgroundSound { get; set; }
@@ -268,30 +268,29 @@ public class Assets
     [JsonProperty("social-icon-victory")] public string SocialIconVictory { get; set; }
 }
 
-public class CategorizedContentBundles
+public record CategorizedContentBundles
 {
 }
 
-public class PerPositionDisallowedSummonerSpells
+public record PerPositionDisallowedSummonerSpells
 {
 }
 
-public class PerPositionRequiredSummonerSpells
+public record PerPositionRequiredSummonerSpells
 {
 }
 
-public class Properties
+public record Properties
 {
     [JsonProperty("suppressRunesMasteriesPerks")]
     public bool SuppressRunesMasteriesPerks { get; set; }
 }
 
-public class Map
+public record Map
 {
-    [JsonProperty("assets")] public Assets Assets { get; set; }
+    //[JsonProperty("assets")] public Assets Assets { get; set; }
 
-    [JsonProperty("categorizedContentBundles")]
-    public CategorizedContentBundles CategorizedContentBundles { get; set; }
+    // [JsonProperty("categorizedContentBundles")] public CategorizedContentBundles CategorizedContentBundles { get; set; }
 
     [JsonProperty("description")] public string Description { get; set; }
 

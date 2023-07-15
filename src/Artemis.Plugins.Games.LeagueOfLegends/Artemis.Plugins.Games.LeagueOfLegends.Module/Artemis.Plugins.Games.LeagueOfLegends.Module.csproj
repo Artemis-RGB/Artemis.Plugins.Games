@@ -4,6 +4,7 @@
         <Platforms>x64</Platforms>
         <EnableDynamicLoading>true</EnableDynamicLoading>
         <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,8 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Include="champion.json" />
-        <AdditionalFiles Include="item.json" />
+        <AdditionalFiles Include="gen-data\**" />
         <ProjectReference Include="..\Artemis.Plugins.Games.LeagueOfLegends.Generators\Artemis.Plugins.Games.LeagueOfLegends.Generators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 

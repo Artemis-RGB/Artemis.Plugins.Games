@@ -11,6 +11,7 @@ public class MatchDataModel : DataModel
 {
     public MapTerrain MapTerrain { get; set; }
     public GameMode GameMode { get; set; }
+    public Map Map { get; set; }
     public float GameTime { get; set; }
     public DataModelEvent<AceEventArgs> Ace { get; } = new();
     public DataModelEvent<EpicCreatureKillEventArgs> BaronKill { get; } = new();
@@ -32,6 +33,7 @@ public class MatchDataModel : DataModel
     {
         GameMode = ParseEnum<GameMode>.TryParseOr(rootGameData.GameData.GameMode, GameMode.Unknown);
         MapTerrain = ParseEnum<MapTerrain>.TryParseOr(rootGameData.GameData.MapTerrain, MapTerrain.Unknown);
+        Map = (Map)rootGameData.GameData.MapNumber;
         GameTime = rootGameData.GameData.GameTime;
     }
 }

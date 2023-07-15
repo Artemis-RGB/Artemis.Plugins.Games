@@ -30,7 +30,7 @@ internal static class ParseEnum<TEnum> where TEnum : struct, Enum
                 .SelectMany(tp => tp.Att.Names, (tp, name) => (name, tp.EnumValue)))
             .ToDictionary(a => a.Item1, a => a.Item2); //create a dictionary from all of them
 
-    internal static TEnum TryParseOr(string value, TEnum defaultValue, bool ignoreCase = false)
+    internal static TEnum TryParseOr(string? value, TEnum defaultValue, bool ignoreCase = false)
     {
         //this should be None for all enums in this plugin
         if (string.IsNullOrWhiteSpace(value))

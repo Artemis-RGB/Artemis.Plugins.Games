@@ -6,6 +6,7 @@ using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
 using System;
 using SummonerSpell = Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums.SummonerSpell;
 using ChampionEnum = Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums.Champion;
+using Rune = Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums.Rune;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels;
 
@@ -14,6 +15,7 @@ public class PlayerDataModel : DataModel
     public AbilityGroupDataModel Abilities { get; } = new();
     public PlayerStatsDataModel ChampionStats { get; } = new();
     public InventoryDataModel Inventory { get; } = new();
+    public RunesDataModel Runes { get; } = new();
     public string SummonerName { get; set; }
     public int Level { get; set; }
     public float Gold { get; set; }
@@ -51,6 +53,7 @@ public class PlayerDataModel : DataModel
         Abilities.Update(rootGameData.ActivePlayer.Abilities);
         ChampionStats.Update(rootGameData.ActivePlayer.ChampionStats);
         Inventory.Update(allPlayer.Items);
+        Runes.Update(allPlayer.Runes);
 
         Level = rootGameData.ActivePlayer.Level;
         Gold = rootGameData.ActivePlayer.CurrentGold;
@@ -63,7 +66,22 @@ public class PlayerDataModel : DataModel
         RespawnTimer = allPlayer.RespawnTimer;
         IsDead = allPlayer.IsDead;
 
-        SpellD = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellOne.RawDisplayName, SummonerSpell.Unknown);
-        SpellF = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellTwo.RawDisplayName, SummonerSpell.Unknown);
+        SpellD = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellOne?.RawDisplayName, SummonerSpell.Unknown);
+        SpellF = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellTwo?.RawDisplayName, SummonerSpell.Unknown);
+    }
+}
+
+public class RunesDataModel : DataModel
+{
+    public Rune PrimaryTree { get; set; }
+    public Rune SecondaryTree { get;set;  }
+    public Rune Keystone { get; set; }
+    
+    public void Update(Runes runes)
+    {
+        //I'm sure it's fiiiiine
+        PrimaryTree =  (Rune)runes.PrimaryRuneTree.Id;
+        SecondaryTree = (Rune)runes.SecondaryRuneTree.Id;
+        Keystone = (Rune)runes.Keystone.Id;
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.EventData;
 
-public class ChampSelectData
+public record ChampSelectData
 {
     [JsonProperty("actions")] public Action[][] Actions { get; set; }
 
@@ -32,7 +32,7 @@ public class ChampSelectData
 
     [JsonProperty("entitledFeatureState")] public EntitledFeatureState EntitledFeatureState { get; set; }
 
-    [JsonProperty("gameId")] public int GameId { get; set; }
+    [JsonProperty("gameId")] public long GameId { get; set; }
 
     [JsonProperty("hasSimultaneousBans")] public bool HasSimultaneousBans { get; set; }
 
@@ -61,7 +61,7 @@ public class ChampSelectData
     [JsonProperty("trades")] public Trade[] Trades { get; set; }
 }
 
-public class Bans
+public record Bans
 {
     [JsonProperty("myTeamBans")] public int[] MyTeamBans { get; set; }
 
@@ -70,46 +70,46 @@ public class Bans
     [JsonProperty("theirTeamBans")] public int[] TheirTeamBans { get; set; }
 }
 
-public class ChatDetails
+public record ChatDetails
 {
     [JsonProperty("chatRoomName")] public string ChatRoomName { get; set; }
 
     [JsonProperty("chatRoomPassword")] public string ChatRoomPassword { get; set; }
 }
 
-public class EntitledFeatureState
+public record EntitledFeatureState
 {
     [JsonProperty("additionalRerolls")] public int AdditionalRerolls { get; set; }
 
     [JsonProperty("unlockedSkinIds")] public int[] UnlockedSkinIds { get; set; }
 }
 
-public class Player
+public record Player
 {
     [JsonProperty("assignedPosition")] public string AssignedPosition { get; set; }
 
-    [JsonProperty("cellId")] public int CellId { get; set; }
+    [JsonProperty("cellId")] public long CellId { get; set; }
 
-    [JsonProperty("championId")] public int ChampionId { get; set; }
+    [JsonProperty("championId")] public long ChampionId { get; set; }
 
     [JsonProperty("championPickIntent")] public int ChampionPickIntent { get; set; }
 
     [JsonProperty("entitledFeatureType")] public string EntitledFeatureType { get; set; }
 
-    [JsonProperty("selectedSkinId")] public int SelectedSkinId { get; set; }
+    [JsonProperty("selectedSkinId")] public long SelectedSkinId { get; set; }
 
-    [JsonProperty("spell1Id")] public int Spell1Id { get; set; }
+    [JsonProperty("spell1Id")] public long Spell1Id { get; set; }
 
-    [JsonProperty("spell2Id")] public int Spell2Id { get; set; }
+    [JsonProperty("spell2Id")] public long Spell2Id { get; set; }
 
-    [JsonProperty("summonerId")] public int SummonerId { get; set; }
+    [JsonProperty("summonerId")] public long SummonerId { get; set; }
 
-    [JsonProperty("team")] public int Team { get; set; }
+    [JsonProperty("team")] public long Team { get; set; }
 
-    [JsonProperty("wardSkinId")] public int WardSkinId { get; set; }
+    [JsonProperty("wardSkinId")] public long WardSkinId { get; set; }
 }
 
-public class Timer
+public record Timer
 {
     [JsonProperty("adjustedTimeLeftInPhase")]
     public int AdjustedTimeLeftInPhase { get; set; }
@@ -123,30 +123,30 @@ public class Timer
     [JsonProperty("totalTimeInPhase")] public int TotalTimeInPhase { get; set; }
 }
 
-public class Trade
+public record Trade
 {
-    [JsonProperty("cellId")] public int CellId { get; set; }
+    [JsonProperty("cellId")] public long CellId { get; set; }
 
-    [JsonProperty("id")] public int Id { get; set; }
+    [JsonProperty("id")] public long Id { get; set; }
 
     [JsonProperty("state")] public string State { get; set; }
 }
 
-public class Action
+public record Action
 {
-    [JsonProperty("actorCellId")] public int ActorCellId { get; set; }
+    [JsonProperty("actorCellId")] public long ActorCellId { get; set; }
 
-    [JsonProperty("championId")] public int ChampionId { get; set; }
+    [JsonProperty("championId")] public long ChampionId { get; set; }
 
     [JsonProperty("completed")] public bool Completed { get; set; }
 
-    [JsonProperty("id")] public int Id { get; set; }
+    [JsonProperty("id")] public long Id { get; set; }
 
     [JsonProperty("isAllyAction")] public bool IsAllyAction { get; set; }
 
     [JsonProperty("isInProgress")] public bool IsInProgress { get; set; }
 
-    [JsonProperty("pickTurn")] public int PickTurn { get; set; }
+    [JsonProperty("pickTurn")] public long PickTurn { get; set; }
 
     [JsonProperty("type")] public string Type { get; set; }
 }

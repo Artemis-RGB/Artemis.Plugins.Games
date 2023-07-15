@@ -486,6 +486,4 @@ src/Artemis.Plugins.Games.Valheim/Artemis.Plugins.Games.Valheim.Module/mod/Artem
 
 src/.idea/
 
-src/Artemis.Plugins.Games.LeagueOfLegends/Artemis.Plugins.Games.LeagueOfLegends.Module/champion.json
-
-src/Artemis.Plugins.Games.LeagueOfLegends/Artemis.Plugins.Games.LeagueOfLegends.Module/item.json
+src/Artemis.Plugins.Games.LeagueOfLegends/Artemis.Plugins.Games.LeagueOfLegends.Module/gen-data/

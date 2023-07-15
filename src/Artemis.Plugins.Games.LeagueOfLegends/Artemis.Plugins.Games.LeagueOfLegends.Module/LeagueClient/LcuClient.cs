@@ -6,6 +6,8 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents;
+using Newtonsoft.Json;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient;
 
@@ -16,9 +18,11 @@ internal sealed class LcuClient : IDisposable
     private readonly ClientWebSocket _ws;
     private readonly CancellationTokenSource _cts;
     private readonly byte[] _buffer;
-    private Task _readLoopTask;
+    private Task? _readLoopTask;
 
-    public event EventHandler<ILcuEvent> EventReceived;
+    public event EventHandler<LcuEvent>? EventReceived;
+    public event EventHandler<LcuEvent>? MessageReceived; 
+    public event EventHandler<Exception>? Error;
 
     public LcuClient(LockfileData data)
     {
@@ -52,6 +56,9 @@ internal sealed class LcuClient : IDisposable
 
     private async Task Send(LcuOpcode opCode, string json)
     {
+        if (_ws.State != WebSocketState.Open)
+            throw new Exception("Could not send message, LCU is not connected");
+        
         var payload = $"[{(int)opCode},\"{json}\"]";
 
         await _ws.SendAsync(Encoding.UTF8.GetBytes(payload), WebSocketMessageType.Text, true, _cts.Token);
@@ -80,7 +87,12 @@ internal sealed class LcuClient : IDisposable
                 //1 - which subscription
                 var opCode = (LcuOpcode)(int)jArray[0];
                 var eventName = jArray[1].ToString();
-                var lcuEvent = jArray[2].ToObject<ILcuEvent>();
+                var lcuEventString = jArray[2].ToString();
+                
+                var lcuEvent = JsonConvert.DeserializeObject<LcuEvent>(lcuEventString);
+                
+                if (lcuEvent == null)
+                    throw new Exception("Could not deserialize LCU event");
 
                 switch (opCode)
                 {
@@ -88,12 +100,13 @@ internal sealed class LcuClient : IDisposable
                         EventReceived?.Invoke(this, lcuEvent);
                         break;
                     default:
-
+                        MessageReceived?.Invoke(this, lcuEvent);
                         break;
                 }
             }
             catch (Exception e)
             {
+                Error?.Invoke(this, e);
             }
     }
 

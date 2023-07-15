@@ -37,11 +37,8 @@ public sealed class LolInGameApiClient : IDisposable
     private async Task<T> GetAndDeserialize<T>(string endpoint)
     {
         var response = await _httpClient.GetStringAsync(endpoint);
-#if DEBUG
-        return JsonConvert.DeserializeObject<T>(response, _debugSerializerSettings);
-#else
-            return JsonConvert.DeserializeObject<T>(response);
-#endif
+        //return JsonConvert.DeserializeObject<T>(response, _debugSerializerSettings);
+        return JsonConvert.DeserializeObject<T>(response)!;
     }
 
     public Task<string> GetActivePlayerNameAsync()

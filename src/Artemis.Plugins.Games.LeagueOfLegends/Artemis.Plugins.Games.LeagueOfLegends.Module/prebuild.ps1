@@ -1,18 +1,14 @@
-# Get the path to the files
-$championsPath = Join-Path $PSScriptRoot "champion.json"
-$itemsPath = Join-Path $PSScriptRoot "item.json"
+# List of filenames to download
+$fileNames = @("champion.json", "item.json", "map.json", "runesReforged.json")
 
-# Check if files exist and get their versions
-if (Test-Path $championsPath) {
-    $championsVersion = (Get-Content $championsPath | ConvertFrom-Json).version
-} else {
-    $championsVersion = ""
-}
-if (Test-Path $itemsPath) {
-    $itemsVersion = (Get-Content $itemsPath | ConvertFrom-Json).version
-} else {
-    $itemsVersion = ""
-}
+# Get the path to the folder
+$folder = Join-Path $PSScriptRoot "gen-data"
+
+# Create the folder if it doesn't exist
+if (!(Test-Path $folder)) { New-Item -ItemType Directory -Path $folder }
+
+# Get the path to the files
+$filePaths = $fileNames | ForEach-Object { Join-Path $folder $_ }
 
 # Make HTTP request to retrieve versions
 $versionsString = Invoke-RestMethod -Uri "https://ddragon.leagueoflegends.com/api/versions.json"
@@ -23,16 +19,20 @@ $versions = $versionsString -split '\s+'
 # Get the latest version
 $latestVersion = $versions[0]
 
-# Check if files are up to date
-if ($championsVersion -ne $latestVersion) {
-    # Delete the file if it exists
-    if (Test-Path $championsPath) { Remove-Item $championsPath }
-    # Download the file
-    Invoke-WebRequest -Uri "https://ddragon.leagueoflegends.com/cdn/$latestVersion/data/en_US/champion.json" -OutFile $championsPath
-}
-if ($itemsVersion -ne $latestVersion) {
-    # Delete the file if it exists
-    if (Test-Path $itemsPath) { Remove-Item $itemsPath }
-    # Download the file
-    Invoke-WebRequest -Uri "https://ddragon.leagueoflegends.com/cdn/$latestVersion/data/en_US/item.json" -OutFile $itemsPath
+# Check if files exist and get their versions
+foreach ($filePath in $filePaths) {
+    if (Test-Path $filePath) {
+        $fileVersion = (Get-Content $filePath | ConvertFrom-Json).version
+    }
+    else{
+        $fileVersion = ""
+    }
+
+    if ($fileVersion -ne $latestVersion) {
+        # Delete the file if it exists
+        if (Test-Path $filePath) { Remove-Item $filePath }
+        # Download the file
+        $fileName = $filePath | Split-Path -Leaf
+        Invoke-WebRequest -Uri "https://ddragon.leagueoflegends.com/cdn/$latestVersion/data/en_US/$fileName" -OutFile $filePath
+    }
 }
