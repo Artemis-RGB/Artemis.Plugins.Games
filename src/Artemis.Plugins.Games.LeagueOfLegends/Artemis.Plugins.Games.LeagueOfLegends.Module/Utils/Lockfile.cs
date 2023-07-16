@@ -3,11 +3,27 @@ using System.IO;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
 
-public record LockfileData(string ProcessName, int ProcessId, int Port, string Password, string Protocol);
-
-internal static class LockfileUtils
+/// <summary>
+///     Represents the lockfile data of a League of Legends client
+/// </summary>
+public struct Lockfile
 {
-    public static bool TryFind(string processName, out LockfileData data)
+    public string ProcessName { get; }
+    public int ProcessId { get; }
+    public int Port { get; }
+    public string Password { get; }
+    public string Protocol { get; }
+    
+    private Lockfile(string processName, int processId, int port, string password, string protocol)
+    {
+        ProcessName = processName;
+        ProcessId = processId;
+        Port = port;
+        Password = password;
+        Protocol = protocol;
+    }
+    
+    public static bool TryFind(string processName, out Lockfile data)
     {
         var processes = Process.GetProcessesByName(processName);
         if (processes.Length == 0)
@@ -17,7 +33,7 @@ internal static class LockfileUtils
         }
 
         var path = Path.Combine(
-            Path.GetDirectoryName(processes[0].MainModule.FileName),
+            Path.GetDirectoryName(processes[0].MainModule!.FileName)!,
             "lockfile");
 
         if (!File.Exists(path))
@@ -37,7 +53,7 @@ internal static class LockfileUtils
             return false;
         }
 
-        data = new LockfileData(parts[0], int.Parse(parts[1]), int.Parse(parts[2]), parts[3], parts[4]);
+        data = new Lockfile(parts[0], int.Parse(parts[1]), int.Parse(parts[2]), parts[3], parts[4]);
         return true;
     }
 }

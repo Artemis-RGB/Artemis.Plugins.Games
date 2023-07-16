@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents;
+using LobbyData = Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.LobbyData;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient;
 
@@ -22,13 +23,8 @@ public class LeagueClientModule : Module<LeagueClientDataModel>
     {
         // "OnJsonApiEvent",
         "OnJsonApiEvent_lol-gameflow_v1_session",
-        "OnJsonApiEvent_lol-champ-select-legacy_v1_session",
         "OnJsonApiEvent_lol-champ-select_v1_session",
-        "OnJsonApiEvent_lol-game-settings_v1_ready",
-        "OnJsonApiEvent_lol-login_v1_session",
-        "OnJsonApiEvent_lol-login_v1_summoner_session",
         "OnJsonApiEvent_lol-lobby_v2_lobby",
-        "OnJsonApiEvent_lol-chat_v1_session",
     };
 
     public override List<IModuleActivationRequirement> ActivationRequirements { get; }
@@ -37,7 +33,8 @@ public class LeagueClientModule : Module<LeagueClientDataModel>
     private readonly ILogger _logger;
     private GameFlowData? _gameFlow;
     private ChampSelectData? _champSelect;
-    private LcuClient? lcuClient;
+    private LcuWsClient? _lcuClient;
+    private LcuHttpClient? _lcuHttpClient;
 
     public LeagueClientModule(ILogger logger)
     {
@@ -76,15 +73,16 @@ public class LeagueClientModule : Module<LeagueClientDataModel>
     {
         try
         {
-            if (!LockfileUtils.TryFind(ProcessName, out var lockFile))
+            if (!Lockfile.TryFind(ProcessName, out var lockFile))
                 return false;
 
-            lcuClient = new LcuClient(lockFile);
-            lcuClient.EventReceived += LcuClientOnEventReceived;
-            lcuClient.MessageReceived += LcuClientOnMessageReceived;
-            lcuClient.Error += LcuClientOnError;
-            await lcuClient.Connect();
-            foreach (var lcuEvent in LcuEvents) await lcuClient.Subscribe(lcuEvent);
+            _lcuHttpClient = new LcuHttpClient(lockFile.Port, lockFile.Password);
+            _lcuClient = new LcuWsClient(lockFile);
+            _lcuClient.EventReceived += LcuClientOnEventReceived;
+            _lcuClient.MessageReceived += LcuClientOnMessageReceived;
+            _lcuClient.Error += LcuClientOnError;
+            await _lcuClient.Connect();
+            foreach (var lcuEvent in LcuEvents) await _lcuClient.Subscribe(lcuEvent);
             return true;
         }
         catch
@@ -108,24 +106,31 @@ public class LeagueClientModule : Module<LeagueClientDataModel>
         switch (e)
         {
             case LcuEvent<GameFlowData> gameFlow:
-                //sometimes the game fires an event with the same data as the previous one, so we ignore it
-                if (gameFlow.Data == _gameFlow)
-                    return;
-                
-                _gameFlow = gameFlow.Data;
-                _logger.Information("GameFlow event: {Uri} | {EventType} | {Data}", gameFlow.Uri, gameFlow.EventType,
+                _logger.Verbose("GameFlow event: {Uri} | {EventType} | {Data}", gameFlow.Uri, gameFlow.EventType,
                     JsonConvert.SerializeObject(gameFlow.Data));
+                if (gameFlow.EventType == "Update")
+                    UpdateGameflow(gameFlow.Data);
                 break;
             case LcuEvent<ChampSelectData> champSelect:
-                if (champSelect.Data == _champSelect)
-                    return;
-                
-                _champSelect = champSelect.Data;
-                _logger.Information("ChampSelect event: {Uri} | {EventType} | {Data}", champSelect.Uri, champSelect.EventType,
+                _logger.Verbose("ChampSelect event: {Uri} | {EventType} | {Data}", champSelect.Uri, champSelect.EventType,
                     JsonConvert.SerializeObject(champSelect.Data));
+                if (champSelect.EventType == "Update")
+                    UpdateChampSelect(champSelect.Data);
+                break;
+            case LcuEvent<LobbyData> lobby:
+                _logger.Verbose("Lobby event: {Uri} | {EventType} | {Data}", lobby.Uri, lobby.EventType,
+                    JsonConvert.SerializeObject(lobby.Data));
+                break;
+            case LcuEvent<LobbyMember[]> lobbyMembers:
+                _logger.Verbose("Lobby members event: {Uri} | {EventType} | {Data}", lobbyMembers.Uri, lobbyMembers.EventType,
+                    JsonConvert.SerializeObject(lobbyMembers.Data));
+                break;
+            case LcuEvent<LobbySearchState> lobbySearchState:
+                _logger.Verbose("Lobby search state event: {Uri} | {EventType} | {Data}", lobbySearchState.Uri, lobbySearchState.EventType,
+                    JsonConvert.SerializeObject(lobbySearchState.Data));
                 break;
             case LcuEvent<object> @event:
-                _logger.Information("Event: {Uri} | {EventType} | {Data}", @event.Uri, @event.EventType,
+                _logger.Verbose("Event: {Uri} | {EventType} | {Data}", @event.Uri, @event.EventType,
                     JsonConvert.SerializeObject(@event.Data));
                 break;
             default:
@@ -134,17 +139,49 @@ public class LeagueClientModule : Module<LeagueClientDataModel>
         }
     }
 
+    private void UpdateChampSelect(ChampSelectData champSelectData)
+    {
+        if (_champSelect == champSelectData)
+            return;
+                
+        _champSelect = champSelectData;
+
+        //TODO
+    }
+
+    private void UpdateGameflow(GameFlowData gameFlowData)
+    {
+        //sometimes the game fires an event with the same data as the previous one, so we ignore it
+        if (_gameFlow == gameFlowData)
+            return;
+        
+        _gameFlow = gameFlowData;
+        var previousState = _gameFlow.Phase;
+        var newState = _gameFlow.Phase;
+        
+        if (previousState == newState)
+            return;
+        
+        _logger.Information("Gameflow state changed: {PreviousState} -> {NewState}", previousState, newState);
+
+        if (newState.Equals("readycheck", StringComparison.InvariantCultureIgnoreCase))
+        {
+            DataModel.QueuePop.Trigger();
+        }
+    }
+
     public override void ModuleDeactivated(bool isOverride)
     {
-        if (lcuClient == null)
+        if (_lcuClient == null)
             return;
         
         try
         {
-            lcuClient.EventReceived -= LcuClientOnEventReceived;
-            lcuClient.MessageReceived -= LcuClientOnMessageReceived;
-            lcuClient.Error -= LcuClientOnError;
-            lcuClient.Dispose();
+            _lcuHttpClient?.Dispose();
+            _lcuClient.EventReceived -= LcuClientOnEventReceived;
+            _lcuClient.MessageReceived -= LcuClientOnMessageReceived;
+            _lcuClient.Error -= LcuClientOnError;
+            _lcuClient.Dispose();
         }
         catch
         {
