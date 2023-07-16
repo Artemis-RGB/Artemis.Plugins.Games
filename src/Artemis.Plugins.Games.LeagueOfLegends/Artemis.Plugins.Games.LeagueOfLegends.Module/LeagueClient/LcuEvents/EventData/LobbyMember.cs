@@ -1,0 +1,32 @@
+﻿namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents;
+
+public record LobbyMember(
+    bool allowedChangeActivity,
+    bool allowedInviteOthers,
+    bool allowedKickOthers,
+    bool allowedStartActivity,
+    bool allowedToggleInvite,
+    bool autoFillEligible,
+    bool autoFillProtectedForPromos,
+    bool autoFillProtectedForSoloing,
+    bool autoFillProtectedForStreaking,
+    int botChampionId,
+    string botDifficulty,
+    string botId,
+    string firstPositionPreference,
+    bool isBot,
+    bool isLeader,
+    bool isSpectator,
+    int primaryChampionPreference,
+    string puuid,
+    bool ready,
+    string secondPositionPreference,
+    int secondaryChampionPreference,
+    bool showGhostedBanner,
+    int summonerIconId,
+    int summonerId,
+    string summonerInternalName,
+    int summonerLevel,
+    string summonerName,
+    int teamId
+);

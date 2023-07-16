@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using Newtonsoft.Json.Converters;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.EventData;
 
@@ -13,7 +14,14 @@ public record GameFlowData
 
     [JsonProperty("map")] public Map Map { get; set; }
 
-    [JsonProperty("phase")] public string Phase { get; set; }
+    [JsonProperty("phase")] 
+    [JsonConverter(typeof(StringEnumConverter))]
+    public GameFlowPhase Phase { get; set; }
+}
+
+public enum GameFlowPhase
+{
+    None, Lobby, Matchmaking, CheckedIntoTournament, ReadyCheck, ChampSelect, GameStart, FailedToLaunch, InProgress, Reconnect, WaitingForStats, PreEndOfGame, EndOfGame, TerminatedInError
 }
 
 public record GameClient

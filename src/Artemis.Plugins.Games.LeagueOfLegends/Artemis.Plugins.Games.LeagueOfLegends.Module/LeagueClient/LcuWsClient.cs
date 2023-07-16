@@ -121,8 +121,8 @@ internal sealed class LcuWsClient : IDisposable
             if (disposing)
             {
                 _cts.Cancel();
-                _readLoopTask.Wait();
-                _readLoopTask.Dispose();
+                _readLoopTask?.Wait();
+                _readLoopTask?.Dispose();
                 _cts.Dispose();
                 try
                 {

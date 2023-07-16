@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents;
-using LobbyData = Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents.LobbyData;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient;
 
@@ -31,8 +30,6 @@ public class LeagueClientModule : Module<LeagueClientDataModel>
         = new() { new ProcessActivationRequirement(ProcessName) };
 
     private readonly ILogger _logger;
-    private GameFlowData? _gameFlow;
-    private ChampSelectData? _champSelect;
     private LcuWsClient? _lcuClient;
     private LcuHttpClient? _lcuHttpClient;
 
@@ -109,7 +106,7 @@ public class LeagueClientModule : Module<LeagueClientDataModel>
                 _logger.Verbose("GameFlow event: {Uri} | {EventType} | {Data}", gameFlow.Uri, gameFlow.EventType,
                     JsonConvert.SerializeObject(gameFlow.Data));
                 if (gameFlow.EventType == "Update")
-                    UpdateGameflow(gameFlow.Data);
+                    UpdateGameFlow(gameFlow.Data);
                 break;
             case LcuEvent<ChampSelectData> champSelect:
                 _logger.Verbose("ChampSelect event: {Uri} | {EventType} | {Data}", champSelect.Uri, champSelect.EventType,
@@ -141,32 +138,33 @@ public class LeagueClientModule : Module<LeagueClientDataModel>
 
     private void UpdateChampSelect(ChampSelectData champSelectData)
     {
-        if (_champSelect == champSelectData)
-            return;
-                
-        _champSelect = champSelectData;
-
         //TODO
     }
 
-    private void UpdateGameflow(GameFlowData gameFlowData)
+    private void UpdateGameFlow(GameFlowData gameFlowData)
     {
-        //sometimes the game fires an event with the same data as the previous one, so we ignore it
-        if (_gameFlow == gameFlowData)
+        if (DataModel.GameFlow.Phase == gameFlowData.Phase)
             return;
         
-        _gameFlow = gameFlowData;
-        var previousState = _gameFlow.Phase;
-        var newState = _gameFlow.Phase;
-        
-        if (previousState == newState)
-            return;
-        
-        _logger.Information("Gameflow state changed: {PreviousState} -> {NewState}", previousState, newState);
+        _logger.Information("Gameflow state changed: {PreviousState} -> {NewState}", DataModel.GameFlow.Phase, gameFlowData.Phase);
 
-        if (newState.Equals("readycheck", StringComparison.InvariantCultureIgnoreCase))
+        DataModel.GameFlow.Phase = gameFlowData.Phase;
+
+        switch (DataModel.GameFlow.Phase)
         {
-            DataModel.QueuePop.Trigger();
+            case GameFlowPhase.Lobby:
+                DataModel.GameFlow.Lobby.Trigger();
+                break;
+            case GameFlowPhase.Matchmaking:
+                DataModel.GameFlow.Matchmaking.Trigger();
+                break;
+            case GameFlowPhase.ReadyCheck:
+                DataModel.GameFlow.QueuePop.Trigger();
+                break;
+            case GameFlowPhase.ChampSelect:
+                DataModel.GameFlow.ChampSelect.Trigger();
+                break;
+
         }
     }
 
