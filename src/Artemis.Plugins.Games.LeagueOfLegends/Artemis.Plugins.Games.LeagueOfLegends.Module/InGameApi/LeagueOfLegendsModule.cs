@@ -130,6 +130,9 @@ public class LeagueOfLegendsModule : Module<LeagueOfLegendsDataModel>
         if (_gameData == null)
             return;
         
+        // If we got here, we have a game data object, so we can safely assume we are in a game
+        _lastEventTime ??= 0f;
+        
         foreach (var e in _gameData.Events.Events.Where(ev => ev.EventTime > _lastEventTime))
         {
             _lastEventTime = e.EventTime;

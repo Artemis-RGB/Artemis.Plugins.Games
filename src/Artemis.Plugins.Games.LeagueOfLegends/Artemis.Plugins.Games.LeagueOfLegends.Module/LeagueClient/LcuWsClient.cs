@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient;
 
-internal sealed class LcuClient : IDisposable
+internal sealed class LcuWsClient : IDisposable
 {
     private const string RIOT_USERNAME = "riot";
     private readonly Uri _uri;
@@ -24,7 +24,7 @@ internal sealed class LcuClient : IDisposable
     public event EventHandler<LcuEvent>? MessageReceived; 
     public event EventHandler<Exception>? Error;
 
-    public LcuClient(LockfileData data)
+    public LcuWsClient(Lockfile data)
     {
         _cts = new CancellationTokenSource();
         _uri = new Uri($"wss://localhost:{data.Port}");
@@ -83,10 +83,8 @@ internal sealed class LcuClient : IDisposable
 
                 var data = Encoding.UTF8.GetString(_buffer.AsSpan(0, bytesRead));
                 var jArray = JArray.Parse(data);
-
-                //0 - opcode
-                //1 - which subscription
-                var opCode = (LcuOpcode)(int)jArray[0];
+                
+                var opCode = (LcuOpcode)jArray[0].Value<int>();
                 var eventName = jArray[1].ToString();
                 var lcuEventString = jArray[2].ToString();
                 
@@ -123,8 +121,8 @@ internal sealed class LcuClient : IDisposable
             if (disposing)
             {
                 _cts.Cancel();
-                _readLoopTask.Wait();
-                _readLoopTask.Dispose();
+                _readLoopTask?.Wait();
+                _readLoopTask?.Dispose();
                 _cts.Dispose();
                 try
                 {

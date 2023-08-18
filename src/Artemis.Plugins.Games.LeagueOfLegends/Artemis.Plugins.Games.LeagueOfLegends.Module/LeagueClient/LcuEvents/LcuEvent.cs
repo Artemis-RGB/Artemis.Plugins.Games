@@ -8,6 +8,9 @@ namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents;
 [JsonConverter(typeof(JsonSubtypes), nameof(Uri))]
 [KnownSubType(typeof(LcuEvent<GameFlowData>), "/lol-gameflow/v1/session")]
 [KnownSubType(typeof(LcuEvent<ChampSelectData>), "/lol-champ-select/v1/session")]
+[KnownSubType(typeof(LcuEvent<LobbyData>), "/lol-lobby/v2/lobby")]
+[KnownSubType(typeof(LcuEvent<LobbyMember[]>), "/lol-lobby/v2/lobby/members")]
+[KnownSubType(typeof(LcuEvent<LobbySearchState>), "/lol-lobby/v2/lobby/matchmaking/search-state")]
 [FallBackSubType(typeof(LcuEvent<object>))]
 public class LcuEvent
 {
