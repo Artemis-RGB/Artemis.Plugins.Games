@@ -17,24 +17,35 @@ namespace Artemis.Plugins.Games.TruckSimulator
             new ProcessActivationRequirement("amtrucks")
         };
 
-        public override void Enable()
+        public TruckSimulatorModule()
+        {
+            UpdateDuringActivationOverride = false;
+        }
+
+        public override void ModuleActivated(bool isOverride)
         {
             mappedFileReader = new MappedFileReader<TruckSimulatorMemoryStruct>(@"Local\SCSTelemetry");
         }
 
-        public override void Update(double deltaTime)
-        {
-            if (!IsActivatedOverride && DataModel != null)
-            {
-                DataModel.Telemetry = mappedFileReader?.Read() ?? default;
-                DataModel.Events.CheckForUpdates();
-            }
-        }
-
-        public override void Disable()
+        public override void ModuleDeactivated(bool isOverride)
         {
             mappedFileReader?.Dispose();
             mappedFileReader = null;
+        }
+
+        public override void Update(double deltaTime)
+        {
+            DataModel.Telemetry = mappedFileReader?.Read() ?? default;
+            DataModel.Events.CheckForUpdates();
+        }
+
+        public override void Enable()
+        {
+        }
+        
+        public override void Disable()
+        {
+
         }
     }
 }

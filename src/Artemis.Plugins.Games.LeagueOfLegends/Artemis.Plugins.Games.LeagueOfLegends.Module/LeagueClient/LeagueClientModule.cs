@@ -52,6 +52,9 @@ public class LeagueClientModule : Module<LeagueClientDataModel>
 
     public override void ModuleActivated(bool isOverride)
     {
+        if (isOverride)
+            return;   
+        
         const int MAX_TRIES = 3;
         var tries = 0;
         while (tries < MAX_TRIES)

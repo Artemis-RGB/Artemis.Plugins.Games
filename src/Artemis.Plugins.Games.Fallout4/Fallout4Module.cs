@@ -36,6 +36,9 @@ namespace Artemis.Plugins.Games.Fallout4
 
         public override void ModuleActivated(bool isOverride)
         {
+            if (isOverride)
+                return;
+            
             for (int i = 0; i < 5; i++)
             {
                 try

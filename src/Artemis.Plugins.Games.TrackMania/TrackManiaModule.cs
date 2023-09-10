@@ -35,11 +35,16 @@ namespace Artemis.Plugins.Games.TrackMania
 
         public override void ModuleActivated(bool isOverride)
         {
+            if (isOverride)
+                return;
+            
             _sharedProcessMemory = new SharedProcessMemory<STelemetry>(@"Local\ManiaPlanet_Telemetry");
         }
 
         public override void ModuleDeactivated(bool isOverride)
         {
+            _sharedProcessMemory?.Dispose();
+            _sharedProcessMemory = null;
         }
     }
 }
