@@ -16,6 +16,6 @@ public class CsgoBootstrapper : PluginBootstrapper
         AddPluginPrerequisite(new IsFilePresentInSteamGameFolderPrerequisite(
             CsgoSteamId,
             plugin.ResolveRelativePath(Path.Combine("Resources", CsgoGsiConfigFilename)),
-            Path.Combine("csgo", "cfg", CsgoGsiConfigFilename) ));
+            Path.Combine("game", "csgo", "cfg", CsgoGsiConfigFilename) ));
     }
 }
