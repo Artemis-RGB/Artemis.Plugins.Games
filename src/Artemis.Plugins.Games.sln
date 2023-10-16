@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.CSGO"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.Dota2", "Artemis.Plugins.Games.Dota2\Artemis.Plugins.Games.Dota2.csproj", "{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Artemis.Plugins.Games.Osu", "Artemis.Plugins.Games.Osu\Artemis.Plugins.Games.Osu.csproj", "{B42F9AC1-BA76-4A0D-997D-52C95BCA9CFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -105,6 +107,10 @@ Global
 		{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}.Debug|x64.Build.0 = Debug|x64
 		{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}.Release|x64.ActiveCfg = Release|x64
 		{5F5D7E46-822A-44CC-AB2A-7BC7EE3314FB}.Release|x64.Build.0 = Release|x64
+		{B42F9AC1-BA76-4A0D-997D-52C95BCA9CFD}.Debug|x64.ActiveCfg = Debug|x64
+		{B42F9AC1-BA76-4A0D-997D-52C95BCA9CFD}.Debug|x64.Build.0 = Debug|x64
+		{B42F9AC1-BA76-4A0D-997D-52C95BCA9CFD}.Release|x64.ActiveCfg = Release|x64
+		{B42F9AC1-BA76-4A0D-997D-52C95BCA9CFD}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
