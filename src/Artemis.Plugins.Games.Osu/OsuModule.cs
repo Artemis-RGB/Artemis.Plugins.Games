@@ -40,6 +40,8 @@ public class OsuModule : Module<OsuDataModel>
         if (reader.TryRead(reader.OsuMemoryAddresses.Player))
         {
             DataModel.Player.Apply(reader.OsuMemoryAddresses.Player);
+            //todo:
+            DataModel.RulesetPlayData.Apply(reader.OsuMemoryAddresses.Player);
         }
         
         if (reader.TryRead(reader.OsuMemoryAddresses.Beatmap))
