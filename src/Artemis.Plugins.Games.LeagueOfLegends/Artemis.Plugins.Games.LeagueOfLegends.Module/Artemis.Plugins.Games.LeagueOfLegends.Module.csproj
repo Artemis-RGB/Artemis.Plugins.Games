@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="ArtemisRGB.UI.Shared" IncludeAssets="compile;build;buildTransitive" Version="1.2023.1009.1" />
+        <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.3.2" />
         <PackageReference Include="JsonSubTypes" Version="2.0.1" />
     </ItemGroup>
 
@@ -32,6 +33,6 @@
     </ItemGroup>
     
     <Target Name="DownloadJsonFiles" BeforeTargets="PreBuildEvent">
-        <Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;$(ProjectDir)prebuild.ps1&quot;" />
+        <Exec Command="pwsh -ExecutionPolicy Bypass -File &quot;$(ProjectDir)prebuild.ps1&quot;" />
     </Target>
 </Project>

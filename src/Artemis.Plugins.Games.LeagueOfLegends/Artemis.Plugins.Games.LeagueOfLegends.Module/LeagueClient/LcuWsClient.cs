@@ -1,12 +1,15 @@
 using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Buffers;
+using System.IO;
 using System.Net;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient.LcuEvents;
+using Microsoft.IO;
 using Newtonsoft.Json;
 
 namespace Artemis.Plugins.Games.LeagueOfLegends.Module.LeagueClient;
@@ -17,8 +20,8 @@ internal sealed class LcuWsClient : IDisposable
     private readonly Uri _uri;
     private readonly ClientWebSocket _ws;
     private readonly CancellationTokenSource _cts;
-    private readonly byte[] _buffer;
     private Task? _readLoopTask;
+    private readonly RecyclableMemoryStreamManager _memoryStreamManager;
 
     public event EventHandler<LcuEvent>? EventReceived;
     public event EventHandler<LcuEvent>? MessageReceived; 
@@ -32,7 +35,7 @@ internal sealed class LcuWsClient : IDisposable
         _ws.Options.Credentials = new NetworkCredential(RIOT_USERNAME, data.Password);
         _ws.Options.RemoteCertificateValidationCallback = (req, cert, chain, polErrs)
             => RiotCertificateUtils.CertificateValidationCallback(req, cert, chain, polErrs);
-        _buffer = new byte[1024 * 1024];
+        _memoryStreamManager = new RecyclableMemoryStreamManager();
     }
 
     public async Task Connect()
@@ -70,18 +73,21 @@ internal sealed class LcuWsClient : IDisposable
         {
             try
             {
-                var bytesRead = 0;
+                await using var memoryStream = (_memoryStreamManager.GetStream() as RecyclableMemoryStream)!;
                 ValueWebSocketReceiveResult result;
                 do
                 {
-                    result = await _ws.ReceiveAsync(_buffer.AsMemory(bytesRead), _cts.Token);
-                    bytesRead += result.Count;
+                    result = await _ws.ReceiveAsync(memoryStream.GetMemory(), _cts.Token);
+                    memoryStream.Advance(result.Count);
                 } while (!result.EndOfMessage);
-
-                if (bytesRead == 0)
+                
+                if (result.MessageType != WebSocketMessageType.Text)
+                    throw new Exception("WebSocket closed");
+                
+                if(result.Count == 0)
                     continue;
 
-                var data = Encoding.UTF8.GetString(_buffer.AsSpan(0, bytesRead));
+                var data = Encoding.UTF8.GetString(memoryStream.GetReadOnlySequence());
                 var jArray = JArray.Parse(data);
                 
                 var opCode = (LcuOpcode)jArray[0].Value<int>();

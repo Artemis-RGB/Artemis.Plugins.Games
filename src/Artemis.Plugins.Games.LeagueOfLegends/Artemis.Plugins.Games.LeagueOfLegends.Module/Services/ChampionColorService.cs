@@ -30,7 +30,7 @@ public class ChampionColorService : IPluginService, IDisposable
         _semaphore = new(1, 1);
     }
 
-    public async Task<ColorSwatch> GetSwatch(string championShortName, int skinId)
+    public async ValueTask<ColorSwatch> GetSwatch(string championShortName, int skinId)
     {
         if (string.IsNullOrWhiteSpace(championShortName))
             throw new ArgumentNullException(nameof(championShortName));
@@ -63,7 +63,7 @@ public class ChampionColorService : IPluginService, IDisposable
         }
     }
 
-    private async Task<int> GetBaseSkinIdAsync(string championShortName, int skinId)
+    private async ValueTask<int> GetBaseSkinIdAsync(string championShortName, int skinId)
     {
         const int SKIN_CLASSIFICATION_NONCHROMA = 1;
         const int SKIN_CLASSIFICATION_CHROMA = 2;

@@ -38,7 +38,20 @@ public class PlayerDataModel : DataModel
 
     public void Update(RootGameData rootGameData)
     {
-        var allPlayer = Array.Find(rootGameData.AllPlayers, p => p.SummonerName == rootGameData.ActivePlayer.SummonerName);
+        var hashIndex = rootGameData.ActivePlayer.SummonerName.IndexOf('#');
+        if (hashIndex == -1)
+            return;
+        var summonerNameWithoutHash = rootGameData.ActivePlayer.SummonerName.AsSpan()[..hashIndex];
+        AllPlayer? allPlayer = null;
+        foreach (var player in rootGameData.AllPlayers)
+        {
+            if (!player.SummonerName.AsSpan().Equals(summonerNameWithoutHash, StringComparison.OrdinalIgnoreCase))
+                continue;
+            
+            allPlayer = player;
+            break;
+        }
+        
         if (allPlayer == null)
             return;
 
