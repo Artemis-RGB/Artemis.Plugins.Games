@@ -87,3 +87,10 @@ jobs:
           name: Artemis.Plugins.Games.CSGO
           path: src/Artemis.Plugins.Games.CSGO/bin/x64/Release/net7.0/publish
           if-no-files-found: error
+
+      - name: Upload Osu
+        uses: actions/upload-artifact@v3
+        with:
+          name: Artemis.Plugins.Games.Osu
+          path: src/Artemis.Plugins.Games.Osu/bin/x64/Release/net7.0/publish
+          if-no-files-found: error
