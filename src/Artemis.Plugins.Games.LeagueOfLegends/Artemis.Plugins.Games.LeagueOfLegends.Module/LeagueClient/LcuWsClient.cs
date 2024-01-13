@@ -73,7 +73,7 @@ internal sealed class LcuWsClient : IDisposable
         {
             try
             {
-                await using var memoryStream = (_memoryStreamManager.GetStream() as RecyclableMemoryStream)!;
+                await using var memoryStream = _memoryStreamManager.GetStream();
                 ValueWebSocketReceiveResult result;
                 do
                 {

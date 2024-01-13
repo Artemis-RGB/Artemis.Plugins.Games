@@ -4,6 +4,7 @@ using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using SummonerSpell = Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums.SummonerSpell;
 using ChampionEnum = Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums.Champion;
 using Rune = Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums.Rune;
@@ -38,21 +39,7 @@ public class PlayerDataModel : DataModel
 
     public void Update(RootGameData rootGameData)
     {
-        var hashIndex = rootGameData.ActivePlayer.SummonerName.IndexOf('#');
-        if (hashIndex == -1)
-            return;
-        var summonerNameWithoutHash = rootGameData.ActivePlayer.SummonerName.AsSpan()[..hashIndex];
-        AllPlayer? allPlayer = null;
-        foreach (var player in rootGameData.AllPlayers)
-        {
-            if (!player.SummonerName.AsSpan().Equals(summonerNameWithoutHash, StringComparison.OrdinalIgnoreCase))
-                continue;
-            
-            allPlayer = player;
-            break;
-        }
-        
-        if (allPlayer == null)
+        if (!TryFindActivePlayer(rootGameData, out var allPlayer))
             return;
 
         SummonerName = rootGameData.ActivePlayer.SummonerName;
@@ -81,6 +68,32 @@ public class PlayerDataModel : DataModel
 
         SpellD = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellOne?.RawDisplayName, SummonerSpell.Unknown);
         SpellF = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellTwo?.RawDisplayName, SummonerSpell.Unknown);
+    }
+    
+    private static bool TryFindActivePlayer(RootGameData rootGameData, [NotNullWhen(returnValue: true)] out AllPlayer? allPlayer)
+    {
+        allPlayer = null;
+        
+        if (string.IsNullOrWhiteSpace(rootGameData?.ActivePlayer?.SummonerName))
+            return false;
+
+        ReadOnlySpan<char> summonerName = rootGameData.ActivePlayer.SummonerName;
+        
+        var hashIndex = summonerName.IndexOf('#');
+        if (hashIndex == -1)
+            return false; 
+        
+        var summonerNameWithoutHash = summonerName[..hashIndex];
+        foreach (var player in rootGameData.AllPlayers)
+        {
+            if (summonerNameWithoutHash.Equals(player.SummonerName, StringComparison.OrdinalIgnoreCase))
+            {
+                allPlayer = player;
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
