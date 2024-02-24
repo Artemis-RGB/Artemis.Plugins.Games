@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <Platforms>x64</Platforms>
         <EnableDynamicLoading>true</EnableDynamicLoading>
         <Nullable>enable</Nullable>
@@ -33,6 +33,6 @@
     </ItemGroup>
     
     <Target Name="DownloadJsonFiles" BeforeTargets="PreBuildEvent">
-        <Exec Command="pwsh -ExecutionPolicy Bypass -File &quot;$(ProjectDir)prebuild.ps1&quot;" />
+        <Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;$(ProjectDir)prebuild.ps1&quot;" />
     </Target>
 </Project>
