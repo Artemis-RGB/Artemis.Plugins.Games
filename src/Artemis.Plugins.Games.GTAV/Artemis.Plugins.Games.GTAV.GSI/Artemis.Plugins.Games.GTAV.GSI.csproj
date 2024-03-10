@@ -8,7 +8,7 @@
     <ProjectReference Include="..\Artemis.Plugins.Games.GTAV.Model\Artemis.Plugins.Games.GTAV.Model.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="ScriptHookVDotNet3" Version="3.6.0" />
   </ItemGroup>
   <ItemGroup>

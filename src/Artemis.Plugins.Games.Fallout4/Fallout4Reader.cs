@@ -1,11 +1,11 @@
 ﻿using Artemis.Plugins.Games.Fallout4.Enums;
-using Newtonsoft.Json;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
@@ -83,7 +83,7 @@ namespace Artemis.Plugins.Games.Fallout4
                     switch (commandType)
                     {
                         case FalloutPacketType.NewConnection:
-                            var initText = JsonConvert.DeserializeObject<FalloutInitPacket>(Encoding.ASCII.GetString(buffer, 0, messageSize));
+                            var initText = JsonSerializer.Deserialize<FalloutInitPacket>(Encoding.ASCII.GetString(buffer, 0, messageSize));
                             Connected?.Invoke(this, initText);
                             break;
                         case FalloutPacketType.DataUpdate:
