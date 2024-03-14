@@ -1,18 +1,21 @@
 ﻿using Artemis.Core.Modules;
 using Artemis.Plugins.Games.TruckSimulator.Conversions;
+using Artemis.Plugins.Games.TruckSimulator.Telemetry;
 
-namespace Artemis.Plugins.Games.TruckSimulator.DataModels
+namespace Artemis.Plugins.Games.TruckSimulator.DataModels;
+
+public class CruiseControl
 {
-    public class CruiseControl : ChildDataModel
+    public bool CruiseControlActive { get; set; }
+    [DataModelProperty(Name = "Cruise control speed (Km/h)", Description = "The speed the cruise control is set to in kilometers-per-hour.", Affix = "km/h")]
+    public float CruiseControlSpeedKph { get; set; }
+    [DataModelProperty(Name = "Cruise control speed (Mph)", Description = "The speed the cruise control is set to in miles-per-hour.", Affix = "mph")]
+    public float CruiseControlSpeedMph { get; set; }
+    
+    internal void Update(in TruckSimulatorMemoryStruct data)
     {
-        public CruiseControl(TruckSimulatorDataModel root) : base(root)
-        {
-        }
-
-        public bool CruiseControlActive => Telemetry.cruiseControlActive != 0;
-        [DataModelProperty(Name = "Cruise control speed (Km/h)", Description = "The speed the cruise control is set to in kilometers-per-hour.", Affix = "km/h")]
-        public float CruiseControlSpeedKph => Telemetry.cruiseControl.MsToKph();
-        [DataModelProperty(Name = "Cruise control speed (Mph)", Description = "The speed the cruise control is set to in miles-per-hour.", Affix = "mph")]
-        public float CruiseControlSpeedMph => Telemetry.cruiseControl.MsToMph();
+        CruiseControlActive = data.cruiseControlActive != 0;
+        CruiseControlSpeedKph = data.cruiseControl.MsToKph();
+        CruiseControlSpeedMph = data.cruiseControl.MsToMph();
     }
 }

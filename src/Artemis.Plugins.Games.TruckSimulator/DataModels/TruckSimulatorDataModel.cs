@@ -1,33 +1,29 @@
 ﻿using Artemis.Core.Modules;
 using Artemis.Plugins.Games.TruckSimulator.Telemetry;
 
-namespace Artemis.Plugins.Games.TruckSimulator.DataModels
+namespace Artemis.Plugins.Games.TruckSimulator.DataModels;
+
+public class TruckSimulatorDataModel : DataModel
 {
-    public class TruckSimulatorDataModel : DataModel
+    // Child data models
+    public Game Game { get; } = new();
+    public Truck Truck { get; }= new();
+    public Trailers Trailers { get; }= new();
+    public Job Job { get; }= new();
+    public Navigation Navigation { get; }= new();
+    public CruiseControl CruiseControl { get; }= new();
+    public Controls Controls { get; } = new();
+    public Events Events { get; } = new();
+
+    internal void Update(in TruckSimulatorMemoryStruct data)
     {
-        public TruckSimulatorDataModel()
-        {
-            Game = new Game(this);
-            Truck = new Truck(this);
-            Trailers = new Trailers(this);
-            Job = new Job(this);
-            Navigation = new Navigation(this);
-            CruiseControl = new CruiseControl(this);
-            Controls = new Controls(this);
-            Events = new Events(this);
-        }
-
-        // This is the struct that gets updated with the latest telemetry data from the mapped file reader.
-        internal TruckSimulatorMemoryStruct Telemetry { get; set; }
-
-        // Child data models
-        public Game Game { get; }
-        public Truck Truck { get; }
-        public Trailers Trailers { get; }
-        public Job Job { get; }
-        public Navigation Navigation { get; }
-        public CruiseControl CruiseControl { get; }
-        public Controls Controls { get; }
-        public Events Events { get; }
+        Game.Update(in data);
+        Truck.Update(in data);
+        Trailers.Update(in data);
+        Job.Update(in data);
+        Navigation.Update(in data);
+        CruiseControl.Update(in data);
+        Controls.Update(in data);
+        Events.Update(in data);
     }
 }

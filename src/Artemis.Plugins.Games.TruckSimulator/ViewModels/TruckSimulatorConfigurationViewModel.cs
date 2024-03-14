@@ -6,91 +6,90 @@ using System.IO;
 using System.Reactive;
 using System.Threading.Tasks;
 
-namespace Artemis.Plugins.Games.TruckSimulator.ViewModels
+namespace Artemis.Plugins.Games.TruckSimulator.ViewModels;
+
+public class TruckSimulatorConfigurationViewModel : PluginConfigurationViewModel
 {
-    public class TruckSimulatorConfigurationViewModel : PluginConfigurationViewModel
+    private readonly IWindowService _windowService;
+    private const string x64PluginPath = @"win_x64\plugins\scs-telemetry.dll";
+    private const string x86PluginPath = @"win_x86\plugins\scs-telemetry.dll";
+
+    public ReactiveCommand<Unit, Unit> InstallPlugins { get; }
+    public ReactiveCommand<Unit, Unit> UninstallPlugins { get; }
+
+    public TruckSimulatorConfigurationViewModel(Plugin plugin, IWindowService windowService) : base(plugin)
     {
-        private readonly IWindowService _windowService;
-        private const string x64PluginPath = @"win_x64\plugins\scs-telemetry.dll";
-        private const string x86PluginPath = @"win_x86\plugins\scs-telemetry.dll";
+        _windowService = windowService;
 
-        public ReactiveCommand<Unit, Unit> InstallPlugins { get; }
-        public ReactiveCommand<Unit, Unit> UninstallPlugins { get; }
+        InstallPlugins = ReactiveCommand.CreateFromTask(ExecuteInstallPlugins);
+        UninstallPlugins = ReactiveCommand.CreateFromTask(ExecuteUninstallPlugins);
+    }
 
-        public TruckSimulatorConfigurationViewModel(Plugin plugin, IWindowService windowService) : base(plugin)
+    public async Task ExecuteInstallPlugins()
+    {
+        var path = await GetGameBinPath();
+        if (path != null)
         {
-            _windowService = windowService;
+            CopyDLL(Path.Join(path, x86PluginPath), "scs-telemetry-x86.dll");
+            CopyDLL(Path.Join(path, x64PluginPath), "scs-telemetry-x64.dll");
 
-            InstallPlugins = ReactiveCommand.CreateFromTask(ExecuteInstallPlugins);
-            UninstallPlugins = ReactiveCommand.CreateFromTask(ExecuteUninstallPlugins);
+            // TODO: Add feedback to user that it's been installed
         }
+    }
 
-        public async Task ExecuteInstallPlugins()
+    public async Task ExecuteUninstallPlugins()
+    {
+        var path = await GetGameBinPath();
+        if (path != null)
         {
-            var path = await GetGameBinPath();
-            if (path != null)
-            {
-                CopyDLL(Path.Join(path, x86PluginPath), "scs-telemetry-x86.dll");
-                CopyDLL(Path.Join(path, x64PluginPath), "scs-telemetry-x64.dll");
+            DeleteDLL(Path.Join(path, x86PluginPath));
+            DeleteDLL(Path.Join(path, x64PluginPath));
 
-                // TODO: Add feedback to user that it's been installed
-            }
+            // TODO: Add feedback to user that it's been installed
         }
+    }
 
-        public async Task ExecuteUninstallPlugins()
-        {
-            var path = await GetGameBinPath();
-            if (path != null)
-            {
-                DeleteDLL(Path.Join(path, x86PluginPath));
-                DeleteDLL(Path.Join(path, x64PluginPath));
+    /// <summary>
+    /// Copies the contents of the specified telemetry dll to the given path.
+    /// </summary>
+    /// <param name="path">The destination path (directory and filename) of the destination file to write.</param>
+    /// <param name="resourceName">The name of the resource inside the /Telemetry/Plugins folder of the dll to write.</param>
+    private static void CopyDLL(string path, string resourceName)
+    {
+        if (!Directory.Exists(Path.GetDirectoryName(path)))
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
 
-                // TODO: Add feedback to user that it's been installed
-            }
-        }
+        var asm = typeof(TruckSimulatorConfigurationViewModel).Assembly;
+        var resourcePath = $"{asm.GetName().Name}.Telemetry.Plugins.{resourceName}";
+        using var fileStream = File.Create(path);
+        using var resourceStream = asm.GetManifestResourceStream(resourcePath);
+        resourceStream.CopyTo(fileStream);
+    }
 
-        /// <summary>
-        /// Copies the contents of the specified telemetry dll to the given path.
-        /// </summary>
-        /// <param name="path">The destination path (directory and filename) of the destination file to write.</param>
-        /// <param name="resourceName">The name of the resource inside the /Telemetry/Plugins folder of the dll to write.</param>
-        private static void CopyDLL(string path, string resourceName)
-        {
-            if (!Directory.Exists(Path.GetDirectoryName(path)))
-                Directory.CreateDirectory(Path.GetDirectoryName(path));
+    /// <summary>
+    /// If the given file exists, deletes it.
+    /// </summary>
+    private static void DeleteDLL(string path)
+    {
+        if (File.Exists(path))
+            File.Delete(path);
+    }
 
-            var asm = typeof(TruckSimulatorConfigurationViewModel).Assembly;
-            var resourcePath = $"{asm.GetName().Name}.Telemetry.Plugins.{resourceName}";
-            using var fileStream = File.Create(path);
-            using var resourceStream = asm.GetManifestResourceStream(resourcePath);
-            resourceStream.CopyTo(fileStream);
-        }
+    /// <summary>
+    /// Gets the game 'bin' path by asking the user to select one of the game exes.
+    /// </summary>
+    /// <returns>The bin path of the selected game, or null if the user cancelled.</returns>
+    private async Task<string> GetGameBinPath()
+    {
+        var dlg = _windowService.CreateOpenFileDialog()
+            .WithTitle("Select Euro Truck Simulator 2 or American Truck Simulator game executable")
+            .HavingFilter(f => f.WithExtension("exe").WithName("Euro Truck Simulator 2 or American Truck Simulator game executable"));
 
-        /// <summary>
-        /// If the given file exists, deletes it.
-        /// </summary>
-        private static void DeleteDLL(string path)
-        {
-            if (File.Exists(path))
-                File.Delete(path);
-        }
+        var files = await dlg.ShowAsync();
+        if (files?.Length == 0)
+            return null;
 
-        /// <summary>
-        /// Gets the game 'bin' path by asking the user to select one of the game exes.
-        /// </summary>
-        /// <returns>The bin path of the selected game, or null if the user cancelled.</returns>
-        private async Task<string> GetGameBinPath()
-        {
-            var dlg = _windowService.CreateOpenFileDialog()
-                .WithTitle("Select Euro Truck Simulator 2 or American Truck Simulator game executable")
-                .HavingFilter(f => f.WithExtension("exe").WithName("Euro Truck Simulator 2 or American Truck Simulator game executable"));
-
-            var files = await dlg.ShowAsync();
-            if (files?.Length == 0)
-                return null;
-
-            // Game exe is in /bin/win_x64 or /bin/win_x86, so to get bin need to GetDirectoryName twice.
-            return Path.GetDirectoryName(Path.GetDirectoryName(files[0]));
-        }
+        // Game exe is in /bin/win_x64 or /bin/win_x86, so to get bin need to GetDirectoryName twice.
+        return Path.GetDirectoryName(Path.GetDirectoryName(files[0]));
     }
 }
