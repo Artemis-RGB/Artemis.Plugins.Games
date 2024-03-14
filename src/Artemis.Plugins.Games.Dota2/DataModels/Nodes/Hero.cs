@@ -1,12 +1,10 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Artemis.Plugins.Games.Dota2.DataModels.Nodes;
 
 /// <summary>
 /// Class representing hero information
 /// </summary>
-[JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class HeroDota2
 {
     /// <summary>
@@ -17,7 +15,7 @@ public class HeroDota2
     /// <summary>
     /// Hero name
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = "";
 
     /// <summary>
     /// Hero level
@@ -32,8 +30,8 @@ public class HeroDota2
     /// <summary>
     /// Amount of seconds until the hero respawns
     /// </summary>
-    [JsonProperty("respawn_seconds")]
-    public int SecondsToRespawn;
+    [JsonPropertyName("respawn_seconds")]
+    public int SecondsToRespawn { get; set; }
 
     /// <summary>
     /// The buyback cost
@@ -94,16 +92,17 @@ public class HeroDota2
     /// A boolean representing whether the hero is magic immune
     /// </summary>
     /// 
-    [JsonProperty("magicimmune")]
+    [JsonPropertyName("magicimmune")]
     public bool MagicImmune { get; set; }
 
     /// <summary>
     /// A boolean representing whether the hero is hexed
     /// </summary>
+    [JsonPropertyName("hexed")]
     public bool Hexed { get; set; }
 
     /// <summary>
-    /// A boolean representing whether the hero is muteds
+    /// A boolean representing whether the hero is muted
     /// </summary>
     public bool Muted { get; set; }
 
@@ -115,13 +114,13 @@ public class HeroDota2
     /// <summary>
     /// A boolean representing whether the hero has Aghanim's Scepter
     /// </summary>
-    [JsonProperty("aghanims_scepter")]
+    [JsonPropertyName("aghanims_scepter")]
     public bool HasScepter { get; set; }
 
     /// <summary>
     /// A boolean representing whether the hero has Aghanim's Shard
     /// </summary>
-    [JsonProperty("aghanims_shard")]
+    [JsonPropertyName("aghanims_shard")]
     public bool HasShard { get; set; }
 
     /// <summary>
@@ -134,20 +133,20 @@ public class HeroDota2
     /// </summary>
     public bool HasDebuff { get; set; }
 
-    [JsonProperty("talent_1")]
+    [JsonPropertyName("talent_1")]
     public bool HasRightTalent1 { get; set; }
-    [JsonProperty("talent_2")]
+    [JsonPropertyName("talent_2")]
     public bool HasLeftTalent1 { get; set; }
-    [JsonProperty("talent_3")]
+    [JsonPropertyName("talent_3")]
     public bool HasRightTalent2 { get; set; }
-    [JsonProperty("talent_4")]
+    [JsonPropertyName("talent_4")]
     public bool HasLeftTalent2 { get; set; }
-    [JsonProperty("talent_5")]
+    [JsonPropertyName("talent_5")]
     public bool HasRightTalent3 { get; set; }
-    [JsonProperty("talent_6")]
+    [JsonPropertyName("talent_6")]
     public bool HasLeftTalent3 { get; set; }
-    [JsonProperty("talent_7")]
+    [JsonPropertyName("talent_7")]
     public bool HasRightTalent4 { get; set; }
-    [JsonProperty("talent_8")]
+    [JsonPropertyName("talent_8")]
     public bool HasLeftTalent4 { get; set; }
 }
