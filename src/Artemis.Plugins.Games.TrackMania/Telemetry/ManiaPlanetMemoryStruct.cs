@@ -1,162 +1,118 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
 using Artemis.Plugins.Games.TrackMania.DataModels;
 
 // ReSharper disable InconsistentNaming
 #pragma warning disable 169
 
-namespace Artemis.Plugins.Games.TrackMania.Telemetry
+namespace Artemis.Plugins.Games.TrackMania.Telemetry;
+
+[StructLayout(LayoutKind.Sequential)]
+public struct SHeader
 {
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    struct Vec3
-    {
-        float x, y, z;
-    };
+    public String32 Magic; //  "ManiaPlanet_Telemetry"
+    public uint Version;
+    public uint Size; // == sizeof(STelemetry)
+};
 
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    struct Quat
-    {
-        float w, x, y, z;
-    };
+[StructLayout(LayoutKind.Sequential)]
+public struct SGameState
+{
+    public EGameState State;
+    public String64 GameplayVariant; // player model 'StadiumCar', 'CanyonCar', ....
+    public String64 MapId;
+    public String256 MapName;
+    public String128 __future__;
+};
 
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
-    public struct STelemetry
-    {
-        public struct SHeader
-        {
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-            string Magic; //  "ManiaPlanet_Telemetry"
+[StructLayout(LayoutKind.Sequential)]
+public struct SRaceState
+{
+    public ERaceState State;
+    public uint Time;
+    public uint NbRespawns;
+    public uint NbCheckpoints;
 
-            uint Version;
-            uint Size; // == sizeof(STelemetry)
-        };
+    public Array125<int> CheckpointTimes;
 
-        public enum EGameState
-        {
-            EState_Starting = 0,
-            EState_Menus,
-            EState_Running,
-            EState_Paused,
-        };
+    public uint NbCheckpointsPerLap; // new since Maniaplanet update 2019-10-10; not supported by Trackmania Turbo.
+    public uint NbLaps; // new since Maniaplanet update 2019-10-10; not supported by Trackmania Turbo.
 
-        public enum ERaceState
-        {
-            ERaceState_BeforeState = 0,
-            ERaceState_Running,
-            ERaceState_Finished,
-        };
+    public String24 __future__;
+};
 
-        public struct SGameState
-        {
-            public EGameState State;
+[StructLayout(LayoutKind.Sequential)]
+public struct SObjectState
+{
+    public uint Timestamp;
+    public uint DiscontinuityCount; // the number changes everytime the object is moved not continuously (== teleported).
+    public Quat Rotation;
+    public Vec3 Translation; // +x is "left", +y is "up", +z is "front"
+    public Vec3 Velocity; // (world velocity)
+    public uint LatestStableGroundContactTime;
 
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
-            public string GameplayVariant; // player model 'StadiumCar', 'CanyonCar', ....
+    public String32 __future__;
+};
 
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
-            public string MapId;
+[StructLayout(LayoutKind.Sequential)]
+public struct SVehicleState
+{
+    public uint Timestamp;
 
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-            public string MapName;
+    public float InputSteer;
+    public float InputGasPedal;
+    public bool InputIsBraking;
+    public bool InputIsHorn;
 
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
-            string __future__;
-        };
+    public float EngineRpm; // 1500 -> 10000
+    public uint EngineCurGear;
+    public float EngineTurboRatio; // 1 turbo starting/full .... 0 -> finished
+    public bool EngineFreeWheeling;
 
-        public struct SRaceState
-        {
-            public ERaceState State;
-            public uint Time;
-            public uint NbRespawns;
-            public uint NbCheckpoints;
+    //todo: bool or byte?
+    public Array4<bool> WheelsIsGroundContact;
 
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 125)]
-            public int[] CheckpointTimes;
+    public Array4<bool> WheelsIsSliping;
 
-            public uint NbCheckpointsPerLap; // new since Maniaplanet update 2019-10-10; not supported by Trackmania Turbo.
-            public uint NbLaps; // new since Maniaplanet update 2019-10-10; not supported by Trackmania Turbo.
+    public Array4<float> WheelsDamperLen;
 
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 24)]
-            string __future__;
-        };
+    public float WheelsDamperRangeMin;
+    public float WheelsDamperRangeMax;
 
-        public struct SObjectState
-        {
-            uint Timestamp;
-            uint DiscontinuityCount; // the number changes everytime the object is moved not continuously (== teleported).
-            Quat Rotation;
-            Vec3 Translation; // +x is "left", +y is "up", +z is "front"
-            Vec3 Velocity; // (world velocity)
-            uint LatestStableGroundContactTime;
+    public float RumbleIntensity;
 
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-            string __future__;
-        };
+    public uint SpeedMeter; // unsigned km/h
+    public bool IsInWater;
+    public bool IsSparkling;
+    public bool IsLightTrails;
+    public bool IsLightsOn;
+    public bool IsFlying; // long time since touching ground.
+    public bool IsOnIce;
 
-        public struct SVehicleState
-        {
-            public uint Timestamp;
+    public CarHandicap Handicap;
+    public float BoostRatio;
 
-            public float InputSteer;
-            public float InputGasPedal;
-            public bool InputIsBraking;
-            public bool InputIsHorn;
+    public String20 __future__;
+};
 
-            public float EngineRpm; // 1500 -> 10000
-            public uint EngineCurGear;
-            public float EngineTurboRatio; // 1 turbo starting/full .... 0 -> finished
-            public bool EngineFreeWheeling;
+[StructLayout(LayoutKind.Sequential)]
+public struct SDeviceState
+{
+    // VrChair state.
+    public Vec3 Euler; // yaw, pitch, roll  (order: pitch, roll, yaw)
+    public float CenteredYaw; // yaw accumulated + recentered to apply onto the device
+    public float CenteredAltitude; // Altitude accumulated + recentered
 
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-            public bool[] WheelsIsGroundContact;
+    public String20 __future__;
+};
 
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-            public bool[] WheelsIsSliping;
-
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-            public float[] WheelsDamperLen;
-
-            public float WheelsDamperRangeMin;
-            public float WheelsDamperRangeMax;
-
-            public float RumbleIntensity;
-
-            public uint SpeedMeter; // unsigned km/h
-            public bool IsInWater;
-            public bool IsSparkling;
-            public bool IsLightTrails;
-            public bool IsLightsOn;
-            public bool IsFlying; // long time since touching ground.
-            public bool IsOnIce;
-            
-            public CarHandicap Handicap;
-            public float BoostRatio;
-
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
-            string __future__;
-        };
-
-        public struct SDeviceState
-        {
-            // VrChair state.
-            Vec3 Euler; // yaw, pitch, roll  (order: pitch, roll, yaw)
-            float CenteredYaw; // yaw accumulated + recentered to apply onto the device
-            float CenteredAltitude; // Altitude accumulated + recentered
-
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-            string __future__;
-        };
-
-        public SHeader Header;
-        public uint UpdateNumber;
-        public SGameState Game;
-        public SRaceState Race;
-        public SObjectState Object;
-        public SVehicleState Vehicle;
-        public SDeviceState Device;
-    };
-}
+[StructLayout(LayoutKind.Sequential)]
+public struct STelemetry
+{
+    public SHeader Header;
+    public uint UpdateNumber;
+    public SGameState Game;
+    public SRaceState Race;
+    public SObjectState Object;
+    public SVehicleState Vehicle;
+    public SDeviceState Device;
+};

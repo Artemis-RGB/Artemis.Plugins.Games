@@ -9,7 +9,7 @@ namespace Artemis.Plugins.Games.TrackMania
     [PluginFeature(Name = "TrackMania")]
     public class TrackManiaModule : Module<PluginDataModel>
     {
-        private SharedProcessMemory<STelemetry> _sharedProcessMemory;
+        private MemoryMappedStructReader<STelemetry> _sharedProcessMemory;
 
         public override List<IModuleActivationRequirement> ActivationRequirements { get; } = new()
         {
@@ -29,8 +29,8 @@ namespace Artemis.Plugins.Games.TrackMania
 
         public override void Update(double deltaTime)
         {
-            _sharedProcessMemory.Read();
-            DataModel.Apply(_sharedProcessMemory.Data);
+            var data = _sharedProcessMemory.Read();
+            DataModel.Apply(in data);
         }
 
         public override void ModuleActivated(bool isOverride)
@@ -38,7 +38,7 @@ namespace Artemis.Plugins.Games.TrackMania
             if (isOverride)
                 return;
             
-            _sharedProcessMemory = new SharedProcessMemory<STelemetry>(@"Local\ManiaPlanet_Telemetry");
+            _sharedProcessMemory = new MemoryMappedStructReader<STelemetry>(@"Local\ManiaPlanet_Telemetry");
         }
 
         public override void ModuleDeactivated(bool isOverride)
