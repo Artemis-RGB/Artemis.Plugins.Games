@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Artemis.Plugins.Games.Dota2.DataModels.Nodes;
 
@@ -93,19 +92,18 @@ public enum PlayerTeam
 /// <summary>
 /// Class representing information about the map
 /// </summary>
-[JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class MapDota2
 {
     /// <summary>
     /// Name of the current map
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = "";
 
     /// <summary>
     /// Match ID of the current game
     /// </summary>
-    [JsonProperty("matchid")]
-    public long MatchId { get; set; }
+    [JsonPropertyName("matchid")]
+    public string MatchId { get; set; } = "";
 
     /// <summary>
     /// Game time
@@ -120,34 +118,42 @@ public class MapDota2
     /// <summary>
     /// A boolean representing whether it is daytime
     /// </summary>
+    [JsonPropertyName("daytime")]
     public bool Daytime { get; set; }
 
     /// <summary>
     /// A boolean representing whether Nightstalker forced night time
     /// </summary>
-    [JsonProperty("nightstalker_night")]
+    [JsonPropertyName("nightstalker_night")]
     public bool NightstalkerNight { get; set; }
 
     /// <summary>
     /// Current game state
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public DOTA_GameState GameState { get; set; }
+
+    /// <summary>
+    /// Game paused state
+    /// </summary>
+    public bool Paused { get; set; }
 
     /// <summary>
     /// The winning team
     /// </summary>
-    [JsonProperty("Win_team")]
+    [JsonPropertyName("win_team")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public PlayerTeam WiningTeam { get; set; }
 
     /// <summary>
     /// The name of the custom game
     /// </summary>
-    [JsonProperty("customgamename")]
-    public string CustomGameName { get; set; }
+    [JsonPropertyName("customgamename")]
+    public string CustomGameName { get; set; } = "";
 
     /// <summary>
-    /// The cooldown on ward purchases
+    /// Radient's cooldown on ward purchases
     /// </summary>
-    [JsonProperty("ward_purchase_cooldown")]
-    public int Ward_Purchase_Cooldown { get; set; }
+    [JsonPropertyName("ward_purchase_cooldown")]
+    public int WardPurchaseCooldown { get; set; }
 }

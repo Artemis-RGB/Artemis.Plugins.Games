@@ -11,7 +11,6 @@ public class Dota2Bootstrapper : PluginBootstrapper
     
     public override void OnPluginLoaded(Plugin plugin)
     {
-        //TODO: verify this
         AddPluginPrerequisite(new IsSteamInstalledPrerequisite(plugin));
         AddPluginPrerequisite(new IsSteamGameInstalledPrerequisite(Dota2SteamId, "Dota 2"));
         AddPluginPrerequisite(new IsFilePresentInSteamGameFolderPrerequisite(

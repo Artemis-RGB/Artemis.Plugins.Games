@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Artemis.Plugins.Games.Dota2.DataModels.Nodes;
 
@@ -27,13 +26,12 @@ public enum PlayerActivity
 /// <summary>
 /// Class representing player information
 /// </summary>
-[JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class PlayerDota2
 {
     /// <summary>
     /// Player's steam ID
     /// </summary>
-    [JsonProperty("steamid")]
+    [JsonPropertyName("steamid")]
     public string SteamId { get; set; } = "";
 
     /// <summary>
@@ -44,6 +42,7 @@ public class PlayerDota2
     /// <summary>
     /// Player's current activity state
     /// </summary>
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public PlayerActivity Activity { get; set; }
 
     /// <summary>
@@ -79,7 +78,8 @@ public class PlayerDota2
     /// <summary>
     /// Player's team
     /// </summary>
-    [JsonProperty("team_name")]
+    [JsonPropertyName("team_name")]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public PlayerTeam Team { get; set; }
 
     /// <summary>
@@ -100,12 +100,12 @@ public class PlayerDota2
     /// <summary>
     /// PLayer's gold per minute
     /// </summary>
-    [JsonProperty("gpm")]
+    [JsonPropertyName("gpm")]
     public int GoldPerMinute { get; set; }
 
     /// <summary>
     /// Player's experience per minute
     /// </summary>
-    [JsonProperty("xpm")]
+    [JsonPropertyName("xpm")]
     public int ExperiencePerMinute { get; set; }
 }

@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Artemis.Plugins.Games.Dota2.DataModels.Nodes;
 
@@ -10,13 +9,14 @@ public enum AbilityUsability
     Usable,
     OnCooldown,
 }
-    
+
 /// <summary>
 /// Class representing ability information
 /// </summary>
-[JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class Ability
 {
+    public static readonly Ability EmptyAbility = new();
+    
     /// <summary>
     /// Ability name
     /// </summary>
@@ -30,6 +30,7 @@ public class Ability
     /// <summary>
     /// A boolean representing whether the ability can be casted
     /// </summary>
+    [JsonPropertyName("can_cast")]
     public bool CanCast { get; set; }
 
     /// <summary>
@@ -51,7 +52,8 @@ public class Ability
     /// A boolean representing whether the ability is an ultimate
     /// </summary>
     public bool Ultimate { get; set; }
-        
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public AbilityUsability Usability {
         get
         {
