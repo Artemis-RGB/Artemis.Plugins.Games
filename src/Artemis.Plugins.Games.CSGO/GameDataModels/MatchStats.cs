@@ -1,21 +1,21 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Artemis.Plugins.Games.CSGO.GameDataModels;
 
 public class MatchStats
 {
-    [JsonProperty("kills")]
+    [JsonPropertyName("kills")]
     public int? Kills { get; set; }
 
-    [JsonProperty("assists")]
+    [JsonPropertyName("assists")]
     public int? Assists { get; set; }
 
-    [JsonProperty("deaths")]
+    [JsonPropertyName("deaths")]
     public int? Deaths { get; set; }
 
-    [JsonProperty("mvps")]
+    [JsonPropertyName("mvps")]
     public int? Mvps { get; set; }
 
-    [JsonProperty("score")]
+    [JsonPropertyName("score")]
     public int? Score { get; set; }
 }
