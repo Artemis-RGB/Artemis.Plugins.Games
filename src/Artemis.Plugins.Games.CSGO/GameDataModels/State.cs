@@ -1,39 +1,39 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Artemis.Plugins.Games.CSGO.GameDataModels;
 
 public class State
 {
-    [JsonProperty("health")]
+    [JsonPropertyName("health")]
     public int? Health { get; set; }
 
-    [JsonProperty("armor")]
+    [JsonPropertyName("armor")]
     public int? Armor { get; set; }
 
-    [JsonProperty("helmet")]
+    [JsonPropertyName("helmet")]
     public bool? Helmet { get; set; }
 
-    [JsonProperty("defusekit")]
+    [JsonPropertyName("defusekit")]
     public bool? DefuseKit { get; set; }
 
-    [JsonProperty("flashed")]
+    [JsonPropertyName("flashed")]
     public int? Flashed { get; set; }
 
-    [JsonProperty("smoked")]
+    [JsonPropertyName("smoked")]
     public int? Smoked { get; set; }
 
-    [JsonProperty("burning")]
+    [JsonPropertyName("burning")]
     public int? Burning { get; set; }
 
-    [JsonProperty("money")]
+    [JsonPropertyName("money")]
     public int? Money { get; set; }
 
-    [JsonProperty("round_kills")]
+    [JsonPropertyName("round_kills")]
     public int? RoundKills { get; set; }
 
-    [JsonProperty("round_killhs")]
+    [JsonPropertyName("round_killhs")]
     public int? RoundKillHeadshot { get; set; }
 
-    [JsonProperty("equip_value")]
+    [JsonPropertyName("equip_value")]
     public int? EquipValue { get; set; }
 }

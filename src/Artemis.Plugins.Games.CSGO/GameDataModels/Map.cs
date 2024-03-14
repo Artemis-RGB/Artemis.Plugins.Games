@@ -1,33 +1,33 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Artemis.Plugins.Games.CSGO.GameDataModels;
 
 public class Map
 {
-    [JsonProperty("mode")]
+    [JsonPropertyName("mode")]
     public string? Mode { get; set; }
 
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    [JsonProperty("phase")]
+    [JsonPropertyName("phase")]
     public string? Phase { get; set; }
 
-    [JsonProperty("round")]
+    [JsonPropertyName("round")]
     public int? Round { get; set; }
 
-    [JsonProperty("team_ct")]
+    [JsonPropertyName("team_ct")]
     public Team? TeamCt { get; set; }
 
-    [JsonProperty("team_t")]
+    [JsonPropertyName("team_t")]
     public Team? TeamT { get; set; }
 
-    [JsonProperty("num_matches_to_win_series")]
+    [JsonPropertyName("num_matches_to_win_series")]
     public int? NumMatchesToWinSeries { get; set; }
 
-    [JsonProperty("current_spectators")]
+    [JsonPropertyName("current_spectators")]
     public int? CurrentSpectators { get; set; }
 
-    [JsonProperty("souvenirs_total")]
+    [JsonPropertyName("souvenirs_total")]
     public int? SouvenirsTotal { get; set; }
 }

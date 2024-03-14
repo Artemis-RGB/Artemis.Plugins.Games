@@ -1,47 +1,36 @@
-using Artemis.Core;
 using Artemis.Core.Modules;
 using Artemis.Core.Services;
 using Artemis.Plugins.Games.CSGO.DataModels;
 using Artemis.Plugins.Games.CSGO.GameDataModels;
-using Serilog;
 using System.Collections.Generic;
-
+using System.Text.Json;
 namespace Artemis.Plugins.Games.CSGO;
 
-public class CsgoModule : Module<CsgoDataModel>
+public class CsgoModule(IWebServerService webServerService) : Module<CsgoDataModel>
 {
-    private readonly IWebServerService _webServerService;
-    private readonly ILogger _logger;
-    private RootGameData? gameData;
+    private PluginEndPoint? _endPoint;
+    public override List<IModuleActivationRequirement> ActivationRequirements { get; } = [new ProcessActivationRequirement("cs2")];
 
-    public override List<IModuleActivationRequirement> ActivationRequirements { get; } = new();
-
-    public CsgoModule(IWebServerService webServerService, ILogger logger)
+    private readonly JsonSerializerOptions _jsonSerializerOptions = new()
     {
-        _webServerService = webServerService;
-        _logger = logger;
-    }
+        TypeInfoResolverChain = { JsonSourceContext.Default }
+    };
 
     public override void ModuleActivated(bool isOverride)
     {
-
+        //unused
     }
 
     public override void ModuleDeactivated(bool isOverride)
     {
-
+        //unused
     }
 
     public override void Enable()
     {
-        // _webServerService.AddStringEndPoint(this, "update", s =>
-        // {
-        //     _logger.Information(s);
-        // });
-        _webServerService.AddJsonEndPoint<RootGameData>(this, "update", newGameData =>
+        _endPoint = webServerService.AddStringEndPoint(this, "update", newGameData =>
         {
-            gameData = newGameData;
-            DataModel.Data = newGameData;
+            DataModel.Data = JsonSerializer.Deserialize<RootGameData>(newGameData, _jsonSerializerOptions);
             //TODO: this is a placeholder.
             //RootGameData will not change,
             //but we should create a plugin-specific data structure
@@ -53,7 +42,10 @@ public class CsgoModule : Module<CsgoDataModel>
 
     public override void Disable()
     {
-
+        if (_endPoint != null)
+        {
+            webServerService.RemovePluginEndPoint(_endPoint);
+        }
     }
 
     public override void Update(double deltaTime)

@@ -1,12 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Artemis.Plugins.Games.CSGO.GameDataModels;
 
 public class Round
 {
-    [JsonProperty("phase")]
+    [JsonPropertyName("phase")]
     public string? Phase { get; set; }
     
-    [JsonProperty("win_team")]
+    [JsonPropertyName("win_team")]
     public string? WinTeam { get; set; }
 }

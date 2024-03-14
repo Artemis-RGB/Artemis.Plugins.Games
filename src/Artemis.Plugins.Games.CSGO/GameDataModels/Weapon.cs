@@ -1,27 +1,27 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Artemis.Plugins.Games.CSGO.GameDataModels;
 
 public class Weapon
 {
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    [JsonProperty("paintkit")]
+    [JsonPropertyName("paintkit")]
     public string? Paintkit { get; set; }
 
-    [JsonProperty("type")]
+    [JsonPropertyName("type")]
     public string? Type { get; set; }
 
-    [JsonProperty("ammo_clip")]
+    [JsonPropertyName("ammo_clip")]
     public int? AmmoClip { get; set; }
 
-    [JsonProperty("ammo_clip_max")]
+    [JsonPropertyName("ammo_clip_max")]
     public int? AmmoClipMax { get; set; }
 
-    [JsonProperty("ammo_reserve")]
+    [JsonPropertyName("ammo_reserve")]
     public int? AmmoReserve { get; set; }
 
-    [JsonProperty("state")]
+    [JsonPropertyName("state")]
     public string? State { get; set; }
 }

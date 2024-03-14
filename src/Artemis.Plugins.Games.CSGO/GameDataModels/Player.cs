@@ -1,30 +1,30 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace Artemis.Plugins.Games.CSGO.GameDataModels;
 
 public class Player
 {
-    [JsonProperty("steamid")]
+    [JsonPropertyName("steamid")]
     public string? SteamId { get; set; }
 
-    [JsonProperty("name")]
+    [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    [JsonProperty("observer_slot")]
+    [JsonPropertyName("observer_slot")]
     public int? ObserverSlot { get; set; }
 
-    [JsonProperty("team")]
+    [JsonPropertyName("team")]
     public string? Team { get; set; }
 
-    [JsonProperty("activity")]
+    [JsonPropertyName("activity")]
     public string? Activity { get; set; }
 
-    [JsonProperty("match_stats")]
+    [JsonPropertyName("match_stats")]
     public MatchStats? MatchStats { get; set; }
 
-    [JsonProperty("state")]
+    [JsonPropertyName("state")]
     public State? State { get; set; }
 
-    [JsonProperty("weapons")]
+    [JsonPropertyName("weapons")]
     public Weapons? Weapons { get; set; }
 }
