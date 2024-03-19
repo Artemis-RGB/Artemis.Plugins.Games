@@ -19,7 +19,7 @@ public struct SHeader
     public String32 Magic; //  "ManiaPlanet_Telemetry"
     public uint Version;
     public uint Size; // == sizeof(STelemetry)
-};
+}
 
 [StructLayout(LayoutKind.Sequential)]
 public struct SGameState
@@ -29,7 +29,7 @@ public struct SGameState
     public String64 MapId;
     public String256 MapName;
     public String128 __future__;
-};
+}
 
 [StructLayout(LayoutKind.Sequential)]
 public struct SRaceState
@@ -46,7 +46,7 @@ public struct SRaceState
     public uint Timestamp;
     public uint StartTimestamp;
     public String16 __future__;
-};
+}
 
 [StructLayout(LayoutKind.Sequential)]
 public struct SObjectState
@@ -59,7 +59,7 @@ public struct SObjectState
     public uint LatestStableGroundContactTime;
 
     public String32 __future__;
-};
+}
 
 [StructLayout(LayoutKind.Sequential)]
 public struct SVehicleState
@@ -96,7 +96,7 @@ public struct SVehicleState
     public float BoostRatio;
 
     public String20 __future__;
-};
+}
 
 [StructLayout(LayoutKind.Sequential)]
 public struct SDeviceState
@@ -107,7 +107,7 @@ public struct SDeviceState
     public float CenteredAltitude; // Altitude accumulated + recentered
 
     public String32 __future__;
-};
+}
 
 [StructLayout(LayoutKind.Sequential)]
 public struct SPlayerState
@@ -118,10 +118,10 @@ public struct SPlayerState
     public float Hue;
     public String256 UserName;
     public String28 __future__;
-};
+}
 
 [StructLayout(LayoutKind.Sequential)]
-public struct STelemetry
+public struct STelemetryV3
 {
     public SHeader Header;
     public uint UpdateNumber;
@@ -131,4 +131,4 @@ public struct STelemetry
     public SVehicleState Vehicle;
     public SDeviceState Device;
     public SPlayerState Player;
-};
+}

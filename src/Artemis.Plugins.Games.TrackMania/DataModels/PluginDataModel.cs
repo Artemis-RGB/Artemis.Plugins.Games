@@ -18,15 +18,28 @@ public class PluginDataModel : DataModel
     
     public PlayerDataModel Player { get; set; } = new();
 
-    internal void Apply(in STelemetry telemetry)
+    internal void Apply(in STelemetryV3 telemetry)
     {
         if (telemetry.UpdateNumber == _lastUpdate)
             return;
         
-        Game.Apply(in telemetry);
-        Race.Apply(in telemetry);
-        Vehicle.Apply(in telemetry);
-        Player.Apply(in telemetry);
+        Game.Apply(in telemetry.Game);
+        Race.Apply(in telemetry.Race);
+        Vehicle.Apply(in telemetry.Vehicle);
+        Player.Apply(in telemetry.Player);
+        
+        _lastUpdate = telemetry.UpdateNumber;
+    }
+    
+    internal void Apply(in STelemetryV2 telemetry)
+    {
+        if (telemetry.UpdateNumber == _lastUpdate)
+            return;
+        
+        Game.Apply(in telemetry.Game);
+        Race.Apply(in telemetry.Race);
+        Vehicle.Apply(in telemetry.Vehicle);
+        Player.Apply(new SPlayerState());
         
         _lastUpdate = telemetry.UpdateNumber;
     }

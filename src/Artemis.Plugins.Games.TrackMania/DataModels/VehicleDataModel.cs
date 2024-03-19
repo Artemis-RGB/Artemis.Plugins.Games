@@ -37,45 +37,87 @@ public class VehicleDataModel
     public uint HandicapTest { get; set; }
     public float BoostRatio { get; set; }
 
-    public void Apply(in STelemetry telemetry)
+    public void Apply(in SVehicleState vehicle)
     {
-        InputSteer = telemetry.Vehicle.InputSteer;
-        InputGasPedal = telemetry.Vehicle.InputGasPedal;
-        InputIsBraking = telemetry.Vehicle.InputIsBraking;
-        InputIsHorn = telemetry.Vehicle.InputIsHorn;
+        InputSteer = vehicle.InputSteer;
+        InputGasPedal = vehicle.InputGasPedal;
+        InputIsBraking = vehicle.InputIsBraking;
+        InputIsHorn = vehicle.InputIsHorn;
 
-        EngineRpm = telemetry.Vehicle.EngineRpm;
-        EngineCurGear = (int) telemetry.Vehicle.EngineCurGear;
-        EngineTurboRatio = telemetry.Vehicle.EngineTurboRatio;
-        EngineFreeWheeling = telemetry.Vehicle.EngineFreeWheeling;
+        EngineRpm = vehicle.EngineRpm;
+        EngineCurGear = vehicle.EngineCurGear;
+        EngineTurboRatio = vehicle.EngineTurboRatio;
+        EngineFreeWheeling = vehicle.EngineFreeWheeling;
 
-        FrontLeftWheel.HasGroundContact = telemetry.Vehicle.WheelsIsGroundContact[0];
-        FrontLeftWheel.IsSlipping = telemetry.Vehicle.WheelsIsSliping[0];
-        FrontLeftWheel.DamperLength = telemetry.Vehicle.WheelsDamperLen[0];
-        FrontRightWheel.HasGroundContact = telemetry.Vehicle.WheelsIsGroundContact[1];
-        FrontRightWheel.IsSlipping = telemetry.Vehicle.WheelsIsSliping[1];
-        FrontRightWheel.DamperLength = telemetry.Vehicle.WheelsDamperLen[1];
-        BackLeftWheel.HasGroundContact = telemetry.Vehicle.WheelsIsGroundContact[2];
-        BackLeftWheel.IsSlipping = telemetry.Vehicle.WheelsIsSliping[2];
-        BackLeftWheel.DamperLength = telemetry.Vehicle.WheelsDamperLen[2];
-        BackRightWheel.HasGroundContact = telemetry.Vehicle.WheelsIsGroundContact[3];
-        BackRightWheel.IsSlipping = telemetry.Vehicle.WheelsIsSliping[3];
-        BackRightWheel.DamperLength = telemetry.Vehicle.WheelsDamperLen[3];
+        FrontLeftWheel.HasGroundContact = vehicle.WheelsIsGroundContact[0];
+        FrontLeftWheel.IsSlipping = vehicle.WheelsIsSliping[0];
+        FrontLeftWheel.DamperLength = vehicle.WheelsDamperLen[0];
+        FrontRightWheel.HasGroundContact = vehicle.WheelsIsGroundContact[1];
+        FrontRightWheel.IsSlipping = vehicle.WheelsIsSliping[1];
+        FrontRightWheel.DamperLength = vehicle.WheelsDamperLen[1];
+        BackLeftWheel.HasGroundContact = vehicle.WheelsIsGroundContact[2];
+        BackLeftWheel.IsSlipping = vehicle.WheelsIsSliping[2];
+        BackLeftWheel.DamperLength = vehicle.WheelsDamperLen[2];
+        BackRightWheel.HasGroundContact = vehicle.WheelsIsGroundContact[3];
+        BackRightWheel.IsSlipping = vehicle.WheelsIsSliping[3];
+        BackRightWheel.DamperLength = vehicle.WheelsDamperLen[3];
 
 
-        WheelsDamperRangeMin = telemetry.Vehicle.WheelsDamperRangeMin;
-        WheelsDamperRangeMax = telemetry.Vehicle.WheelsDamperRangeMax;
-        RumbleIntensity = telemetry.Vehicle.RumbleIntensity;
+        WheelsDamperRangeMin = vehicle.WheelsDamperRangeMin;
+        WheelsDamperRangeMax = vehicle.WheelsDamperRangeMax;
+        RumbleIntensity = vehicle.RumbleIntensity;
 
-        MetricSpeed = (int) telemetry.Vehicle.SpeedMeter;
-        ImperialSpeed = (int) Math.Round(telemetry.Vehicle.SpeedMeter * 0.621, MidpointRounding.AwayFromZero);
-        IsInWater = telemetry.Vehicle.IsInWater;
-        IsSparkling = telemetry.Vehicle.IsSparkling;
-        IsLightTrails = telemetry.Vehicle.IsLightTrails;
-        IsLightsOn = telemetry.Vehicle.IsLightsOn;
-        IsFlying = telemetry.Vehicle.IsFlying;
-        IsOnIce = telemetry.Vehicle.IsOnIce;
-        Handicap = telemetry.Vehicle.Handicap;
-        BoostRatio = telemetry.Vehicle.BoostRatio;
+        MetricSpeed = (int) vehicle.SpeedMeter;
+        ImperialSpeed = (int) Math.Round(vehicle.SpeedMeter * 0.621, MidpointRounding.AwayFromZero);
+        IsInWater = vehicle.IsInWater;
+        IsSparkling = vehicle.IsSparkling;
+        IsLightTrails = vehicle.IsLightTrails;
+        IsLightsOn = vehicle.IsLightsOn;
+        IsFlying = vehicle.IsFlying;
+        IsOnIce = vehicle.IsOnIce;
+        Handicap = vehicle.Handicap;
+        BoostRatio = vehicle.BoostRatio;
+    }
+    
+    public void Apply(in SVehicleStateV2 vehicle)
+    {
+        InputSteer = vehicle.InputSteer;
+        InputGasPedal = vehicle.InputGasPedal;
+        InputIsBraking = vehicle.InputIsBraking;
+        InputIsHorn = vehicle.InputIsHorn;
+
+        EngineRpm = vehicle.EngineRpm;
+        EngineCurGear = vehicle.EngineCurGear;
+        EngineTurboRatio = vehicle.EngineTurboRatio;
+        EngineFreeWheeling = vehicle.EngineFreeWheeling;
+
+        FrontLeftWheel.HasGroundContact = vehicle.WheelsIsGroundContact[0];
+        FrontLeftWheel.IsSlipping = vehicle.WheelsIsSliping[0];
+        FrontLeftWheel.DamperLength = vehicle.WheelsDamperLen[0];
+        FrontRightWheel.HasGroundContact = vehicle.WheelsIsGroundContact[1];
+        FrontRightWheel.IsSlipping = vehicle.WheelsIsSliping[1];
+        FrontRightWheel.DamperLength = vehicle.WheelsDamperLen[1];
+        BackLeftWheel.HasGroundContact = vehicle.WheelsIsGroundContact[2];
+        BackLeftWheel.IsSlipping = vehicle.WheelsIsSliping[2];
+        BackLeftWheel.DamperLength = vehicle.WheelsDamperLen[2];
+        BackRightWheel.HasGroundContact = vehicle.WheelsIsGroundContact[3];
+        BackRightWheel.IsSlipping = vehicle.WheelsIsSliping[3];
+        BackRightWheel.DamperLength = vehicle.WheelsDamperLen[3];
+
+
+        WheelsDamperRangeMin = vehicle.WheelsDamperRangeMin;
+        WheelsDamperRangeMax = vehicle.WheelsDamperRangeMax;
+        RumbleIntensity = vehicle.RumbleIntensity;
+
+        MetricSpeed = (int) vehicle.SpeedMeter;
+        ImperialSpeed = (int) Math.Round(vehicle.SpeedMeter * 0.621, MidpointRounding.AwayFromZero);
+        IsInWater = vehicle.IsInWater;
+        IsSparkling = vehicle.IsSparkling;
+        IsLightTrails = vehicle.IsLightTrails;
+        IsLightsOn = vehicle.IsLightsOn;
+        IsFlying = vehicle.IsFlying;
+        IsOnIce = false;
+        Handicap = CarHandicap.None;
+        BoostRatio = 0f;
     }
 }

@@ -11,13 +11,12 @@ public class PlayerDataModel
     public SKColor FavoriteColor { get; set; }
     public string UserName { get; set; }
 
-    public void Apply(in STelemetry telemetry)
+    public void Apply(in SPlayerState Player)
     {
-        IsLocalPlayer = telemetry.Player.IsLocalPlayer;
-        Trigram = telemetry.Player.Trigram;
-        DossardNumber = telemetry.Player.DossardNumber;
-        FavoriteColor = SKColor.FromHsv(360f * telemetry.Player.Hue, 100, 100);
-        UserName = telemetry.Player.UserName;
+        IsLocalPlayer = Player.IsLocalPlayer;
+        Trigram = Player.Trigram;
+        DossardNumber = Player.DossardNumber;
+        FavoriteColor = SKColor.FromHsv(360f * Player.Hue, 100, 100);
+        UserName = Player.UserName;
     }
-    
 }

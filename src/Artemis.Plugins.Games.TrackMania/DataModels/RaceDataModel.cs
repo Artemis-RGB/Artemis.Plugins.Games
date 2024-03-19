@@ -14,16 +14,29 @@ public class RaceDataModel
     public int CheckpointsPerLap { get; set; }
     public int Laps { get; set; }
 
-    public void Apply(in STelemetry telemetry)
+    public void Apply(in SRaceState race)
     {
-        State = telemetry.Race.State;
-        Time = TimeSpan.FromMilliseconds(Math.Max(0, telemetry.Race.Time));
-        Respawns = (int) telemetry.Race.NbRespawns;
-        Checkpoints = (int) telemetry.Race.NbCheckpoints;
-        ReadOnlySpan<uint> checkpointTimes = telemetry.Race.CheckpointTimes;
+        State = race.State;
+        Time = TimeSpan.FromMilliseconds(Math.Max(0, race.Time));
+        Respawns = (int) race.NbRespawns;
+        Checkpoints = (int) race.NbCheckpoints;
+        ReadOnlySpan<uint> checkpointTimes = race.CheckpointTimes;
         for (var i = 0; i < checkpointTimes.Length; i++)
             CheckpointTimes[i] = TimeSpan.FromMilliseconds(Math.Max(0, checkpointTimes[i]));
-        CheckpointsPerLap = (int) telemetry.Race.NbCheckpointsPerLap;
-        Laps = (int) telemetry.Race.NbLapsPerRace;
+        CheckpointsPerLap = (int) race.NbCheckpointsPerLap;
+        Laps = (int) race.NbLapsPerRace;
+    }
+    
+    public void Apply(in SRaceStateV2 race)
+    {
+        State = race.State;
+        Time = TimeSpan.FromMilliseconds(Math.Max(0, race.Time));
+        Respawns = (int) race.NbRespawns;
+        Checkpoints = (int) race.NbCheckpoints;
+        ReadOnlySpan<uint> checkpointTimes = race.CheckpointTimes;
+        for (var i = 0; i < checkpointTimes.Length; i++)
+            CheckpointTimes[i] = TimeSpan.FromMilliseconds(Math.Max(0, checkpointTimes[i]));
+        CheckpointsPerLap = -1;
+        Laps = -1;
     }
 }

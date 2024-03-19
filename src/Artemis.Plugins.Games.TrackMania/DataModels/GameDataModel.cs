@@ -10,11 +10,11 @@ public class GameDataModel
     public string MapName { get; set; }
     public string MapId { get; set; }
 
-    public void Apply(in STelemetry telemetry)
+    public void Apply(in SGameState game)
     {
-        State = telemetry.Game.State;
-        GameplayVariant = telemetry.Game.GameplayVariant;
-        MapName = telemetry.Game.MapName;
-        MapId = telemetry.Game.MapId;
+        State = game.State;
+        GameplayVariant = game.GameplayVariant;
+        MapName = game.MapName;
+        MapId = game.MapId;
     }
 }
