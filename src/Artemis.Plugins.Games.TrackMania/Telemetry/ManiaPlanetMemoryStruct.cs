@@ -6,6 +6,13 @@ using Artemis.Plugins.Games.TrackMania.DataModels;
 
 namespace Artemis.Plugins.Games.TrackMania.Telemetry;
 
+public struct SBool
+{
+    private uint _value;
+    
+    public static implicit operator bool(SBool b) => b._value != 0;
+}
+
 [StructLayout(LayoutKind.Sequential)]
 public struct SHeader
 {
@@ -32,12 +39,13 @@ public struct SRaceState
     public uint NbRespawns;
     public uint NbCheckpoints;
 
-    public Array125<int> CheckpointTimes;
+    public Array125<uint> CheckpointTimes;
 
     public uint NbCheckpointsPerLap; // new since Maniaplanet update 2019-10-10; not supported by Trackmania Turbo.
-    public uint NbLaps; // new since Maniaplanet update 2019-10-10; not supported by Trackmania Turbo.
-
-    public String24 __future__;
+    public uint NbLapsPerRace; // new since Maniaplanet update 2019-10-10; not supported by Trackmania Turbo.
+    public uint Timestamp;
+    public uint StartTimestamp;
+    public String16 __future__;
 };
 
 [StructLayout(LayoutKind.Sequential)]
@@ -60,33 +68,29 @@ public struct SVehicleState
 
     public float InputSteer;
     public float InputGasPedal;
-    public bool InputIsBraking;
-    public bool InputIsHorn;
+    public SBool InputIsBraking;
+    public SBool InputIsHorn;
 
     public float EngineRpm; // 1500 -> 10000
-    public uint EngineCurGear;
+    public int EngineCurGear;
     public float EngineTurboRatio; // 1 turbo starting/full .... 0 -> finished
-    public bool EngineFreeWheeling;
+    public SBool EngineFreeWheeling;
 
-    //todo: bool or byte?
-    public Array4<bool> WheelsIsGroundContact;
-
-    public Array4<bool> WheelsIsSliping;
-
+    public Array4<SBool> WheelsIsGroundContact;
+    public Array4<SBool> WheelsIsSliping;
     public Array4<float> WheelsDamperLen;
-
     public float WheelsDamperRangeMin;
     public float WheelsDamperRangeMax;
 
     public float RumbleIntensity;
 
     public uint SpeedMeter; // unsigned km/h
-    public bool IsInWater;
-    public bool IsSparkling;
-    public bool IsLightTrails;
-    public bool IsLightsOn;
-    public bool IsFlying; // long time since touching ground.
-    public bool IsOnIce;
+    public SBool IsInWater;
+    public SBool IsSparkling;
+    public SBool IsLightTrails;
+    public SBool IsLightsOn;
+    public SBool IsFlying; // long time since touching ground.
+    public SBool IsOnIce;
 
     public CarHandicap Handicap;
     public float BoostRatio;
@@ -102,7 +106,18 @@ public struct SDeviceState
     public float CenteredYaw; // yaw accumulated + recentered to apply onto the device
     public float CenteredAltitude; // Altitude accumulated + recentered
 
-    public String20 __future__;
+    public String32 __future__;
+};
+
+[StructLayout(LayoutKind.Sequential)]
+public struct SPlayerState
+{
+    public SBool IsLocalPlayer;
+    public String4 Trigram;
+    public String4 DossardNumber;
+    public float Hue;
+    public String256 UserName;
+    public String28 __future__;
 };
 
 [StructLayout(LayoutKind.Sequential)]
@@ -115,4 +130,5 @@ public struct STelemetry
     public SObjectState Object;
     public SVehicleState Vehicle;
     public SDeviceState Device;
+    public SPlayerState Player;
 };

@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 
 namespace Artemis.Plugins.Games.TrackMania.Telemetry;
@@ -141,4 +142,44 @@ public struct String20
     }
 
     public static implicit operator string(String20 str) => str.ToString();
+}
+
+public struct String28
+{
+    private Array28<byte> _data;
+
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+        foreach (ref readonly var c in _data)
+        {
+            if (c == 0)
+                break;
+            sb.Append((char)c);
+        }
+
+        return sb.ToString();
+    }
+
+    public static implicit operator string(String28 str) => str.ToString();
+}
+
+public struct String4
+{
+    private Array4<byte> _data;
+
+    public override string ToString()
+    {
+        var sb = new StringBuilder();
+        foreach (ref readonly var c in _data)
+        {
+            if (c == 0)
+                break;
+            sb.Append((char)c);
+        }
+
+        return sb.ToString();
+    }
+
+    public static implicit operator string(String4 str) => str.ToString();
 }

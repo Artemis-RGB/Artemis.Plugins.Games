@@ -20,10 +20,10 @@ public class RaceDataModel
         Time = TimeSpan.FromMilliseconds(Math.Max(0, telemetry.Race.Time));
         Respawns = (int) telemetry.Race.NbRespawns;
         Checkpoints = (int) telemetry.Race.NbCheckpoints;
-        ReadOnlySpan<int> checkpointTimes = telemetry.Race.CheckpointTimes;
+        ReadOnlySpan<uint> checkpointTimes = telemetry.Race.CheckpointTimes;
         for (var i = 0; i < checkpointTimes.Length; i++)
             CheckpointTimes[i] = TimeSpan.FromMilliseconds(Math.Max(0, checkpointTimes[i]));
         CheckpointsPerLap = (int) telemetry.Race.NbCheckpointsPerLap;
-        Laps = (int) telemetry.Race.NbLaps;
+        Laps = (int) telemetry.Race.NbLapsPerRace;
     }
 }
