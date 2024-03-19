@@ -5,7 +5,7 @@
   "Icon": "elite-dangerous.png",
   "Description": "Elite: Dangerous game integration",
   "Author": "Wibble (Wibble#5423)",
-  "Version": "1.0.0.0",
+  "Version": "1.0.1",
   "Main": "Artemis.Plugins.Games.EliteDangerous.dll",
   "Website": "https://artemis-rgb.com/",
   "Repository": "https://github.com/Artemis-RGB/Artemis.Plugins.Games"
