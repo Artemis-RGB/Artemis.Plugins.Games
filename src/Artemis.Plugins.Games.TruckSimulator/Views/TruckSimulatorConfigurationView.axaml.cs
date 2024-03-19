@@ -2,18 +2,17 @@
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 
-namespace Artemis.Plugins.Games.TruckSimulator.Views
-{
-    public partial class TruckSimulatorConfigurationView : ReactiveUserControl<TruckSimulatorConfigurationViewModel>
-    {
-        public TruckSimulatorConfigurationView()
-        {
-            InitializeComponent();
-        }
+namespace Artemis.Plugins.Games.TruckSimulator.Views;
 
-        private void InitializeComponent()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
+public partial class TruckSimulatorConfigurationView : ReactiveUserControl<TruckSimulatorConfigurationViewModel>
+{
+    public TruckSimulatorConfigurationView()
+    {
+        InitializeComponent();
+    }
+
+    private void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
     }
 }
