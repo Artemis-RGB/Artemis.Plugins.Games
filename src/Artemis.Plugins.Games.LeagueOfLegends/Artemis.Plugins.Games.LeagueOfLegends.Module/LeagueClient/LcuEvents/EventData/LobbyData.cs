@@ -45,7 +45,7 @@ public record Invitations(
     string invitationType,
     string state,
     string timestamp,
-    int toSummonerId,
+    long toSummonerId,
     string toSummonerName
 );
 
@@ -73,7 +73,7 @@ public record LocalMember(
     int secondaryChampionPreference,
     bool showGhostedBanner,
     int summonerIconId,
-    int summonerId,
+    long summonerId,
     string summonerInternalName,
     int summonerLevel,
     string summonerName,
@@ -104,7 +104,7 @@ public record Members(
     int secondaryChampionPreference,
     bool showGhostedBanner,
     int summonerIconId,
-    int summonerId,
+    long summonerId,
     string summonerInternalName,
     int summonerLevel,
     string summonerName,

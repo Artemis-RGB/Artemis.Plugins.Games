@@ -24,7 +24,7 @@ public record LobbyMember(
     int secondaryChampionPreference,
     bool showGhostedBanner,
     int summonerIconId,
-    int summonerId,
+    long summonerId,
     string summonerInternalName,
     int summonerLevel,
     string summonerName,
