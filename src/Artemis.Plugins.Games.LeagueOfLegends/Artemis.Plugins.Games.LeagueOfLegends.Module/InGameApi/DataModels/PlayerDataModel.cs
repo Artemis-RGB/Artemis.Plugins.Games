@@ -3,8 +3,8 @@ using Artemis.Core.Modules;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.GameDataModels;
 using Artemis.Plugins.Games.LeagueOfLegends.Module.Utils;
-using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using SummonerSpell = Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums.SummonerSpell;
 using ChampionEnum = Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums.Champion;
 using Rune = Artemis.Plugins.Games.LeagueOfLegends.Module.InGameApi.DataModels.Enums.Rune;
@@ -70,30 +70,11 @@ public class PlayerDataModel : DataModel
         SpellF = ParseEnum<SummonerSpell>.TryParseOr(allPlayer.SummonerSpells.SummonerSpellTwo?.RawDisplayName, SummonerSpell.Unknown);
     }
     
-    private static bool TryFindActivePlayer(RootGameData rootGameData, [NotNullWhen(returnValue: true)] out AllPlayer? allPlayer)
+    public static bool TryFindActivePlayer(RootGameData rootGameData, [NotNullWhen(returnValue: true)] out AllPlayer? allPlayer)
     {
-        allPlayer = null;
+        allPlayer = rootGameData.AllPlayers.FirstOrDefault(p => p?.SummonerName == rootGameData?.ActivePlayer?.SummonerName);
         
-        if (string.IsNullOrWhiteSpace(rootGameData?.ActivePlayer?.SummonerName))
-            return false;
-
-        ReadOnlySpan<char> summonerName = rootGameData.ActivePlayer.SummonerName;
-        
-        var hashIndex = summonerName.IndexOf('#');
-        if (hashIndex == -1)
-            return false; 
-        
-        var summonerNameWithoutHash = summonerName[..hashIndex];
-        foreach (var player in rootGameData.AllPlayers)
-        {
-            if (summonerNameWithoutHash.Equals(player.SummonerName, StringComparison.OrdinalIgnoreCase))
-            {
-                allPlayer = player;
-                return true;
-            }
-        }
-
-        return false;
+        return allPlayer != null;
     }
 }
 
