@@ -16,8 +16,8 @@
             <Button Content="Install plugin" Command="{CompiledBinding InstallPlugins}" Margin="0,0,15,0" />
             <Button Content="Uninstall plugin" Command="{CompiledBinding UninstallPlugins}" />
         </StackPanel>
-        <controls:HyperlinkButton NavigateUri="https://github.com/RenCloud/scs-sdk-plugin">
+        <HyperlinkButton NavigateUri="https://github.com/RenCloud/scs-sdk-plugin">
           Plugin Source
-        </controls:HyperlinkButton>
+        </HyperlinkButton>
     </StackPanel>
 </UserControl>

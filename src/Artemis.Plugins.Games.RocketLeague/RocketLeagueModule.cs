@@ -1,7 +1,6 @@
 ﻿using Artemis.Core.Modules;
 using Artemis.Core.Services;
 using Artemis.Core;
-using SkiaSharp;
 using System.Collections.Generic;
 
 namespace Artemis.Plugins.Games.RocketLeague
@@ -11,7 +10,7 @@ namespace Artemis.Plugins.Games.RocketLeague
     {
         private readonly IWebServerService _webServerService;
 
-        private DataModelJsonPluginEndPoint<RocketLeagueDataModel> _updateEndpoint;
+        private JsonPluginEndPoint<RocketLeagueDataModel> _updateEndpoint;
 
         public override List<IModuleActivationRequirement> ActivationRequirements { get; } = new() { new ProcessActivationRequirement("RocketLeague") };
 
@@ -22,16 +21,21 @@ namespace Artemis.Plugins.Games.RocketLeague
 
         public override void Enable()
         {
-            _updateEndpoint = _webServerService.AddDataModelJsonEndPoint(this, "update");
-            _updateEndpoint.ProcessedRequest += OnProcessedRequest;
+            _updateEndpoint = _webServerService.AddJsonEndPoint<RocketLeagueDataModel>(this, "update", OnProcessedRequest);
         }
 
-        private void OnProcessedRequest(object sender, EndpointRequestEventArgs e)
+        private void OnProcessedRequest(RocketLeagueDataModel data)
         {
+            DataModel.Match = data.Match;
+            DataModel.Player = data.Player;
+            DataModel.Car = data.Car;
+            DataModel.Status = data.Status;
+            
             if (DataModel.Player == null)
             {
                 DataModel.Match.MyTeam = null;
                 DataModel.Match.OpponentTeam = null;
+                return;
             }
 
             if (DataModel.Player.Team == 0)
@@ -48,7 +52,6 @@ namespace Artemis.Plugins.Games.RocketLeague
 
         public override void Disable()
         {
-            _updateEndpoint.ProcessedRequest -= OnProcessedRequest;
             _webServerService.RemovePluginEndPoint(_updateEndpoint);
         }
 
