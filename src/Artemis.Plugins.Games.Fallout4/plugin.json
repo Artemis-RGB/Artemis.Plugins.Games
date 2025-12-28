@@ -1,10 +1,10 @@
 {
   "Guid": "b42ff5d4-9064-4cf1-bef3-4ba172f85ed6",
-  "Api": "1.0",
+  "MinimumVersion": "1.2025.1227.2",
   "Name": "Fallout 4 Module",
   "Author": "diogotr7",
   "Icon": "fallout4.png",
   "Description": "Provides Fallout 4 game integration.",
-  "Version": "1.0.0.0",
+  "Version": "2.0.0.0",
   "Main": "Artemis.Plugins.Games.Fallout4.dll"
 }

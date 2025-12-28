@@ -1,6 +1,6 @@
 ﻿using Artemis.Plugins.Games.TruckSimulator.ViewModels;
 using Avalonia.Markup.Xaml;
-using Avalonia.ReactiveUI;
+using ReactiveUI.Avalonia;
 
 namespace Artemis.Plugins.Games.TruckSimulator.Views;
 

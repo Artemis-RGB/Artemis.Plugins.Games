@@ -6,7 +6,7 @@
     "Website": "",
     "Repository": "",
     "Icon": "QuestionMark",
-    "Version": "1.0.0.0",
+    "Version": "2.0.0.0",
     "Main": "Artemis.Plugins.Games.Dota2.dll",
     "AutoEnableProperties": true,
     "RequiresAdmin": false,

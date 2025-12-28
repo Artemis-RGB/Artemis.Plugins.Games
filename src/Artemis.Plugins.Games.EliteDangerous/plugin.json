@@ -1,11 +1,11 @@
 {
   "Guid": "80dea147-5fb3-46c9-a5c2-30a181f39612",
-  "Api": "1.0",
+  "MinimumVersion": "1.2025.1227.2",
   "Name": "Elite: Dangerous",
   "Icon": "elite-dangerous.png",
   "Description": "Elite: Dangerous game integration",
   "Author": "Wibble (Wibble#5423)",
-  "Version": "1.0.1",
+  "Version": "2.0.0",
   "Main": "Artemis.Plugins.Games.EliteDangerous.dll",
   "Website": "https://artemis-rgb.com/",
   "Repository": "https://github.com/Artemis-RGB/Artemis.Plugins.Games"

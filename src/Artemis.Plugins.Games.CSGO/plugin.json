@@ -6,7 +6,7 @@
   "Website": "https://artemis-rgb.com/",
   "Repository": "https://github.com/Artemis-RGB/Artemis.Plugins.Games",
   "Icon": "QuestionMark",
-  "Version": "1.2.0",
+  "Version": "2.0.0",
   "Main": "Artemis.Plugins.Games.CSGO.dll",
   "AutoEnableProperties": true,
   "RequiresAdmin": false,
